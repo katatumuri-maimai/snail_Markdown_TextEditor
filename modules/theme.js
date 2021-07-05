@@ -6,107 +6,109 @@ export default theme = {
             secondBackgroundColor: '#5B5B5B',
             scrollBarColor: '#D1D1D1'
         },
+        textView:{
+            backgroundColor: '#FFFFFF',
+            textColor:'#888888'
+        },
         toolBar: {
             titleTextColor: '#D1D1D1'
         },
         nav: {
-            IconColor: '',
+            IconColor: '#D1D1D1',
         },
         menu: {
-            TitleColor: '',
-            BtnBackgroundColor: '',
-            BtnTextColor: '',
-            BtnIconColor: '',
+            TitleColor: '#888888',
         },
         menuBtn: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
+            BackgroundColor: '#888888',
+            TextColor: '#E3E3E3',
+            IconColor: '#D1D1D1',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
+                BackgroundColor: '#D1D1D1',
+                TextColor: '#888888',
+                IconColor: '#888888',
             }
         },
         menuBtnChild: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
-            BoderColor: '',
+            BackgroundColor: 'none',
+            TextColor: '#E3E3E3',
+            IconColor: '#D1D1D1',
+            BoderColor: '#707070',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
-                BoderColor: '',
+                BackgroundColor: '#D1D1D1',
+                TextColor: '#888888',
+                IconColor: '#888888',
+                BoderColor: 'none',
             }
         },
         PlusBtn: {
-            BackgroundColor: '',
-            IconColor: '',
+            BackgroundColor: 'none',
+            IconColor: '#D1D1D1',
         },
         typeSelectMenu: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
+            BackgroundColor: '#D1D1D1',
+            TextColor: '#5B5B5B',
+            IconColor: '#5B5B5B',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
+                BackgroundColor: '#888888',
+                TextColor: '#D1D1D1',
+                IconColor: '#D1D1D1',
             }
         }
     },
     RoseQuartz: {
         main: {
-            mainBackgroundColor: '',
-            secondBackgroundColor: '',
-            scrollBarColor: ''
+            mainBackgroundColor: '#FFEEF8',
+            secondBackgroundColor: '#F8BBD0',
+            scrollBarColor: '#BF5F82'
+        },
+        textView: {
+            backgroundColor: '#FFFFFF',
+            textColor: '#4A061F'
         },
         toolBar: {
-            titleTextColor: ''
+            titleTextColor: '#BF5F82'
         },
         nav: {
-            IconColor: ''
+            IconColor: '#FFEEF8'
         },
         menu: {
-            TitleColor: '',
-            BtnBackgroundColor: '',
-            BtnTextColor: '',
-            BtnIconColor: '',
+            TitleColor: '#FFEEF8'
         },
         menuBtn: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
+            BackgroundColor: '#FFEEF8',
+            TextColor: '#C48B9F',
+            IconColor: '#BF5F82',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
+                BackgroundColor: '#BF5F82',
+                TextColor: '#FFEEF8',
+                IconColor: '#BF5F82',
             }
         },
         menuBtnChild: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
-            BoderColor: '',
+            BackgroundColor: 'none',
+            TextColor: '#FFEEF8',
+            IconColor: '#FFEEF8',
+            BoderColor: '#FFEEF8',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
-                BoderColor: '',
+                BackgroundColor: '#BF5F82',
+                TextColor: '#FFEEF8',
+                IconColor: '#FFEEF8',
+                BoderColor: 'none',
             }
         },
         PlusBtn: {
-            BackgroundColor: '',
-            IconColor: '',
+            BackgroundColor: 'none',
+            IconColor: '#BF5F82',
         },
         typeSelectMenu: {
-            BackgroundColor: '',
-            TextColor: '',
-            IconColor: '',
+            BackgroundColor: '#C48B9F',
+            TextColor: '#FFEEF8',
+            IconColor: '#FFEEF8',
             onPress: {
-                BackgroundColor: '',
-                TextColor: '',
-                IconColor: '',
+                BackgroundColor: '#BF5F82',
+                TextColor: '#F8BBD0',
+                IconColor: '#F8BBD0',
             }
         }
     },
