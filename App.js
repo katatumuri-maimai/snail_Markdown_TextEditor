@@ -1,21 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+// import {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { ThemeProvider } from 'react-native-elements';
+import theme from './theme/theme';
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <ThemeProvider theme={theme} >
       <StatusBar style="auto" />
-    </View>
+      <View style={styles.container}>
+        <Text>ここに子コンポーネント</Text>
+      </View>
+    </ThemeProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.Night.main.mainBackgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
+
+
