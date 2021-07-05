@@ -10,7 +10,7 @@ export default theme = {
             backgroundColor: '#FFFFFF',
             textColor:'#888888'
         },
-        toolBar: {
+        topBar: {
             titleTextColor: '#D1D1D1'
         },
         nav: {
@@ -66,7 +66,7 @@ export default theme = {
             backgroundColor: '#FFFFFF',
             textColor: '#4A061F'
         },
-        toolBar: {
+        topBar: {
             titleTextColor: '#BF5F82'
         },
         nav: {
