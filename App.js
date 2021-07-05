@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState, useEffect, useContext} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import theme from './modules/theme';
 import TopBar from './components/TopBar/TopBar';
@@ -12,7 +12,7 @@ export const fileDataGetter = React.createContext()
 
 export default function App() {
   const [appTheme, setAppTheme] = useState(null)
-  const [title, setTitle] = useState("aaatitle")
+  const [title, setTitle] = useState("Title")
 
   useEffect(() => {
     readSetting().then(e => {
@@ -44,13 +44,13 @@ export default function App() {
   return (
     <ThemeProvider theme={theme[appTheme]} >
       <fileDataGetter.Provider value={fileDataGetterValue}>
-        <StatusBar style="auto" />
-        <View style={style}>
+        <StatusBar hidden='false' />
+        <SafeAreaView style={style}>
           <TopBar
             title={title}
           />
           <Text>ここに子コンポーネント</Text>
-        </View>
+        </SafeAreaView>
       </fileDataGetter.Provider>
     </ThemeProvider>
   );

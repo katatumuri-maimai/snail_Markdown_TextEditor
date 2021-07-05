@@ -1,18 +1,16 @@
 import React from 'react';
-import {useContext} from 'react';
 import {Text } from 'react-native';
-import { withTheme, } from 'react-native-elements';
+import { useTheme} from 'react-native-elements';
 
 
-function Title(props) {
+export default function Title(props) {
+    const { theme } = useTheme();
 
     const style={
-        color: props.theme.topBar.titleTextColor
+        color: theme.topBar.titleTextColor
     }
 
     return (
         <Text style={style}>{props.title}</Text>
     )
 }
-
-export default withTheme(Title)

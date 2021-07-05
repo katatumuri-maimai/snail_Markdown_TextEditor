@@ -14,10 +14,10 @@ export default theme = {
             titleTextColor: '#D1D1D1'
         },
         nav: {
-            IconColor: '#D1D1D1',
+            iconColor: '#D1D1D1',
         },
         menu: {
-            TitleColor: '#888888',
+            titleColor: '#888888',
         },
         menuBtn: {
             BackgroundColor: '#888888',

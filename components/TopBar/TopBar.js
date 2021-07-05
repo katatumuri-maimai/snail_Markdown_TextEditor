@@ -1,20 +1,27 @@
 import React from 'react';
 // import {useState} from 'react';
 import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
-import { withTheme, } from 'react-native-elements';
+import { useTheme } from 'react-native-elements';
 import Nav from './_components/Nav/Nav';
 import Title from './_components/Title';
 
-function TopBar(props) {
-    console.log(props.theme.main);
+export default function TopBar(props) {
+    const { theme } = useTheme();
+
+    const style ={
+        position: 'relative',
+        width: '100%',
+        justifyContent:'center',
+        alignItems: 'center',
+    }
+
     return(
-        <SafeAreaView>
+        <SafeAreaView style={style}>
             <Nav/>
             <Title title={props.title}/>
         </SafeAreaView>
     )
 }
-export default withTheme(TopBar);
 
 
 // position: 'relative'
