@@ -1,33 +1,57 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {useState,useEffect} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import theme from './modules/theme';
 import TopBar from './components/TopBar/TopBar';
 import readSetting from './modules/readSetting'
 
-export default function App() {
-  const[appTheme,setAppTheme]=useState(null)
 
-  useEffect(()=>{
-    readSetting().then(e=>{
+export const fileDataGetter = React.createContext()
+
+export default function App() {
+  const [appTheme, setAppTheme] = useState(null)
+  const [title, setTitle] = useState("aaatitle")
+
+  useEffect(() => {
+    readSetting().then(e => {
       setAppTheme(e.theme)
-      console.log('useEffect'+e.theme);
+      console.log('useEffect' + e.theme);
     })
   }, [])
 
-  if(!appTheme){
+
+  if (!appTheme) {
     return (<Text>looding...🐌</Text>)
   }
+  const fileDataGetterValue={
+    appTheme,
+    setAppTheme,
+    title, 
+    setTitle
+  }
+
+  const style = {
+      flex: 1,
+      backgroundColor: theme[appTheme].main.mainBackgroundColor,
+      alignItems: 'center'
+    }
+
+
+  
 
   return (
     <ThemeProvider theme={theme[appTheme]} >
-      <StatusBar style="auto" />
-      <View style={styles.container}>
-        <TopBar/>
-        <Text>ここに子コンポーネント</Text>
-      </View>
+      <fileDataGetter.Provider value={fileDataGetterValue}>
+        <StatusBar style="auto" />
+        <View style={style}>
+          <TopBar
+            title={title}
+          />
+          <Text>ここに子コンポーネント</Text>
+        </View>
+      </fileDataGetter.Provider>
     </ThemeProvider>
   );
 }
