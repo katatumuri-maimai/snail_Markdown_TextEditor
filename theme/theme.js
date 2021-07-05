@@ -4,8 +4,10 @@ export default theme = {
         main: {
             mainBackgroundColor: '#888888',
             secondBackgroundColor: '#5B5B5B',
-            titleTextColor: '#D1D1D1',
             scrollBarColor: '#D1D1D1'
+        },
+        toolBar: {
+            titleTextColor: '#D1D1D1'
         },
         nav: {
             IconColor: '',
@@ -57,11 +59,13 @@ export default theme = {
         main: {
             mainBackgroundColor: '',
             secondBackgroundColor: '',
-            titleTextColor: '',
             scrollBarColor: ''
         },
+        toolBar: {
+            titleTextColor: ''
+        },
         nav: {
-            IconColor: '',
+            IconColor: ''
         },
         menu: {
             TitleColor: '',
