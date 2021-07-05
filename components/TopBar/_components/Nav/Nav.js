@@ -13,7 +13,6 @@ function Nav(props) {
         </View>
     )
 }
-
 export default withTheme(Nav)
 
 
