@@ -4,6 +4,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import theme from './theme/theme';
+import TopBar from './components/TopBar/TopBar';
 
 export default function App() {
 
@@ -11,6 +12,7 @@ export default function App() {
     <ThemeProvider theme={theme} >
       <StatusBar style="auto" />
       <View style={styles.container}>
+        <TopBar/>
         <Text>ここに子コンポーネント</Text>
       </View>
     </ThemeProvider>
