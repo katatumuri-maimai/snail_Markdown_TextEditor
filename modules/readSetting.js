@@ -1,4 +1,5 @@
 import * as FileSystem from 'expo-file-system';
+import {StorageAccessFramework} from 'expo-file-system';
 
 const snailSetting = {
     "theme": "Night",
@@ -6,45 +7,56 @@ const snailSetting = {
     "autoSave": "30"
 }
 
-export default async function readSetting() {
+export default async function readSetting(os) {
     const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/setting/'
     const settingFileName = 'snailSetting.json'
     const fileUri = directoryUri + settingFileName
-    let settingData
+    let settingData = JSON.stringify(snailSetting)
+    let FS
 
     await FileSystem.makeDirectoryAsync(directoryUri, { intermediates: true })
         .then(e => {
-            // console.log("makeDirectoryAsync" + e);
+            console.log("makeDirectoryAsync" + e);
         }).catch(err => {
             console.error(err);
         })
 
-    const fileList = await FileSystem.readDirectoryAsync(directoryUri)
+    const isFileExits = await FileSystem.getInfoAsync(fileUri)
         .then(e => {
-            // console.log("readDirectoryAsync >>"+ e);
+            console.log("getInfoAsync >>" + e.exists);
             return e
         }).catch(err => {
             console.error(err);
         })
 
-    if (fileList.includes(settingFileName) === false) {
-        settingData = await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(snailSetting), { encoding: FileSystem.EncodingType.UTF8 })
+
+    console.log(os);
+    if (os == 'iOS') {
+        FS = FileSystem
+    } else if (os == 'Android') {
+        FS = StorageAccessFramework
+    } else {
+        console.log("eeee");
+    }
+
+    if (isFileExits.exists===false) {
+    await FS.writeAsStringAsync(fileUri, settingData, { encoding: FileSystem.EncodingType.UTF8 })
             .then(e => {
-                // console.log("writeAsStringAsync >>" + e);
+                console.log("writeAsStringAsync >>" + e);
                 return e
             }).catch(err => {
                 console.log(fileUri);
                 console.error("writeAsStringAsync >>" + err);
             })
     } else {
-        settingData = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
+        settingData = await FS.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
             .then(e => {
-                // console.log("readAsStringAsync >>" + e);
+                console.log("e>>"+e);
                 return e
             }).catch(err => {
                 console.error("readAsStringAsync >>" + err);
             })
     }
-
+    console.log("settingData>>"+settingData);
     return JSON.parse(settingData)
 }
