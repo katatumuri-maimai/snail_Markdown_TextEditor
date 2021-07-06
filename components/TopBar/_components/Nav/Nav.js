@@ -1,14 +1,16 @@
 import React from 'react';
-import {useState} from 'react';
+import { useState, useEffect,useContext} from 'react';
 import { StyleSheet, Text, View ,Pressable} from 'react-native';
 import { Icon } from 'react-native-elements'
 import { useTheme  } from 'react-native-elements';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import { FileDataGetter } from '../../../../App';
 
 export default function Nav(props) {
-  const { theme } = useTheme();
-    const [isNavOpen, setIsNavOpen]=useState(true)
+  const [isNavOpen, setIsNavOpen] = useState(false)
+  const { appTheme } = useContext(FileDataGetter)
+  let { theme } = useTheme();
+  theme = theme[appTheme]
 
   const style = {
      backgroundColor: theme.main.secondBackgroundColor,
@@ -18,20 +20,50 @@ export default function Nav(props) {
      top:10
     }
 
+  function onPressNavClosed(){
+    setIsNavOpen(true)
+  }
+
 
     return (
       <View style={style}>
-        {isNavOpen ? <NavOpened color={theme.nav.iconColor} /> : <NavClosed color={theme.nav.iconColor}/>}
+        {isNavOpen? 
+          <NavOpened color={theme.nav.iconColor}/>:
+          <NavClosed color={theme.nav.iconColor} onPress={onPressNavClosed}/>}
         </View>
     )
 }
 
 
 function NavClosed(props) {
+  const style = {
+    contener: {
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      alignItems: 'flex-end',
+      width: 280,
+      height: 34,
+    },
+    iconContainer: {
+      flex: 1,
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 34,
+      height: 34,
+    },
+    icon: {
+      color: props.color
+    }
+  }
     return (
           <Icon
           name='arrow-forward-ios'
-          color={props.color}
+          containerStyle={style.iconContainer}
+          iconStyle={style.icon}
+          onPress={props.onPress}
           />
     )
 }
@@ -47,7 +79,6 @@ function NavOpened(props) {
       alignItems: 'flex-end',
       width: 280,
       height: 34,
-      // padding: 5,
     },
     iconContainer:{
       flex: 1,
@@ -68,7 +99,32 @@ function NavOpened(props) {
   ]
 
 
-  function onPress(target){
+  function onPress(icon){
+    switch (icon) {
+      case 'settings':
+        console.log(icon);
+        break;
+      case 'folder':
+        console.log(icon);
+        break;
+
+      case 'image':
+        console.log(icon);
+        break;
+
+      case 'file-download':
+        console.log(icon);
+        break;
+
+      case 'file-upload':
+        console.log(icon);
+        break;
+        
+      default:
+        console.log('NavOnPressError');
+        break;
+    }
+    
   }
 
     return (
@@ -76,6 +132,7 @@ function NavOpened(props) {
         {iconList.map(e=>{
           return (
             <Icon
+              key={e}
               name={e}
               containerStyle={style.iconContainer}
               iconStyle={style.icon}

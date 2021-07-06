@@ -1,35 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useDebugValue } from 'react';
 import { useState, useEffect, useContext} from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, UIManager} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import theme from './modules/theme';
 import TopBar from './components/TopBar/TopBar';
 import readSetting from './modules/readSetting'
+import * as Device from 'expo-device';
 
 
-export const fileDataGetter = React.createContext()
+export const FileDataGetter = React.createContext()
 
 export default function App() {
-  const [appTheme, setAppTheme] = useState(null)
+  if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+
+  const [appTheme, setAppTheme] = useState("Night")
   const [title, setTitle] = useState("Title")
+  const os = Device.osName
 
   useEffect(() => {
-    readSetting().then(e => {
+    readSetting(os).then(e => {
       setAppTheme(e.theme)
-      console.log('useEffect' + e.theme);
     })
   }, [])
 
-
   if (!appTheme) {
-    return (<Text>looding...🐌</Text>)
+    return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
   }
+
   const fileDataGetterValue={
     appTheme,
     setAppTheme,
     title, 
-    setTitle
+    setTitle,
+    os
   }
 
   const style = {
@@ -38,21 +44,17 @@ export default function App() {
       alignItems: 'center'
     }
 
-
-  
-
   return (
-    <ThemeProvider theme={theme[appTheme]} >
-      <fileDataGetter.Provider value={fileDataGetterValue}>
-        <StatusBar hidden='false' />
+    <ThemeProvider theme={theme}>
+      <FileDataGetter.Provider value={fileDataGetterValue}>
         <SafeAreaView style={style}>
           <TopBar
             title={title}
           />
           <Text>ここに子コンポーネント</Text>
         </SafeAreaView>
-      </fileDataGetter.Provider>
-    </ThemeProvider>
+       </FileDataGetter.Provider>
+     </ThemeProvider>
   );
 }
 

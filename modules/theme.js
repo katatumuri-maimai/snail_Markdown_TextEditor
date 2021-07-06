@@ -22,37 +22,37 @@ export default theme = {
         menuBtn: {
             BackgroundColor: '#888888',
             TextColor: '#E3E3E3',
-            IconColor: '#D1D1D1',
+            iconColor: '#D1D1D1',
             onPress: {
                 BackgroundColor: '#D1D1D1',
                 TextColor: '#888888',
-                IconColor: '#888888',
+                iconColor: '#888888',
             }
         },
         menuBtnChild: {
             BackgroundColor: 'none',
             TextColor: '#E3E3E3',
-            IconColor: '#D1D1D1',
+            iconColor: '#D1D1D1',
             BoderColor: '#707070',
             onPress: {
                 BackgroundColor: '#D1D1D1',
                 TextColor: '#888888',
-                IconColor: '#888888',
+                iconColor: '#888888',
                 BoderColor: 'none',
             }
         },
         PlusBtn: {
             BackgroundColor: 'none',
-            IconColor: '#D1D1D1',
+            iconColor: '#D1D1D1',
         },
         typeSelectMenu: {
             BackgroundColor: '#D1D1D1',
             TextColor: '#5B5B5B',
-            IconColor: '#5B5B5B',
+            iconColor: '#5B5B5B',
             onPress: {
                 BackgroundColor: '#888888',
                 TextColor: '#D1D1D1',
-                IconColor: '#D1D1D1',
+                iconColor: '#D1D1D1',
             }
         }
     },
@@ -70,45 +70,45 @@ export default theme = {
             titleTextColor: '#BF5F82'
         },
         nav: {
-            IconColor: '#FFEEF8'
+            iconColor: '#FFEEF8'
         },
         menu: {
-            TitleColor: '#FFEEF8'
+            titleColor: '#FFEEF8'
         },
         menuBtn: {
             BackgroundColor: '#FFEEF8',
             TextColor: '#C48B9F',
-            IconColor: '#BF5F82',
+            iconColor: '#BF5F82',
             onPress: {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#FFEEF8',
-                IconColor: '#BF5F82',
+                iconColor: '#BF5F82',
             }
         },
         menuBtnChild: {
             BackgroundColor: 'none',
             TextColor: '#FFEEF8',
-            IconColor: '#FFEEF8',
+            iconColor: '#FFEEF8',
             BoderColor: '#FFEEF8',
             onPress: {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#FFEEF8',
-                IconColor: '#FFEEF8',
+                iconColor: '#FFEEF8',
                 BoderColor: 'none',
             }
         },
         PlusBtn: {
             BackgroundColor: 'none',
-            IconColor: '#BF5F82',
+            iconColor: '#BF5F82',
         },
         typeSelectMenu: {
             BackgroundColor: '#C48B9F',
             TextColor: '#FFEEF8',
-            IconColor: '#FFEEF8',
+            iconColor: '#FFEEF8',
             onPress: {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#F8BBD0',
-                IconColor: '#F8BBD0',
+                iconColor: '#F8BBD0',
             }
         }
     },
