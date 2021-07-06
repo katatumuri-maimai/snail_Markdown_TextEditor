@@ -4,13 +4,10 @@ import { StyleSheet, Text, View ,Pressable} from 'react-native';
 import { Icon } from 'react-native-elements'
 import { useTheme  } from 'react-native-elements';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
-import { FileDataGetter } from '../../../../App';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
-  const { appTheme } = useContext(FileDataGetter)
   let { theme } = useTheme();
-  theme = theme[appTheme]
 
   const style = {
      backgroundColor: theme.main.secondBackgroundColor,
@@ -140,7 +137,6 @@ function NavOpened(props) {
             />
           )
         })}
-
       </View>
     )
 }

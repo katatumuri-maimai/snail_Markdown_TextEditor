@@ -45,7 +45,7 @@ export default function App() {
     }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme[appTheme]}>
       <FileDataGetter.Provider value={fileDataGetterValue}>
         <SafeAreaView style={style}>
           <TopBar
