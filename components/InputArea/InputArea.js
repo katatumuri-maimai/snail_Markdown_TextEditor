@@ -1,14 +1,17 @@
-import React from 'react';
-import {useState} from 'react';
+import React, { useContext} from 'react';
 import { TextInput} from 'react-native';
 import { useTheme } from 'react-native-elements';
+import { ContextObject } from '../../modules/context';
 
-export default function InputArea(props) {
+export default function InputArea() {
     const { theme } = useTheme();
-    const [value, onChangeText] = useState(props.value);
+    const {
+        text,
+        setText
+    } = useContext(ContextObject)
 
     function onChange(text) {
-        onChangeText(text)
+        setText(text)
     }
 
     const style = {
@@ -16,7 +19,6 @@ export default function InputArea(props) {
         backgroundColor: theme.textView.backgroundColor,
         color: theme.textView.textColor,
         padding: 20,
-        paddingTop: 10,
         borderRadius: 20,
     }
 
@@ -28,7 +30,7 @@ export default function InputArea(props) {
             textAlignVertical='top'
             onChangeText={text => onChange(text)}
             placeholder="Hello World!"
-            value={value}
+            value={text}
         />
     )
 }
