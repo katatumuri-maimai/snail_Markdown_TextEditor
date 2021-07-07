@@ -1,48 +1,58 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect,useContext} from 'react';
-import { StyleSheet, Text, View ,Pressable} from 'react-native';
-import { Icon } from 'react-native-elements'
-import { useTheme  } from 'react-native-elements';
-import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
+import { Icon, useTheme} from 'react-native-elements';
+import { PanGestureHandler} from 'react-native-gesture-handler';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
   let { theme } = useTheme();
 
-  const style = {
-     backgroundColor: theme.main.secondBackgroundColor,
-     borderRadius: 20,
-     position: 'absolute',
-     left:10,
-     top:10
-    }
-
-  function onPressNavClosed(){
+  function onNavOpen() {
     setIsNavOpen(true)
   }
 
+  function onNavClose() {
+    console.log("swipe");
+    setIsNavOpen(false)
+  }
 
+  function onSwipeEvent(event){
+    const swipeX = event.nativeEvent.translationX
+
+    if (swipeX <= 34) {
+      onNavClose()
+    } else if (34 < swipeX) {
+      onNavOpen()
+    }
+  }
+
+  const styles = {
+    navContainer: {
+      position: 'absolute',
+      left: 10,
+      top: 10,
+      backgroundColor: 'pink',
+      backgroundColor: theme.main.secondBackgroundColor,
+      borderRadius: 20
+    }
+  }
+  
     return (
-      <View style={style}>
-        {isNavOpen? 
-          <NavOpened color={theme.nav.iconColor}/>:
-          <NavClosed color={theme.nav.iconColor} onPress={onPressNavClosed}/>}
-        </View>
+      <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
+        <View style={styles.navContainer}>
+          {isNavOpen?
+          <NavOpened color={theme.nav.iconColor} />:
+          <NavClosed color={theme.nav.iconColor} onPress={onNavOpen} />
+          }
+        </View >
+      </PanGestureHandler>
     )
 }
 
 
 function NavClosed(props) {
   const style = {
-    contener: {
-      flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      alignItems: 'flex-end',
-      width: 280,
-      height: 34,
-    },
     iconContainer: {
       flex: 1,
       height: '100%',
@@ -123,6 +133,8 @@ function NavOpened(props) {
     }
     
   }
+
+
 
     return (
       <View style={style.contener}>
