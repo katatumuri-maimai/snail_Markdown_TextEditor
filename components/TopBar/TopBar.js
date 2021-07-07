@@ -13,8 +13,9 @@ export default function TopBar(props) {
     const style ={
         position: 'relative',
         width: '100%',
+        height: 54,
         justifyContent:'center',
-        alignItems: 'center',
+        alignItems: 'center'
     }
 
     return(

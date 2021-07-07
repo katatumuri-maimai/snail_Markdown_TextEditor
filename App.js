@@ -7,7 +7,7 @@ import theme from './modules/theme';
 import TopBar from './components/TopBar/TopBar';
 import readSetting from './modules/readSetting'
 import * as Device from 'expo-device';
-
+import InputArea from './components/InputArea/InputArea';
 
 export const FileDataGetter = React.createContext()
 
@@ -38,20 +38,30 @@ export default function App() {
     os
   }
 
-  const style = {
+  const styles = {
+    app: {
       flex: 1,
+      flexDirection: 'column',
+      height: '100%',
       backgroundColor: theme[appTheme].main.mainBackgroundColor,
       alignItems: 'center'
+    },
+    editorArea:{
+      flex: 1,
+      padding: 20,
+      paddingTop: 0,
+      width: '100%'
+    }
     }
 
   return (
     <ThemeProvider theme={theme[appTheme]}>
       <FileDataGetter.Provider value={fileDataGetterValue}>
-        <SafeAreaView style={style}>
+        <SafeAreaView style={styles.app}>
           <TopBar
             title={title}
           />
-          <Text>ここに子コンポーネント</Text>
+          <EditorArea style={styles.editorArea}/>
         </SafeAreaView>
        </FileDataGetter.Provider>
      </ThemeProvider>
@@ -59,17 +69,12 @@ export default function App() {
 }
 
 
-function name(name) {
-  return theme['Night']
+function EditorArea(props) {
+  return (
+    <View style={props.style}>
+      <InputArea />
+    </View>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: name().main.mainBackgroundColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 
