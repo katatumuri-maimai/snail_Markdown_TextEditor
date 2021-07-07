@@ -10,9 +10,16 @@ import TopBar from './TopBar/TopBar';
 import InputArea from './InputArea/InputArea';
 import Preview from './Preview/Preview';
 import { ContextObject } from '../modules/context';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
 export default function Main() {
   const {
+    deviceType,
+    setDeviceType,
+    windowWidth,
+    setWindowWidth,
+    windowHeight,
+    setWindowHeight,
     appTheme,
     setAppTheme,
     title,
@@ -26,7 +33,10 @@ export default function Main() {
   useEffect(() => {
     readSetting(os).then(e => {
       setAppTheme(e.theme)
-      setTitle("aaa")
+    })
+    Device.getDeviceTypeAsync().then(i =>{
+      const Type = Device.DeviceType[i]
+      setDeviceType(Type)
     })
   }, [])
 
@@ -66,11 +76,18 @@ export default function Main() {
 
 
 function EditorArea(props) {
+
+  function onSwipeEvent(event) {
+    console.log(event.nativeEvent.absoluteX);
+  }
+
   return (
-    <View style={props.style}>
-      <InputArea />
-      <Preview/>
-    </View>
+    <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
+      <View style={props.style}>
+        <InputArea />
+        <Preview/>
+      </View>
+    </PanGestureHandler>
   )
 }
 
