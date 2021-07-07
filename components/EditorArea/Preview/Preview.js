@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ScrollView} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import Markdown from 'react-native-markdown-display';
-import { ContextObject } from '../../modules/context';
+import { ContextObject } from '../../../modules/context';
 
 export default function Preview() {
     const { theme } = useTheme();
@@ -15,6 +15,7 @@ export default function Preview() {
             padding: 20,
             paddingTop: 10,
             borderRadius: 20,
+            marginLeft:5,
         },
         text: {
             body:{

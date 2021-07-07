@@ -7,10 +7,8 @@ import * as Device from 'expo-device';
 import readSetting from '../modules/readSetting';
 import theme from '../modules/theme';
 import TopBar from './TopBar/TopBar';
-import InputArea from './InputArea/InputArea';
-import Preview from './Preview/Preview';
 import { ContextObject } from '../modules/context';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import EditorArea from './EditorArea/EditorArea';
 
 export default function Main() {
   const {
@@ -51,13 +49,6 @@ export default function Main() {
       height: '100%',
       backgroundColor: theme[appTheme].main.mainBackgroundColor,
       alignItems: 'center'
-    },
-    editorArea:{
-      flex: 1,
-      flexDirection: 'row',
-      padding: 20,
-      paddingTop: 0,
-      width: '100%'
     }
     }
 
@@ -68,27 +59,11 @@ export default function Main() {
           <TopBar
             title={title}
           />
-          <EditorArea style={styles.editorArea}/>
+          <EditorArea/>
         </SafeAreaView>
      </ThemeProvider>
   );
 }
 
-
-function EditorArea(props) {
-
-  function onSwipeEvent(event) {
-    console.log(event.nativeEvent.absoluteX);
-  }
-
-  return (
-    <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
-      <View style={props.style}>
-        <InputArea />
-        <Preview/>
-      </View>
-    </PanGestureHandler>
-  )
-}
 
 

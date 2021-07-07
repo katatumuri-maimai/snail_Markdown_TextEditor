@@ -10,6 +10,7 @@ export function ContextProvider(props) {
     const [appTheme, setAppTheme] = useState("Night")
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
 
     console.log(text);
@@ -26,7 +27,9 @@ export function ContextProvider(props) {
         title,
         setTitle,
         text,
-        setText
+        setText,
+        isPreviewOpen,
+        setIsPreviewOpen
     }
     
     return (
