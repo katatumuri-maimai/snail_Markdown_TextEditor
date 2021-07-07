@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useContext } from 'react';
-import {  View } from 'react-native';
+import { View } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { ContextObject } from '../../modules/context';
 import InputArea from './InputArea/InputArea';
@@ -23,16 +23,19 @@ export default function EditorArea(props) {
         text,
         setText,
         isPreviewOpen,
-        setIsPreviewOpen
+        setIsPreviewOpen,
+        absoluteX,
+        setAbsoluteX
     } = useContext(ContextObject)
-
 
     const style = {
         flex: 1,
         flexDirection: 'row',
+        position: 'relative',
         padding: 20,
         paddingTop: 0,
-        width: '100%'
+        width: '100%',
+        height: '100%'
     }
 
     function onSwipeEvent(event) {
@@ -45,11 +48,14 @@ export default function EditorArea(props) {
         if (rightArea && swipeX < 0){
             // （←）画面右半分を右から左にスワイプした時
             setIsPreviewOpen(true)
+            setAbsoluteX(absoluteX)
         } else if (rightArea && swipeX > 0){
             // （→）画面右半分を左から右にスワイプした時
             setIsPreviewOpen(false)
+            setAbsoluteX(absoluteX)
         }
     }
+
 
     return (
         <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>

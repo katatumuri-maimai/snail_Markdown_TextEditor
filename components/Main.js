@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect, useContext} from 'react';
-import { Text, View, SafeAreaView} from 'react-native';
+import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import * as Device from 'expo-device';
 import readSetting from '../modules/readSetting';
@@ -27,6 +27,25 @@ export default function Main() {
   } = useContext(ContextObject)
 
   const os = Device.osName
+  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardWillShow', keyboardWillShow);
+    Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+    return () => {
+      // Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+      // Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+    };
+  }, []);
+
+
+  function keyboardWillHide() {
+    setKeyboardAvoidingViewEnabled(false)
+  }
+
+  function keyboardWillShow() {
+    setKeyboardAvoidingViewEnabled(true)
+  }
 
   useEffect(() => {
     readSetting(os).then(e => {
@@ -41,8 +60,10 @@ export default function Main() {
   if (!appTheme) {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
   }
-
   const styles = {
+    viwe: {
+      flex: 1,
+    },
     app: {
       flex: 1,
       flexDirection: 'column',
@@ -53,15 +74,24 @@ export default function Main() {
     }
 
   return (
-    <ThemeProvider theme={theme[appTheme]}>
-      <StatusBar hidden={false}/>
-        <SafeAreaView style={styles.app}>
-          <TopBar
-            title={title}
-          />
-          <EditorArea/>
-        </SafeAreaView>
-     </ThemeProvider>
+        <ThemeProvider theme={theme[appTheme]}>
+          <StatusBar hidden={false}/>
+          <SafeAreaView style={styles.viwe}>
+            <Pressable style={styles.viwe} onPress={Keyboard.dismiss}>
+              <KeyboardAvoidingView
+              behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+              style={styles.app}
+              keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
+              enabled={keyboardAvoidingViewEnabled}
+              >
+                <TopBar
+                title={title}
+                />
+                <EditorArea/>
+              </KeyboardAvoidingView>
+            </Pressable>
+          </SafeAreaView>
+        </ThemeProvider>
   );
 }
 

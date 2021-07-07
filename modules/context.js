@@ -11,9 +11,7 @@ export function ContextProvider(props) {
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
-
-
-    console.log(text);
+    const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
 
     const ContextValue = {
         deviceType,
@@ -29,7 +27,9 @@ export function ContextProvider(props) {
         text,
         setText,
         isPreviewOpen,
-        setIsPreviewOpen
+        setIsPreviewOpen,
+        absoluteX,
+        setAbsoluteX
     }
     
     return (

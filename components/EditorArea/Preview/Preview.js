@@ -6,7 +6,14 @@ import { ContextObject } from '../../../modules/context';
 
 export default function Preview() {
     const { theme } = useTheme();
-    const { text } = useContext(ContextObject)
+    const {
+        text,
+        windowWidth,
+        absoluteX,
+        setAbsoluteX 
+    } = useContext(ContextObject)
+
+    const width = windowWidth - absoluteX
 
     const styles = {
         container: {
@@ -16,6 +23,7 @@ export default function Preview() {
             paddingTop: 10,
             borderRadius: 20,
             marginLeft:5,
+            // width: width
         },
         text: {
             body:{

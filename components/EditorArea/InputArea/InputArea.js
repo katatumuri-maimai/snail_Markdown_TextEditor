@@ -8,7 +8,9 @@ export default function InputArea() {
     const {
         text,
         setText,
-        isPreviewOpen
+        isPreviewOpen,
+        absoluteX,
+        setAbsoluteX
     } = useContext(ContextObject)
 
     function onChange(text) {
@@ -29,10 +31,12 @@ export default function InputArea() {
             backgroundColor: theme.textView.backgroundColor,
             padding: 20,
             borderRadius: 20,
-            marginRight: marginRight
+            marginRight: marginRight,
+            // width: absoluteX
         },
         text: {
             color: theme.textView.textColor,
+            height: '100%'
         }
     }
 
