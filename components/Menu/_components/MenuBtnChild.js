@@ -4,22 +4,25 @@ import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 
-
-export default function MenuBtn() {
+export default function MenuBtnChild() {
     const { theme } = useTheme();
     const {
     } = useContext(ContextObject)
 
     const styles={
         wrap: {
-            width: '100%',
+            alignSelf: 'flex-end',
+            width: '90%',
             height: 46,
             marginTop: 10,
-            backgroundColor: theme.menuBtn.BackgroundColor,
+            backgroundColor: theme.menuBtnChild.BackgroundColor,
+            borderColor: theme.menuBtnChild.BoderColor,
+            borderStyle: 'solid',
+            borderWidth:3,
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft:10,
+            paddingLeft: 10,
             paddingRight: 10
         },
         icon:{
