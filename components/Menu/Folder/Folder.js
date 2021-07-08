@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState} from 'react';
 import { View, Text, Pressable,ScrollView} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-import {removeAll} from '../../../modules/controlProjects';
-import {SetDataNameModal} from '../../_components/Modal';
+import {readFileData, removeAll} from '../../../modules/controlProjects';
 import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
@@ -218,6 +217,10 @@ function Project(props) {
         { isOnonPressMenuBtn ? setOnonPressMenuBtn(false) : setOnonPressMenuBtn(true)}
     }
 
+    async function onPressMenuBtnChild(projectName,fileName) {
+        readFileData(projectName, fileName)
+    }
+
 
     return(
         <View>
@@ -238,6 +241,7 @@ function Project(props) {
                                     key={e}
                                     name={e}
                                     iconName='text-snippet'
+                                    onPress={() => { onPressMenuBtnChild(projectName,e)}}
                                 />
                             )
                         }))

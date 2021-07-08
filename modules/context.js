@@ -36,7 +36,8 @@ export function ContextProvider(props) {
     const [fileName, setFileName] = useState('')
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
-    const [Project_List, setProject_List] = useState([])   
+    const [Project_List, setProject_List] = useState([])
+    const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
 
     useEffect(() => {
         readProjects().then(e => {
@@ -89,7 +90,9 @@ export function ContextProvider(props) {
         Project_List,
         setProject_List,
         isDataChange,
-        setDataChange
+        setDataChange,
+        whichMenuChidOpen,
+        setWhichMenuChidOpen
     }
     
     return (
