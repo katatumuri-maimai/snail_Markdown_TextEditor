@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
+import FileUpload from './FileUpload/FileUpload';
 import Folder from './Folder/Folder';
 import Settings from './Settings/Settings';
 

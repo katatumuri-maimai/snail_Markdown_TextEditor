@@ -7,9 +7,6 @@ export default function Folder(params) {
         setIsMenuOpen
     } = useContext(ContextObject)
 
-    useEffect(()=>{
-        setIsMenuOpen(false)
-    })
 
     return <View></View>
 }
