@@ -1,13 +1,25 @@
 import * as FileSystem from 'expo-file-system';
 import { StorageAccessFramework } from 'expo-file-system';
 import * as Device from 'expo-device';
+import { ContextObject } from './context';
 
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
+// const {
+//     newProjectName,
+//     setNewProjectName,
+//     newFileName,
+//     setNewFileName,
+// } = useContext(ContextObject)
 
 export async function saveProject(name) {
+
+    const {
+        setNewProjectName
+    } = useContext(ContextObject)
+
     const projectName = removeMarks(name)
     
     const Projects = await FileSystem.readDirectoryAsync(directoryUri)
@@ -18,8 +30,8 @@ export async function saveProject(name) {
             console.error(err);
         })
 
-    const newProjectName = Projects.includes(projectName) ? (projectName + "(" + Projects.length + ")" ): projectName
-    const projectUri = directoryUri + encodeURIComponent(newProjectName)
+    const new_ProjectName = Projects.includes(projectName) ? (projectName + "(" + Projects.length + ")" ): projectName
+    const projectUri = directoryUri + encodeURIComponent(new_ProjectName)
 
     await FileSystem.makeDirectoryAsync(projectUri, { intermediates: true })
         .then(e => {
@@ -27,6 +39,8 @@ export async function saveProject(name) {
         }).catch(err => {
             console.error(err);
         })
+
+    setNewProjectName('')
 
 }
 
