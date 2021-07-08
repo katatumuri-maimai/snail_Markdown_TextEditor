@@ -47,7 +47,7 @@ export default function Folder(params) {
                 iconStyle={styles.plusIcon}
                 onPress={onPressPlusIcon}
             />
-            {isTypeSelectMenuOpen ? <TypeSelectMenu /> : <View/>}
+            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
             <MenuTitle>プロジェクト</MenuTitle>
             <Project
                 project={{
@@ -60,11 +60,13 @@ export default function Folder(params) {
     )
 }
 
-function TypeSelectMenu() {
+function TypeSelectMenu(props) {
     const { theme } = useTheme();
     const {
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
+        whichSetDataNameModalOpen,
+        setWhichDataNameModalOpen,
         projectName,
         setProjectName,
         fileName,
@@ -78,18 +80,22 @@ function TypeSelectMenu() {
             position: 'absolute',
             top: 30,
             left: 0,
-            zIndex: 0.5,
+            zIndex: 100,
             // backgroundColor: theme.typeSelectMenu.BackgroundColor,
             width: '80%',
             borderRadius: 20,
         },
     }
 
-    function onPressAddProject(params) {
-        console.log(params);
+    function onPressAddProject() {
+        props.onPress()
+        setSetDataNameModalOpen(true)
+        setWhichDataNameModalOpen('addProject')
     }
-    function onPressAddFile(params) {
-        console.log(params);
+    function onPressAddFile() {
+        props.onPress()
+        setSetDataNameModalOpen(true)
+        setWhichDataNameModalOpen('addFile')
     }
 
     return(

@@ -24,10 +24,16 @@ export function ContextProvider(props) {
     const [appTheme, setAppTheme] = useState("Night")
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
     const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [whichMenuOpen, setWhichMenuOpen] = useState('none')
+    const [isSetDataNameModalOpen, setSetDataNameModalOpen] = useState(false)
+    const [whichSetDataNameModalOpen, setWhichDataNameModalOpen] = useState('')
+    const [projectName, setProjectName] = useState('')
+    const [fileName, setFileName] = useState('')
+    const [newProjectName, setNewProjectName] = useState('')
+    const [newFileName, setNewFileName] = useState('')
 
 
     const menuWidth = (isMenuOpen ? 280: 100)
@@ -58,7 +64,19 @@ export function ContextProvider(props) {
         setIsPreviewOpen,
         previeArea,
         absoluteX,
-        setAbsoluteX
+        setAbsoluteX,
+        isSetDataNameModalOpen,
+        setSetDataNameModalOpen,
+        whichSetDataNameModalOpen,
+        setWhichDataNameModalOpen,
+        projectName,
+        setProjectName,
+        fileName,
+        setFileName,
+        newProjectName,
+        setNewProjectName,
+        newFileName,
+        setNewFileName
     }
     
     return (

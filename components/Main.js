@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { useEffect, useContext} from 'react';
-import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable } from 'react-native';
+import React, { useState, useEffect, useContext} from 'react';
+import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import * as Device from 'expo-device';
@@ -11,6 +10,7 @@ import TopBar from './TopBar/TopBar';
 import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
+import { SetDataNameModal } from './_components/Modal';
 
 export default function Main() {
   const {
@@ -33,27 +33,36 @@ export default function Main() {
     setIsPreviewOpen,
     previeArea,
     absoluteX,
-    setAbsoluteX
+    setAbsoluteX,
+    isSetDataNameModalOpen,
+    setSetDataNameModalOpen,
+    projectName,
+    setProjectName,
+    fileName,
+    setFileName
   } = useContext(ContextObject)
 
   const os = Device.osName
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
+  const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', keyboardWillShow);
     Keyboard.addListener('keyboardWillHide', keyboardWillHide);
     return () => {
-      // Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-      // Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+      Keyboard.removeListener('keyboardWillShow', keyboardWillShow);
+      Keyboard.removeListener('keyboardWillHide', keyboardWillHide);
     };
   }, []);
 
 
-  function keyboardWillHide() {
+  function keyboardWillHide(event) {
+    setKeyboardScreenYd(event.endCoordinates.screenY)
     setKeyboardAvoidingViewEnabled(false)
   }
 
-  function keyboardWillShow() {
+  function keyboardWillShow(event) {
+    setKeyboardScreenYd(event.endCoordinates.screenY)
     setKeyboardAvoidingViewEnabled(true)
   }
 
@@ -116,6 +125,7 @@ export default function Main() {
     }
   }
 
+
   return (
         <ThemeProvider theme={theme[appTheme]}>
           <StatusBar hidden={false}/>
@@ -127,6 +137,7 @@ export default function Main() {
               keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
               enabled={keyboardAvoidingViewEnabled}
               >
+            {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY}/> : <View />}
                 <TopBar
                 title={title}
                 />
@@ -136,6 +147,7 @@ export default function Main() {
                   <EditorArea/>
                 </View>
             </PanGestureHandler>
+            
               </KeyboardAvoidingView>
             </Pressable>
           </SafeAreaView>
