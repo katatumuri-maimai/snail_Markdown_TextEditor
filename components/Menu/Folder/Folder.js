@@ -16,13 +16,8 @@ export default function Folder(params) {
         setProject_List
     } = useContext(ContextObject)
 
-    const [isTypeSelectMenuOpen, setTypeSelectMenuOpen]=useState(false)
 
-    useEffect(()=>{
-        readProjects().then(e=>{
-            setProject_List(e)
-        })
-    },[])
+    const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
 
     
     const styles = {
@@ -238,6 +233,7 @@ function Project(props) {
                         (fileList.map(e=>{
                             return(
                                 <MenuBtnChild
+                                    key={e}
                                     name={e}
                                     iconName='text-snippet'
                                 />

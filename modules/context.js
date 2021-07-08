@@ -1,5 +1,6 @@
-import React,{ createContext, useState} from 'react';
+import React, { createContext, useState, useEffect} from 'react';
 import { useWindowDimensions } from 'react-native';
+import { readProjects } from './controlProjects';
 
 const settingIconList = [
     'settings',
@@ -30,11 +31,18 @@ export function ContextProvider(props) {
     const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isSetDataNameModalOpen, setSetDataNameModalOpen] = useState(false)
     const [whichSetDataNameModalOpen, setWhichDataNameModalOpen] = useState('')
+    const [isDataChange, setDataChange] = useState('')
     const [projectName, setProjectName] = useState('')
     const [fileName, setFileName] = useState('')
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
-    const [Project_List, setProject_List] = useState([])
+    const [Project_List, setProject_List] = useState([])   
+
+    useEffect(() => {
+        readProjects().then(e => {
+            setProject_List(e)
+        })
+    }, [isDataChange])
 
 
     const menuWidth = (isMenuOpen ? 280: 100)
@@ -79,7 +87,9 @@ export function ContextProvider(props) {
         newFileName,
         setNewFileName,
         Project_List,
-        setProject_List
+        setProject_List,
+        isDataChange,
+        setDataChange
     }
     
     return (
