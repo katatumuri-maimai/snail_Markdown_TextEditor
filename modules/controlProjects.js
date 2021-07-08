@@ -245,7 +245,7 @@ export async function templateProjects(os) {
 }
 
 function removeMarks(name) {
-    const marks = ["\\", '/', ':', '*', '?', 'a', "<", ">", '|', /^ */g, /^　*/g];
+    const marks = ["\\", '/', ':', '*', '?', "<", ">", '|', /^ */g, /^　*/g];
     let name_removeMarks = name;
     for (const i in marks) {
         name_removeMarks = name_removeMarks.replaceAll(marks[i], '')
