@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { View, Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import MenuBtn from './_components/MenuBtn';
-import MenuBtnChild from './_components/MenuBtnChild';
+import Folder from './Folder/Folder';
+import Settings from './Settings/Settings';
+
 
 
 export default function Menu() {
@@ -29,11 +30,36 @@ export default function Menu() {
         }
     }
 
+
+
     return (
         <View style={styles.menu}>
-            <Text style={styles.title}>{whichMenuOpen}</Text>
-            <MenuBtn/>
-            <MenuBtnChild/>
+            <WhichMenu/>
         </View>
     )
+}
+
+function WhichMenu(params) {
+    const { theme } = useTheme();
+    const {
+        whichMenuOpen
+    } = useContext(ContextObject)
+
+    switch (whichMenuOpen) {
+        case 'settings':
+            return <Settings />
+            break;
+
+        case 'folder':
+            return <Folder />
+            break;
+
+        case 'file-upload':
+            return <FileUpload />
+            break;
+
+        default:
+            return <Settings />
+            break;
+    }
 }

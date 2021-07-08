@@ -84,8 +84,9 @@ function NavClosed(props) {
 function NavOpened(props) {
   const {
     settingIconList,
+    canOpenSettingIconList,
     setWhichMenuOpen,
-    setIsMenuOpen
+    setIsMenuOpen,
   } = useContext(ContextObject)
 
   const style = {
@@ -107,10 +108,13 @@ function NavOpened(props) {
       color: props.color
     }
   }
-
+  
   function onPress(icon){
     setWhichMenuOpen(icon);
-    setIsMenuOpen(true);
+
+    if (canOpenSettingIconList.includes(icon)){
+      setIsMenuOpen(true);
+    }
   }
 
     return (

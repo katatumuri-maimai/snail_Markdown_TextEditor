@@ -9,6 +9,12 @@ const settingIconList = [
     'file-upload'
 ]
 
+const canOpenSettingIconList = [
+    'settings',
+    'folder',
+    'file-upload'
+]
+
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
@@ -22,6 +28,7 @@ export function ContextProvider(props) {
     const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
     const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
+
 
     const menuWidth = (isMenuOpen ? 280: 100)
     const halfWindowWidth = windowWidth / 2
@@ -41,6 +48,7 @@ export function ContextProvider(props) {
         text,
         setText,
         settingIconList,
+        canOpenSettingIconList,
         isMenuOpen,
         setIsMenuOpen,
         whichMenuOpen,
