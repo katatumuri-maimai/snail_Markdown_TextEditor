@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
-import { View ,Text} from 'react-native';
+import React, { useContext, useState} from 'react';
+import { Text, Pressable} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
+import MenuBtnChild from './MenuBtnChild';
 
 
-export default function MenuBtn() {
+
+export default function MenuBtn(props) {
     const { theme } = useTheme();
     const {
     } = useContext(ContextObject)
+
+    const [isOnPress, setOnPress] = useState(false)
 
     const styles={
         wrap: {
             width: '100%',
             height: 46,
             marginTop: 10,
-            backgroundColor: theme.menuBtn.BackgroundColor,
+            backgroundColor: (isOnPress ? theme.menuBtn.onPress.BackgroundColor :theme.menuBtn.BackgroundColor),
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
@@ -23,23 +27,27 @@ export default function MenuBtn() {
             paddingRight: 10
         },
         icon:{
-            color: theme.menuBtn.iconColor,
+            color: (isOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),
             marginRight: 10,
             fontSize: 28
         },
         btnText:{
-            color: theme.menuBtn.TextColor,
+            color: (isOnPress ? theme.menuBtn.onPress.TextColor : theme.menuBtn.TextColor),
             fontSize: 18
         }
     }
-
+    function onPress() {
+        props.onPress()
+        { isOnPress ? setOnPress(false) : setOnPress(true) }
+    }
+    
     return (
-        <View style={styles.wrap}>
+        <Pressable style={styles.wrap} onPress={onPress}>
             <Icon
-            name='settings'
+            name={props.iconName}
             iconStyle={styles.icon}
             />
-            <Text style={styles.btnText}>ボタン</Text>
-        </View>
+            <Text style={styles.btnText}>{props.name}</Text>
+        </Pressable>
     )
 }
