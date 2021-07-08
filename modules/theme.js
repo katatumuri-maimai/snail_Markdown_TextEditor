@@ -30,7 +30,7 @@ export default theme = {
             }
         },
         menuBtnChild: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             TextColor: '#E3E3E3',
             iconColor: '#D1D1D1',
             BoderColor: '#707070',
@@ -38,11 +38,11 @@ export default theme = {
                 BackgroundColor: '#D1D1D1',
                 TextColor: '#888888',
                 iconColor: '#888888',
-                BoderColor: 'none',
+                BoderColor: '#00000000',
             }
         },
         PlusBtn: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             iconColor: '#D1D1D1',
         },
         typeSelectMenu: {
@@ -86,7 +86,7 @@ export default theme = {
             }
         },
         menuBtnChild: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             TextColor: '#FFEEF8',
             iconColor: '#FFEEF8',
             BoderColor: '#FFEEF8',
@@ -94,11 +94,11 @@ export default theme = {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#FFEEF8',
                 iconColor: '#FFEEF8',
-                BoderColor: 'none',
+                BoderColor: '#00000000',
             }
         },
         PlusBtn: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             iconColor: '#BF5F82',
         },
         typeSelectMenu: {
