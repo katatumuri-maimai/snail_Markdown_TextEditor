@@ -26,8 +26,12 @@ export default function Main() {
     setTitle,
     text,
     setText,
+    isMenuOpen,
+    setIsMenuOpen,
+    menuWidth,
     isPreviewOpen,
     setIsPreviewOpen,
+    previeArea,
     absoluteX,
     setAbsoluteX
   } = useContext(ContextObject)
@@ -87,10 +91,9 @@ export default function Main() {
 
   function onSwipeEvent(event) {
     const absoluteX = event.nativeEvent.absoluteX
-    const previewWidth = windowWidth / 2
     const swipeX = event.nativeEvent.translationX
-    const rightArea = previewWidth <= absoluteX
-    const lefghtArea = previewWidth >= absoluteX
+    const rightArea = previeArea <= absoluteX
+    const lefghtArea = menuWidth >= absoluteX
 
     if (rightArea && swipeX < 0) {
       // （←）画面右半分を右から左にスワイプした時
@@ -99,6 +102,16 @@ export default function Main() {
     } else if (rightArea && swipeX > 0) {
       // （→）画面右半分を左から右にスワイプした時
       setIsPreviewOpen(false)
+      setAbsoluteX(absoluteX)
+    }
+
+    if (lefghtArea && swipeX < 0) {
+      // （←）画面左半分を右から左にスワイプした時
+      setIsMenuOpen(false)
+      setAbsoluteX(absoluteX)
+    } else if (lefghtArea && swipeX > 0) {
+      // （→）画面左半分を左から右にスワイプした時
+      setIsMenuOpen(true)
       setAbsoluteX(absoluteX)
     }
   }
@@ -119,7 +132,7 @@ export default function Main() {
                 />
             <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
                 <View style={styles.wrap}>
-                  <Menu/>
+                {isMenuOpen ? <Menu />:<View/>}
                   <EditorArea/>
                 </View>
             </PanGestureHandler>

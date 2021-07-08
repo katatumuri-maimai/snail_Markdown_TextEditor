@@ -9,11 +9,12 @@ import MenuBtnChild from './_components/MenuBtnChild';
 export default function Menu() {
     const { theme } = useTheme();
     const {
+        menuWidth
     } = useContext(ContextObject)
 
     const styles = {
         menu:{
-            width: 280,
+            width: menuWidth,
             backgroundColor: theme.main.secondBackgroundColor,
             borderRadius: 20,
             marginRight: 10,

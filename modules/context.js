@@ -10,8 +10,13 @@ export function ContextProvider(props) {
     const [appTheme, setAppTheme] = useState("Night")
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
     const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
+
+    const menuWidth = (isMenuOpen ? 280: 100)
+    const halfWindowWidth = windowWidth / 2
+    let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-100)
 
     const ContextValue = {
         deviceType,
@@ -26,8 +31,12 @@ export function ContextProvider(props) {
         setTitle,
         text,
         setText,
+        isMenuOpen,
+        setIsMenuOpen,
+        menuWidth,
         isPreviewOpen,
         setIsPreviewOpen,
+        previeArea,
         absoluteX,
         setAbsoluteX
     }
