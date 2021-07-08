@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { View, Text, Pressable} from 'react-native';
+import { View, Text, Pressable,ScrollView} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import {readProjects} from '../../../modules/controlProjects';
@@ -60,6 +60,7 @@ export default function Folder(params) {
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
             <MenuTitle>プロジェクト</MenuTitle>
 
+            <ScrollView>
             {!Project_List?
                 <Text>loading...🐌</Text>
                 :Project_List.map(e=>{
@@ -70,7 +71,8 @@ export default function Folder(params) {
                     const fileList = e[projectName]
 
                     return(
-                        <Project key={projectName}
+                        <Project
+                         key={projectName}
                             project={{
                                 projectName: projectName,
                                 fileList: fileList
@@ -78,7 +80,9 @@ export default function Folder(params) {
                         />
                     )
                 })
+                
             }
+            </ScrollView>
             
             
         </View>

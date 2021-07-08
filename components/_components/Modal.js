@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import { saveProject } from '../../modules/controlProjects';
+import { saveFile, saveProject } from '../../modules/controlProjects';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
@@ -122,7 +122,6 @@ export function SetDataNameModal(props) {
             <SelectProjectModal
                 keyboardPadding={props.keyboardPadding}
                 isModalOpen={isSelectProjectModalOpen}
-                newFileName={newFileName}
             />
         </Modal>
     )
@@ -213,10 +212,10 @@ function SelectProjectModal(props) {
         setNewFileName('')
     }
 
-    function saveFile(projectName) {
+    function onPressSaveFile(projectName) {
         console.log(projectName);
-        console.log(props.newFileName);
-        // setSetDataNameModalOpen(false)
+        saveFile(projectName, newFileName)
+        setSetDataNameModalOpen(false)
     }
 
 
@@ -233,7 +232,7 @@ function SelectProjectModal(props) {
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
                 <Pressable style={styles.modal} onPress={openModal}>
-                        <Text style={styles.text}>「{props.newFileName}」を保存先するプロジェクトフォルダを選んでください</Text>
+                        <Text style={styles.text}>「{newFileName}」を保存先するプロジェクトフォルダを選んでください</Text>
                     <View style={styles.Wrap}>
                     {Project_List.map(e => {
                         let projectName;
@@ -242,8 +241,9 @@ function SelectProjectModal(props) {
                         }
                         return(
                             <Pressable
+                                key={projectName}
                                 style={styles.btn}
-                                onPress={() => { saveFile(projectName)}}
+                                onPress={() => { onPressSaveFile(projectName)}}
                             >
                                 <Icon
                                 name='folder'

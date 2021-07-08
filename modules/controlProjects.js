@@ -4,6 +4,7 @@ import * as Device from 'expo-device';
 import { ContextObject } from './context';
 
 
+
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
@@ -14,13 +15,8 @@ let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 //     setNewFileName,
 // } = useContext(ContextObject)
 
-export async function saveProject(name) {
-
-    const {
-        setNewProjectName
-    } = useContext(ContextObject)
-
-    const projectName = removeMarks(name)
+export async function saveProject(projectName) {
+    projectName = removeMarks(projectName)
     
     const Projects = await FileSystem.readDirectoryAsync(directoryUri)
         .then(e => {
@@ -40,7 +36,34 @@ export async function saveProject(name) {
             console.error(err);
         })
 
-    setNewProjectName('')
+}
+
+export async function saveFile(projectName,fileName) {
+    console.log('>>'+projectName);
+    console.log('>>' +fileName);
+
+    const projectUri = directoryUri + encodeURIComponent(removeMarks(projectName))
+
+    const Files = await FileSystem.readDirectoryAsync(projectUri)
+        .then(e => {
+            console.log("readDirectoryAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.error(err);
+        })
+
+    let new_FileName = Files.includes(fileName) ? (fileName + "(" + Files.length + ")") : fileName
+
+    console.log(new_FileName);
+    new_FileName = removeMarks(new_FileName)
+    const fileUri = projectUri + '/'+ encodeURIComponent(new_FileName)+'.md'
+
+    await FS.writeAsStringAsync(fileUri, "", { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            console.log("saveFilemakeDirectoryAsync" + e);
+        }).catch(err => {
+            console.error(err);
+        })
 
 }
 
@@ -68,8 +91,8 @@ export async function readProjects() {
 
 
     for (let i in Project_List){
-        const projectName = encodeURIComponent(removeMarks(Project_List[i]))
-        const projectUri = directoryUri + projectName
+        const projectName = encodeURIComponent(Project_List[i])
+        const projectUri = directoryUri + projectName+'/'
 
         const File_List = await FileSystem.readDirectoryAsync(projectUri)
             .then(e => {
