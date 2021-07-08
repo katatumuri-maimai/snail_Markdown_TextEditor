@@ -116,9 +116,10 @@ export async function readProjects() {
 export async function readFileData(projectName, fileName) {
     const fileUri = directoryUri + encodeURIComponent(projectName) + '/' + encodeURIComponent(fileName)
     
-    FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
+    return FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
             console.log("readAsStringAsync" + e);
+            return e
         }).catch(err => {
             console.error(err);
         })

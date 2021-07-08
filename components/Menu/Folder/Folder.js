@@ -198,6 +198,13 @@ function TypeSelectMenuBtn(props) {
 }
 
 function Project(props) {
+    const {
+        setTitle,
+        setText,
+        setProjectName,
+        setFileName
+    } = useContext(ContextObject)
+    
     const { theme } = useTheme();
     const [isOnonPressMenuBtn, setOnonPressMenuBtn] = useState(false)
     const projects = props.project
@@ -218,7 +225,13 @@ function Project(props) {
     }
 
     async function onPressMenuBtnChild(projectName,fileName) {
-        readFileData(projectName, fileName)
+        const text = await readFileData(projectName, fileName)
+        const title = fileName.replace('.md','')
+
+        setTitle(title)
+        setText(text)
+        setProjectName(projectName)
+        setFileName(fileName)
     }
 
 

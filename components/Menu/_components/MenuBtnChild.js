@@ -42,7 +42,6 @@ export default function MenuBtnChild(props) {
 
     function onPress(params) {
         props.onPress()
-        
         setWhichMenuChidOpen(props.name)
     }
 
