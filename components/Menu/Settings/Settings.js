@@ -6,8 +6,6 @@ import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
 
-
-
 export default function Settings(props) {
     const { theme } = useTheme();
     const {
