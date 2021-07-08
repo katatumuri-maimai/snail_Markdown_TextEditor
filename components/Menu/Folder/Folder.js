@@ -3,6 +3,7 @@ import { View, Text, Pressable} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import {readProjects} from '../../../modules/controlProjects';
+import {SetDataNameModal} from '../../_components/Modal';
 import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
@@ -18,7 +19,9 @@ export default function Folder(params) {
     const styles = {
         view:{
             position: 'relative',
-            zIndex:10
+            zIndex:10,
+            width: '100%',
+            height: '100%'
         },
         plusIconContainer: {
             position: 'absolute',
@@ -52,12 +55,21 @@ export default function Folder(params) {
                     fileList:['test','test2']
                 }}
             />
+            
         </View>
     )
 }
 
 function TypeSelectMenu() {
     const { theme } = useTheme();
+    const {
+        isSetDataNameModalOpen,
+        setSetDataNameModalOpen,
+        projectName,
+        setProjectName,
+        fileName,
+        setFileName
+    } = useContext(ContextObject)
 
     const styles={
         view: {
@@ -66,14 +78,17 @@ function TypeSelectMenu() {
             position: 'absolute',
             top: 30,
             left: 0,
-            zIndex: 1000,
-            backgroundColor: theme.typeSelectMenu.BackgroundColor,
+            zIndex: 0.5,
+            // backgroundColor: theme.typeSelectMenu.BackgroundColor,
             width: '80%',
             borderRadius: 20,
         },
     }
 
-    function onPress(params) {
+    function onPressAddProject(params) {
+        console.log(params);
+    }
+    function onPressAddFile(params) {
         console.log(params);
     }
 
@@ -83,13 +98,15 @@ function TypeSelectMenu() {
                 iconName='create-new-folder'
                 text='プロジェクト'
                 addType='addProject'
-                onPress={onPress}
+                backgroundColor='pink'
+                onPress={onPressAddProject}
             />
             <TypeSelectMenuBtn
                 iconName='note-add'
                 text='ファイル'
                 addType='addFile'
-                onPress={onPress}
+                backgroundColor='red'
+                onPress={onPressAddFile}
             />
 
         </View>
@@ -104,6 +121,7 @@ function TypeSelectMenuBtn(props) {
     console.log(isOnPress);
     const styles = {
         view: {
+            // backgroundColor: props.backgroundColor,
             backgroundColor: isOnPress ? theme.typeSelectMenu.BackgroundColor : theme.typeSelectMenu.onPress.BackgroundColor ,
             height: '50%',
             flexDirection: 'row',
@@ -116,17 +134,16 @@ function TypeSelectMenuBtn(props) {
             borderBottomEndRadius: props.addType == 'addProject' ? 0 : 20,
             borderBottomRightRadius: props.addType == 'addProject' ? 0 : 20,
             borderBottomStartRadius: props.addType == 'addProject' ? 0 : 20,
-            padding:20,
-            // borderBottomWidth:3
+            padding: 20,
         },
-        icon:{
+        icon: {
             color: isOnPress? theme.typeSelectMenu.iconColor : theme.typeSelectMenu.onPress.iconColor,
             marginRight: 10,
-            fontSize: 30
+            fontSize: 30,
         },
-        text:{
+        text: {
             color: isOnPress? theme.typeSelectMenu.TextColor : theme.typeSelectMenu.onPress.TextColor,
-            fontSize: 20
+            fontSize: 20,
         }
     }
 
@@ -143,6 +160,7 @@ function TypeSelectMenuBtn(props) {
                 iconStyle={styles.icon}
                 />
             <Text style={styles.text}>{props.text}</Text>
+            
             </Pressable>
     )
     
