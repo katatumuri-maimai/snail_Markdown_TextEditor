@@ -75,7 +75,6 @@ export default function Main() {
     if (-10 <= difference && difference<=50){
       setKeyboardAvoidingViewEnabled(true)
     } else if (50<=difference){
-      setKeyboardScreenYd(0)
       setKeyboardAvoidingViewEnabled(false)
     }else{
       console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
