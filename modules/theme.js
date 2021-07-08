@@ -82,7 +82,7 @@ export default theme = {
             onPress: {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#FFEEF8',
-                iconColor: '#BF5F82',
+                iconColor: '#FFEEF8',
             }
         },
         menuBtnChild: {

@@ -172,7 +172,7 @@ function SelectProjectModal(props) {
             flexWrap:'wrap'
         },
         text: {
-            color: theme.nav.iconColor,
+            color: theme.topBar.titleTextColor,
             fontSize: 20,
             marginBottom: 20,
         },
