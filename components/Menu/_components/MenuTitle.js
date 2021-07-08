@@ -8,7 +8,8 @@ export default function MenuTitle(props) {
     const styles = {
         title: {
             color: theme.menu.titleColor,
-            textAlign: 'center'
+            textAlign: 'center',
+            marginBottom: 10
         }
     }
 

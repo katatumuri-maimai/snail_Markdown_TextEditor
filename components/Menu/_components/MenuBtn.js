@@ -1,7 +1,6 @@
 import React, { useContext, useState} from 'react';
-import { Text, Pressable} from 'react-native';
-import { useTheme } from 'react-native-elements';
-import { Icon } from 'react-native-elements';
+import { Text, Pressable } from 'react-native';
+import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 
 
