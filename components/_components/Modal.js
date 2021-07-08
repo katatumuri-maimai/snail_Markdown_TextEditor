@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
+import { saveProject } from '../../modules/controlProjects';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
@@ -67,6 +68,7 @@ export function SetDataNameModal(props) {
         }
     }
 
+
     function openModal(params) {
         setSetDataNameModalOpen(true)
     }
@@ -74,6 +76,18 @@ export function SetDataNameModal(props) {
     function closeModal(params) {
         setSetDataNameModalOpen(false)
     }
+
+    async function saveData(params) {
+        if (whichSetDataNameModalOpen == 'addProject') {
+            await saveProject(newProjectName)
+        } else if (whichSetDataNameModalOpen == 'addFile') {
+            // setNewFileName(text)
+        }
+
+        setSetDataNameModalOpen(false)
+    }
+
+
 
     return (
         <Modal
@@ -92,7 +106,7 @@ export function SetDataNameModal(props) {
                 />
                     <Pressable
                         style={styles.btn}
-                            onPress={closeModal}
+                        onPress={saveData}
                     >
                         <Text style={styles.btnText}>新規作成</Text>
                     </Pressable>
