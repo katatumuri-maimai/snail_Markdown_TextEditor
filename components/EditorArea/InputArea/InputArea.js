@@ -9,8 +9,7 @@ export default function InputArea() {
         text,
         setText,
         isPreviewOpen,
-        absoluteX,
-        setAbsoluteX
+        fileName
     } = useContext(ContextObject)
 
     function onChange(text) {
@@ -48,8 +47,9 @@ export default function InputArea() {
                 scrollEnabled={true}
                 textAlignVertical='top'
                 onChangeText={text => onChange(text)}
-                placeholder="Hello World!"
+                placeholder={!fileName?"メニューから新規作成":"Hello World!"}
                 value={text}
+                editable={!fileName ? false: true}
             />
         </View>
     )
