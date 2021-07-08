@@ -30,10 +30,7 @@ export async function saveProject(projectName) {
 
 }
 
-export async function saveFile(projectName,fileName) {
-    console.log('>>'+projectName);
-    console.log('>>' +fileName);
-
+export async function createNewFile(projectName, fileName) {
     const projectUri = directoryUri + encodeURIComponent(removeMarks(projectName))
 
     const Files = await FileSystem.readDirectoryAsync(projectUri)
@@ -50,7 +47,7 @@ export async function saveFile(projectName,fileName) {
     new_FileName = removeMarks(new_FileName)
     const fileUri = projectUri + '/'+ encodeURIComponent(new_FileName)+'.md'
 
-    await FS.writeAsStringAsync(fileUri, "", { encoding: FileSystem.EncodingType.UTF8 })
+    await FS.writeAsStringAsync(fileUri, '', { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
             // console.log("saveFilemakeDirectoryAsync" + e);
         }).catch(err => {
@@ -68,6 +65,27 @@ export async function saveFile(projectName,fileName) {
     return({
         [projectName]: new_Files
     })
+
+}
+
+export async function saveFile(projectName, fileName,text) {
+    const projectUri = directoryUri + encodeURIComponent(removeMarks(projectName))
+    const fileUri = projectUri + '/' + encodeURIComponent(removeMarks(fileName).replace('.md','')) + '.md'
+
+    await FS.writeAsStringAsync(fileUri, text, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("saveFilemakeDirectoryAsync" + e);
+        }).catch(err => {
+            console.error(err);
+        })
+
+    const new_Files = await FileSystem.readDirectoryAsync(projectUri)
+        .then(e => {
+            // console.log("readDirectoryAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.error(err);
+        })
 
 }
 
@@ -116,9 +134,10 @@ export async function readProjects() {
 export async function readFileData(projectName, fileName) {
     const fileUri = directoryUri + encodeURIComponent(projectName) + '/' + encodeURIComponent(fileName)
     
+    // console.log(fileUri);
     return FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
-            console.log("readAsStringAsync" + e);
+            // console.log("readAsStringAsync" + e);
             return e
         }).catch(err => {
             console.error(err);

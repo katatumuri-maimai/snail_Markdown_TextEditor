@@ -9,6 +9,7 @@ export default function SaveBtn() {
     const {
         projectName,
         fileName,
+        text
     } = useContext(ContextObject)
 
     const[isSave,setIsSave]=useState(false)
@@ -50,7 +51,7 @@ export default function SaveBtn() {
     }
 
     async function onPress(params) {
-        await saveFile(projectName,fileName)
+        await saveFile(projectName, fileName, text)
         setIsSave(true)
     }
 

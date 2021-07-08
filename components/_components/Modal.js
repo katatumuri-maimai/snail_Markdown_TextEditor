@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import { saveFile, saveProject } from '../../modules/controlProjects';
+import { createNewFile, saveProject } from '../../modules/controlProjects';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
@@ -209,7 +209,7 @@ function SelectProjectModal(props) {
 
     async function onPressSaveFile(projectName) {
         console.log(projectName);
-        const new_Filelist= await saveFile(projectName, newFileName)
+        const new_Filelist = await createNewFile(projectName, newFileName)
         setSetDataNameModalOpen(false)
 
         // Project_List.push(new_Filelist)
