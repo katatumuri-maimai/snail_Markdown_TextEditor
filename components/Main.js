@@ -57,12 +57,12 @@ export default function Main() {
 
 
   function keyboardWillHide(event) {
-    setKeyboardScreenYd(event.endCoordinates.screenY)
+    setKeyboardScreenYd(event.endCoordinates.height)
     setKeyboardAvoidingViewEnabled(false)
   }
 
   function keyboardWillShow(event) {
-    setKeyboardScreenYd(event.endCoordinates.screenY)
+    setKeyboardScreenYd(event.endCoordinates.height)
     setKeyboardAvoidingViewEnabled(true)
   }
 
