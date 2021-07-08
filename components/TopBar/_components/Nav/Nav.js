@@ -3,10 +3,16 @@ import { useState, useEffect,useContext} from 'react';
 import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { PanGestureHandler} from 'react-native-gesture-handler';
+import { ContextObject } from '../../../../modules/context';
+
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
   let { theme } = useTheme();
+  const {
+    isMenuOpen,
+    setIsMenuOpen
+  } = useContext(ContextObject)
 
   function onNavOpen() {
     setIsNavOpen(true)
@@ -15,6 +21,7 @@ export default function Nav(props) {
   function onNavClose() {
     console.log("swipe");
     setIsNavOpen(false)
+    setIsMenuOpen(false)
   }
 
   function onSwipeEvent(event){
@@ -30,7 +37,7 @@ export default function Nav(props) {
   const styles = {
     navContainer: {
       position: 'absolute',
-      left: 10,
+      left: 20,
       top: 10,
       backgroundColor: 'pink',
       backgroundColor: theme.main.secondBackgroundColor,
@@ -41,7 +48,7 @@ export default function Nav(props) {
     return (
       <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
         <View style={styles.navContainer}>
-          {isNavOpen?
+          {isNavOpen | isMenuOpen?
           <NavOpened color={theme.nav.iconColor} />:
           <NavClosed color={theme.nav.iconColor} onPress={onNavOpen} />
           }
@@ -49,7 +56,6 @@ export default function Nav(props) {
       </PanGestureHandler>
     )
 }
-
 
 function NavClosed(props) {
   const style = {
@@ -76,6 +82,11 @@ function NavClosed(props) {
 }
 
 function NavOpened(props) {
+  const {
+    settingIconList,
+    setWhichMenuOpen,
+    setIsMenuOpen
+  } = useContext(ContextObject)
 
   const style = {
     contener:{
@@ -97,48 +108,14 @@ function NavOpened(props) {
     }
   }
 
-  const iconList=[
-    'settings',
-    'folder',
-    'image',
-    'file-download',
-    'file-upload'
-  ]
-
-
   function onPress(icon){
-    switch (icon) {
-      case 'settings':
-        console.log(icon);
-        break;
-      case 'folder':
-        console.log(icon);
-        break;
-
-      case 'image':
-        console.log(icon);
-        break;
-
-      case 'file-download':
-        console.log(icon);
-        break;
-
-      case 'file-upload':
-        console.log(icon);
-        break;
-        
-      default:
-        console.log('NavOnPressError');
-        break;
-    }
-    
+    setWhichMenuOpen(icon);
+    setIsMenuOpen(true);
   }
-
-
 
     return (
       <View style={style.contener}>
-        {iconList.map(e=>{
+        {settingIconList.map(e=>{
           return (
             <Icon
               key={e}

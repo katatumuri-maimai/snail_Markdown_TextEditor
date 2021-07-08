@@ -1,6 +1,14 @@
 import React,{ createContext, useState} from 'react';
 import { useWindowDimensions } from 'react-native';
 
+const settingIconList = [
+    'settings',
+    'folder',
+    'image',
+    'file-download',
+    'file-upload'
+]
+
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
@@ -11,6 +19,7 @@ export function ContextProvider(props) {
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
     const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
 
@@ -31,8 +40,11 @@ export function ContextProvider(props) {
         setTitle,
         text,
         setText,
+        settingIconList,
         isMenuOpen,
         setIsMenuOpen,
+        whichMenuOpen,
+        setWhichMenuOpen,
         menuWidth,
         isPreviewOpen,
         setIsPreviewOpen,

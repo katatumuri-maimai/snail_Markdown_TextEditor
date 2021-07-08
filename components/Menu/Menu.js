@@ -9,7 +9,8 @@ import MenuBtnChild from './_components/MenuBtnChild';
 export default function Menu() {
     const { theme } = useTheme();
     const {
-        menuWidth
+        menuWidth,
+        whichMenuOpen
     } = useContext(ContextObject)
 
     const styles = {
@@ -30,7 +31,7 @@ export default function Menu() {
 
     return (
         <View style={styles.menu}>
-            <Text style={styles.title}>設定</Text>
+            <Text style={styles.title}>{whichMenuOpen}</Text>
             <MenuBtn/>
             <MenuBtnChild/>
         </View>
