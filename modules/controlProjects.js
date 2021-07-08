@@ -1,26 +1,16 @@
 import * as FileSystem from 'expo-file-system';
 import { StorageAccessFramework } from 'expo-file-system';
 import * as Device from 'expo-device';
-import { ContextObject } from './context';
-
-
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
-
-// const {
-//     newProjectName,
-//     setNewProjectName,
-//     newFileName,
-//     setNewFileName,
-// } = useContext(ContextObject)
 
 export async function saveProject(projectName) {
     projectName = removeMarks(projectName)
     
     const Projects = await FileSystem.readDirectoryAsync(directoryUri)
         .then(e => {
-            console.log("readDirectoryAsync >>" + e);
+            // console.log("readDirectoryAsync >>" + e);
             return e
         }).catch(err => {
             console.error(err);
@@ -31,7 +21,7 @@ export async function saveProject(projectName) {
 
     await FileSystem.makeDirectoryAsync(projectUri, { intermediates: true })
         .then(e => {
-            console.log("saveProjectsmakeDirectoryAsync" + e);
+            // console.log("saveProjectsmakeDirectoryAsync" + e);
         }).catch(err => {
             console.error(err);
         })
@@ -46,7 +36,7 @@ export async function saveFile(projectName,fileName) {
 
     const Files = await FileSystem.readDirectoryAsync(projectUri)
         .then(e => {
-            console.log("readDirectoryAsync >>" + e);
+            // console.log("readDirectoryAsync >>" + e);
             return e
         }).catch(err => {
             console.error(err);
@@ -60,7 +50,7 @@ export async function saveFile(projectName,fileName) {
 
     await FS.writeAsStringAsync(fileUri, "", { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
-            console.log("saveFilemakeDirectoryAsync" + e);
+            // console.log("saveFilemakeDirectoryAsync" + e);
         }).catch(err => {
             console.error(err);
         })
@@ -107,6 +97,10 @@ export async function readProjects() {
     console.log(ProjectData);
 
     return ProjectData
+}
+
+export async function removeAll(params) {
+    FileSystem.deleteAsync(directoryUri)
 }
 
 export async function templateProjects(os) {

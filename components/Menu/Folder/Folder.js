@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState} from 'react';
 import { View, Text, Pressable,ScrollView} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-import {readProjects} from '../../../modules/controlProjects';
+import {removeAll} from '../../../modules/controlProjects';
 import {SetDataNameModal} from '../../_components/Modal';
 import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
+
 
 export default function Folder(params) {
     const { theme } = useTheme();
@@ -40,6 +41,7 @@ export default function Folder(params) {
 
     function onPressPlusIcon() {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false):setTypeSelectMenuOpen(true)}
+
     }
 
 
