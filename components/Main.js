@@ -43,15 +43,17 @@ export default function Main() {
   } = useContext(ContextObject)
 
   const os = Device.osName
-  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
+  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(false)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', keyboardWillShow);
     Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+    Keyboard.addListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     return () => {
       Keyboard.removeListener('keyboardWillShow', keyboardWillShow);
       Keyboard.removeListener('keyboardWillHide', keyboardWillHide);
+      Keyboard.removeListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     };
   }, []);
 
@@ -64,6 +66,21 @@ export default function Main() {
   function keyboardWillShow(event) {
     setKeyboardScreenYd(event.endCoordinates.height)
     setKeyboardAvoidingViewEnabled(true)
+  }
+
+  function keyboardDidChangeFrame(event) {
+    const keyboardWidth = event.endCoordinates.width
+    const difference = Number(windowWidth - keyboardWidth)
+
+    if (-10 <= difference && difference<=50){
+      setKeyboardAvoidingViewEnabled(true)
+    } else if (50<=difference){
+      setKeyboardScreenYd(0)
+      setKeyboardAvoidingViewEnabled(false)
+    }else{
+      console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
+    }
+    
   }
 
   useEffect(() => {
