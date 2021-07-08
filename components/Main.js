@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { useEffect, useContext} from 'react';
 import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import * as Device from 'expo-device';
 import readSetting from '../modules/readSetting';
 import theme from '../modules/theme';
 import TopBar from './TopBar/TopBar';
 import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
+import Menu from './Menu/Menu';
 
 export default function Main() {
   const {
@@ -23,7 +25,11 @@ export default function Main() {
     title,
     setTitle,
     text,
-    setText
+    setText,
+    isPreviewOpen,
+    setIsPreviewOpen,
+    absoluteX,
+    setAbsoluteX
   } = useContext(ContextObject)
 
   const os = Device.osName
@@ -61,7 +67,7 @@ export default function Main() {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
   }
   const styles = {
-    viwe: {
+    view: {
       flex: 1,
     },
     app: {
@@ -70,14 +76,38 @@ export default function Main() {
       height: '100%',
       backgroundColor: theme[appTheme].main.mainBackgroundColor,
       alignItems: 'center'
+    },
+    wrap:{
+      flex: 1,
+      flexDirection: 'row',
+        padding: 20,
+        paddingTop: 0,
     }
     }
+
+  function onSwipeEvent(event) {
+    const absoluteX = event.nativeEvent.absoluteX
+    const previewWidth = windowWidth / 2
+    const swipeX = event.nativeEvent.translationX
+    const rightArea = previewWidth <= absoluteX
+    const lefghtArea = previewWidth >= absoluteX
+
+    if (rightArea && swipeX < 0) {
+      // （←）画面右半分を右から左にスワイプした時
+      setIsPreviewOpen(true)
+      setAbsoluteX(absoluteX)
+    } else if (rightArea && swipeX > 0) {
+      // （→）画面右半分を左から右にスワイプした時
+      setIsPreviewOpen(false)
+      setAbsoluteX(absoluteX)
+    }
+  }
 
   return (
         <ThemeProvider theme={theme[appTheme]}>
           <StatusBar hidden={false}/>
-          <SafeAreaView style={styles.viwe}>
-            <Pressable style={styles.viwe} onPress={Keyboard.dismiss}>
+          <SafeAreaView style={styles.view}>
+        <Pressable style={styles.view} onPress={Keyboard.dismiss}>
               <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
               style={styles.app}
@@ -87,7 +117,12 @@ export default function Main() {
                 <TopBar
                 title={title}
                 />
-                <EditorArea/>
+            <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
+                <View style={styles.wrap}>
+                  <Menu/>
+                  <EditorArea/>
+                </View>
+            </PanGestureHandler>
               </KeyboardAvoidingView>
             </Pressable>
           </SafeAreaView>
