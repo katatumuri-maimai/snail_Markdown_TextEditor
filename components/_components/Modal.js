@@ -15,7 +15,8 @@ export function SetDataNameModal(props) {
         setNewProjectName,
         newFileName,
         setNewFileName,
-        setDataChange
+        Project_List
+        // setDataChange
     } = useContext(ContextObject)
 
 
@@ -85,9 +86,9 @@ export function SetDataNameModal(props) {
 
     async function saveData(params) {
         if (whichSetDataNameModalOpen == 'addProject') {
-            await saveProject(newProjectName)
+            const new_ProjectName =await saveProject(newProjectName)
             setSetDataNameModalOpen(false)
-            setDataChange('saveData')
+            Project_List.push({ [new_ProjectName]:undefined})
         } else if (whichSetDataNameModalOpen == 'addFile') {
             if(!newFileName){
                 
@@ -142,7 +143,7 @@ function SelectProjectModal(props) {
         setNewFileName,
         Project_List,
         setProject_List,
-        setDataChange
+        // setDataChange
     } = useContext(ContextObject)
 
     const styles = {
@@ -208,11 +209,23 @@ function SelectProjectModal(props) {
 
     async function onPressSaveFile(projectName) {
         console.log(projectName);
-        await saveFile(projectName, newFileName)
+        const new_Filelist= await saveFile(projectName, newFileName)
         setSetDataNameModalOpen(false)
-        setDataChange('onPressSaveFile')
-    }
 
+        // Project_List.push(new_Filelist)
+
+        for (let i in Project_List) {
+            for (const key in Project_List[i]) {
+                console.log(key);
+                if (key == projectName){
+                    Project_List.splice(i, 1, new_Filelist)
+                }
+            }
+        }
+    }
+    console.log('>>>'+Project_List);
+    console.log(Project_List);
+    
 
 
     return (

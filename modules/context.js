@@ -42,7 +42,7 @@ export function ContextProvider(props) {
         readProjects().then(e => {
             setProject_List(e)
         })
-    }, [isDataChange])
+    }, [])
 
 
     const menuWidth = (isMenuOpen ? 280: 100)
