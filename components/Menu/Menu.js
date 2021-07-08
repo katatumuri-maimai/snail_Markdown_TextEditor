@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import FileUpload from './FileUpload/FileUpload';
+import Export from './Export/Export';
 import Folder from './Folder/Folder';
 import Settings from './Settings/Settings';
 
@@ -56,7 +56,7 @@ function WhichMenu(params) {
             break;
 
         case 'file-upload':
-            return <FileUpload />
+            return <Export />
             break;
 
         default:
