@@ -15,6 +15,14 @@ export default function Folder(params) {
     } = useContext(ContextObject)
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen]=useState(false)
+    const [Project_List, setProject_List] = useState([])
+
+    useEffect(()=>{
+        readProjects().then(e=>{
+            setProject_List(e)
+        })
+    },[])
+
     
     const styles = {
         view:{
@@ -38,6 +46,7 @@ export default function Folder(params) {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false):setTypeSelectMenuOpen(true)}
     }
 
+
     return (
         <View style={styles.view}>
             <Icon
@@ -49,12 +58,24 @@ export default function Folder(params) {
             />
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
             <MenuTitle>プロジェクト</MenuTitle>
-            <Project
-                project={{
-                    projectName:'test',
-                    fileList:['test','test2']
-                }}
-            />
+
+            {Project_List.map(e=>{
+                let projectName;
+                for(let key in e){
+                    projectName=key
+                }
+                const fileList = e[projectName]
+
+                return(
+                    <Project
+                        project={{
+                            projectName: projectName,
+                            fileList: fileList
+                        }}
+                    />
+                )
+            })}
+            
             
         </View>
     )
@@ -178,6 +199,7 @@ function Project(props) {
     const projects = props.project
     const projectName = projects.projectName
     const fileList = projects.fileList
+
 
     const styles={
         nodata:{
