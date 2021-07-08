@@ -34,6 +34,7 @@ export function ContextProvider(props) {
     const [fileName, setFileName] = useState('')
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
+    const [Project_List, setProject_List] = useState([])
 
 
     const menuWidth = (isMenuOpen ? 280: 100)
@@ -76,7 +77,9 @@ export function ContextProvider(props) {
         newProjectName,
         setNewProjectName,
         newFileName,
-        setNewFileName
+        setNewFileName,
+        Project_List,
+        setProject_List
     }
     
     return (

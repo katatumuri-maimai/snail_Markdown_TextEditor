@@ -11,11 +11,12 @@ import MenuTitle from '../_components/MenuTitle';
 export default function Folder(params) {
     const { theme } = useTheme();
     const {
-        setIsMenuOpen
+        setIsMenuOpen,
+        Project_List,
+        setProject_List
     } = useContext(ContextObject)
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen]=useState(false)
-    const [Project_List, setProject_List] = useState([])
 
     useEffect(()=>{
         readProjects().then(e=>{
@@ -59,22 +60,25 @@ export default function Folder(params) {
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
             <MenuTitle>プロジェクト</MenuTitle>
 
-            {Project_List.map(e=>{
-                let projectName;
-                for(let key in e){
-                    projectName=key
-                }
-                const fileList = e[projectName]
+            {!Project_List?
+                <Text>loading...🐌</Text>
+                :Project_List.map(e=>{
+                    let projectName;
+                    for(let key in e){
+                        projectName=key
+                    }
+                    const fileList = e[projectName]
 
-                return(
-                    <Project
-                        project={{
-                            projectName: projectName,
-                            fileList: fileList
-                        }}
-                    />
-                )
-            })}
+                    return(
+                        <Project key={projectName}
+                            project={{
+                                projectName: projectName,
+                                fileList: fileList
+                            }}
+                        />
+                    )
+                })
+            }
             
             
         </View>
