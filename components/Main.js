@@ -48,7 +48,6 @@ export default function Main() {
   useEffect(() => {
     readSetting(os).then(e => {
       setAppTheme(e.theme)
-      setSaveTime(e.autoSave*1000)
     })
     Device.getDeviceTypeAsync().then(i => {
       const Type = Device.DeviceType[i]
