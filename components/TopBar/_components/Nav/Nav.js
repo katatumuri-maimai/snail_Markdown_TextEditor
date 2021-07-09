@@ -4,14 +4,20 @@ import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { PanGestureHandler} from 'react-native-gesture-handler';
 import { ContextObject } from '../../../../modules/context';
-
+import { importFile } from '../../../../modules/importExportFile';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
   let { theme } = useTheme();
   const {
     isMenuOpen,
-    setIsMenuOpen
+    setIsMenuOpen,
+    whichMenuOpen,
+    newText,
+    setNewText,
+    newFileName,
+    setNewFileName,
+    setSetDataNameModalOpen,
   } = useContext(ContextObject)
 
   function onNavOpen() {
@@ -87,6 +93,13 @@ function NavOpened(props) {
     canOpenSettingIconList,
     setWhichMenuOpen,
     setIsMenuOpen,
+    newFileName,
+    setNewFileName,
+    newText,
+    setNewText,
+    setSetDataNameModalOpen,
+    isSelectProjectModalOpen,
+    setSelectProjectModalOpen
   } = useContext(ContextObject)
 
   const style = {
@@ -109,13 +122,39 @@ function NavOpened(props) {
     }
   }
   
-  function onPress(icon){
+  async function onPress(icon){
     setWhichMenuOpen(icon);
 
     if (canOpenSettingIconList.includes(icon)){
       setIsMenuOpen(true);
     }
+
+    if (icon == 'image'){
+      setIsMenuOpen(false)
+    }
+
+    if (icon == 'file-download') {
+      setIsMenuOpen(false)
+      const result= await onPressImport()
+      if(result){
+      setSelectProjectModalOpen(true)
+      console.log(isSelectProjectModalOpen);
+      }
+    }
   }
+
+
+  async function onPressImport() {
+    const data = await importFile()
+    setNewText(data.filecontent)
+    setNewFileName(data.filename.replace('.md','').replace('.txt',''))
+    if (data.filecontent===false){
+      return false
+    }
+    return true
+  }
+
+
 
     return (
       <View style={style.contener}>

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo} from 'react';
 import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -10,7 +10,10 @@ import TopBar from './TopBar/TopBar';
 import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
-import { SetDataNameModal } from './_components/Modal';
+import { SetDataNameModal, SelectProjectModal} from './_components/Modal';
+import { saveFile, saveProject } from '../modules/controlProjects';
+import { importFile } from '../modules/importExportFile';
+
 
 export default function Main() {
   const {
@@ -26,8 +29,12 @@ export default function Main() {
     setTitle,
     text,
     setText,
+    settingIconList,
+    canOpenSettingIconList,
     isMenuOpen,
     setIsMenuOpen,
+    whichMenuOpen,
+    setWhichMenuOpen,
     menuWidth,
     isPreviewOpen,
     setIsPreviewOpen,
@@ -36,45 +43,68 @@ export default function Main() {
     setAbsoluteX,
     isSetDataNameModalOpen,
     setSetDataNameModalOpen,
+    isSelectProjectModalOpen,
+    whichSetDataNameModalOpen,
+    setWhichDataNameModalOpen,
     projectName,
     setProjectName,
     fileName,
-    setFileName
+    setFileName,
+    newProjectName,
+    setNewProjectName,
+    newFileName,
+    setNewFileName,
+    newText,
+    setNewText,
+    Project_List,
+    setProject_List,
+    isDataChange,
+    setDataChange,
+    isDelete,
+    setIsDelete,
+    whichMenuChidOpen,
+    setWhichMenuChidOpen,
+    selectedPreviewtheme,
+    setSelectedPreviewtheme
   } = useContext(ContextObject)
 
-  const os = Device.osName
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', keyboardWillShow);
     Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+    Keyboard.addListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     return () => {
       Keyboard.removeListener('keyboardWillShow', keyboardWillShow);
       Keyboard.removeListener('keyboardWillHide', keyboardWillHide);
+      Keyboard.removeListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     };
   }, []);
 
 
   function keyboardWillHide(event) {
-    setKeyboardScreenYd(event.endCoordinates.screenY)
+    setKeyboardScreenYd(event.endCoordinates.height)
     setKeyboardAvoidingViewEnabled(false)
   }
 
   function keyboardWillShow(event) {
-    setKeyboardScreenYd(event.endCoordinates.screenY)
+    setKeyboardScreenYd(event.endCoordinates.height)
     setKeyboardAvoidingViewEnabled(true)
   }
 
-  useEffect(() => {
-    readSetting(os).then(e => {
-      setAppTheme(e.theme)
-    })
-    Device.getDeviceTypeAsync().then(i =>{
-      const Type = Device.DeviceType[i]
-      setDeviceType(Type)
-    })
-  }, [])
+  function keyboardDidChangeFrame(event) {
+    const keyboardWidth = event.endCoordinates.width
+    const difference = Number(windowWidth - keyboardWidth)
+    if (-10 <= difference && difference<=50){
+      setKeyboardAvoidingViewEnabled(true)
+    } else if (50<=difference){
+      setKeyboardAvoidingViewEnabled(false)
+    }else{
+      console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
+    }
+  }
+
 
   if (!appTheme) {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
@@ -103,28 +133,29 @@ export default function Main() {
     const swipeX = event.nativeEvent.translationX
     const rightArea = previeArea <= absoluteX
     const lefghtArea = menuWidth >= absoluteX
+    const swipeY = event.nativeEvent.translationY
+    const isSwipeX = -20 <= swipeY && swipeY <= 20
 
-    if (rightArea && swipeX < 0) {
+    if (isSwipeX && rightArea && swipeX < 0) {
       // （←）画面右半分を右から左にスワイプした時
       setIsPreviewOpen(true)
       setAbsoluteX(absoluteX)
-    } else if (rightArea && swipeX > 0) {
+    } else if (isSwipeX && rightArea && swipeX > 0) {
       // （→）画面右半分を左から右にスワイプした時
       setIsPreviewOpen(false)
       setAbsoluteX(absoluteX)
     }
 
-    if (lefghtArea && swipeX < 0) {
+    if (isSwipeX && lefghtArea && swipeX < 0) {
       // （←）画面左半分を右から左にスワイプした時
       setIsMenuOpen(false)
       setAbsoluteX(absoluteX)
-    } else if (lefghtArea && swipeX > 0) {
+    } else if (isSwipeX && lefghtArea && swipeX > 0) {
       // （→）画面左半分を左から右にスワイプした時
       setIsMenuOpen(true)
       setAbsoluteX(absoluteX)
     }
   }
-
 
   return (
         <ThemeProvider theme={theme[appTheme]}>
@@ -137,6 +168,10 @@ export default function Main() {
               keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
               enabled={keyboardAvoidingViewEnabled}
               >
+            <SelectProjectModal
+              keyboardPadding={keyboardScreenY}
+              isModalOpen={isSelectProjectModalOpen}
+            />
             {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY}/> : <View />}
                 <TopBar
                 title={title}
@@ -150,6 +185,7 @@ export default function Main() {
             
               </KeyboardAvoidingView>
             </Pressable>
+          
           </SafeAreaView>
         </ThemeProvider>
   );

@@ -1,29 +1,33 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { View, Text, Pressable} from 'react-native';
+import { View, Text, Pressable,ScrollView} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-import {readProjects} from '../../../modules/controlProjects';
-import {SetDataNameModal} from '../../_components/Modal';
+import {readFileData, removeAll} from '../../../modules/controlProjects';
 import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
 
+
 export default function Folder(params) {
     const { theme } = useTheme();
     const {
-        setIsMenuOpen
+        setIsMenuOpen,
+        Project_List,
+        setProject_List,
+        isDelete,
+        setIsDelete
     } = useContext(ContextObject)
 
-    const [isTypeSelectMenuOpen, setTypeSelectMenuOpen]=useState(false)
-    const [Project_List, setProject_List] = useState([])
+
+    const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
 
     useEffect(()=>{
-        readProjects().then(e=>{
-            setProject_List(e)
-        })
-    },[])
+        console.log('useEffect');
+        if (isDelete){
+        setIsDelete(false)
+        }
+    }, [isDelete])
 
-    
     const styles = {
         view:{
             position: 'relative',
@@ -42,10 +46,11 @@ export default function Folder(params) {
         }
     }
 
+
     function onPressPlusIcon() {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false):setTypeSelectMenuOpen(true)}
-    }
 
+    }
 
     return (
         <View style={styles.view}>
@@ -59,22 +64,29 @@ export default function Folder(params) {
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
             <MenuTitle>プロジェクト</MenuTitle>
 
-            {Project_List.map(e=>{
-                let projectName;
-                for(let key in e){
-                    projectName=key
-                }
-                const fileList = e[projectName]
+            <ScrollView>
+            {!Project_List?
+                <Text>loading...🐌</Text>
+                :Project_List.map(e=>{
+                    let projectName;
+                    for(let key in e){
+                        projectName=key
+                    }
+                    const fileList = e[projectName]
 
-                return(
-                    <Project
-                        project={{
-                            projectName: projectName,
-                            fileList: fileList
-                        }}
-                    />
-                )
-            })}
+                    return(
+                        <Project
+                         key={projectName}
+                            project={{
+                                projectName: projectName,
+                                fileList: fileList
+                            }}
+                        />
+                    )
+                })
+                
+            }
+            </ScrollView>
             
             
         </View>
@@ -194,6 +206,13 @@ function TypeSelectMenuBtn(props) {
 }
 
 function Project(props) {
+    const {
+        setTitle,
+        setText,
+        setProjectName,
+        setFileName
+    } = useContext(ContextObject)
+    
     const { theme } = useTheme();
     const [isOnonPressMenuBtn, setOnonPressMenuBtn] = useState(false)
     const projects = props.project
@@ -213,6 +232,16 @@ function Project(props) {
         { isOnonPressMenuBtn ? setOnonPressMenuBtn(false) : setOnonPressMenuBtn(true)}
     }
 
+    async function onPressMenuBtnChild(projectName,fileName) {
+        const text = await readFileData(projectName, fileName)
+        const title = fileName.replace('.md','')
+
+        setTitle(title)
+        setText(text)
+        setProjectName(projectName)
+        setFileName(fileName)
+    }
+
 
     return(
         <View>
@@ -222,6 +251,7 @@ function Project(props) {
                     name={projectName}
                     iconName={isOnonPressMenuBtn ?'folder-open':'folder'}
                     onPress={onPressMenuBtn}
+                    enableDeleteDataBtn={true}
                 />
             }
             {isOnonPressMenuBtn?
@@ -230,8 +260,12 @@ function Project(props) {
                         (fileList.map(e=>{
                             return(
                                 <MenuBtnChild
+                                    key={e}
                                     name={e}
+                                    projectName={projectName}
                                     iconName='text-snippet'
+                                    onPress={() => { onPressMenuBtnChild(projectName,e)}}
+                                    enableDeleteDataBtn={true}
                                 />
                             )
                         }))

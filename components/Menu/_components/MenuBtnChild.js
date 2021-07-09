@@ -1,12 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { Pressable ,Text} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Pressable, Text, View} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
+import DeleteDataBtn from './DeleteDataBtn';
 
 export default function MenuBtnChild(props) {
     const { theme } = useTheme();
     const {
+        whichMenuChidOpen,
+        setWhichMenuChidOpen
     } = useContext(ContextObject)
 
     const[isOnPress,setOnPress]=useState(false)
@@ -39,8 +42,17 @@ export default function MenuBtnChild(props) {
     }
 
     function onPress(params) {
-        { isOnPress ? setOnPress(false) : setOnPress(true) }
+        props.onPress()
+        setWhichMenuChidOpen(props.name)
     }
+
+    useEffect(()=>{
+        if (whichMenuChidOpen == props.name) {
+            setOnPress(true)
+        } else {
+            setOnPress(false)
+        }
+    }, [whichMenuChidOpen])
     
 
     return (
@@ -50,6 +62,13 @@ export default function MenuBtnChild(props) {
             iconStyle={styles.icon}
             />
             <Text style={styles.btnText}>{props.name}</Text>
+            {props.enableDeleteDataBtn?
+                <DeleteDataBtn
+                    isBtnOnPress={isOnPress}
+                    projectName={props.projectName}
+                    fileName={props.name}
+                />:<View/>}
+            
         </Pressable>
     )
 }

@@ -1,5 +1,8 @@
-import React,{ createContext, useState} from 'react';
+import * as Device from 'expo-device';
+import React, { createContext, useState, useEffect} from 'react';
 import { useWindowDimensions } from 'react-native';
+import { readProjects } from './controlProjects';
+import readSetting from './readSetting';
 
 const settingIconList = [
     'settings',
@@ -30,10 +33,34 @@ export function ContextProvider(props) {
     const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isSetDataNameModalOpen, setSetDataNameModalOpen] = useState(false)
     const [whichSetDataNameModalOpen, setWhichDataNameModalOpen] = useState('')
+    const [isSelectProjectModalOpen, setSelectProjectModalOpen] = useState(false)
+    const [isDataChange, setDataChange] = useState('')
     const [projectName, setProjectName] = useState('')
     const [fileName, setFileName] = useState('')
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
+    const [newText, setNewText] = useState('')
+    const [Project_List, setProject_List] = useState([])
+    const [isDelete, setIsDelete] = useState(false)
+    const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
+    const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
+
+    useEffect(() => {
+        readProjects().then(e => {
+            setProject_List(e)
+        })
+    }, [])
+
+    useEffect(() => {
+        readSetting().then(e => {
+            setAppTheme(e.theme)
+            setSelectedPreviewtheme(e.preview)
+        })
+        Device.getDeviceTypeAsync().then(i => {
+            const Type = Device.DeviceType[i]
+            setDeviceType(Type)
+        })
+    }, [])
 
 
     const menuWidth = (isMenuOpen ? 280: 100)
@@ -68,7 +95,9 @@ export function ContextProvider(props) {
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
         whichSetDataNameModalOpen,
-        setWhichDataNameModalOpen,
+        setWhichDataNameModalOpen, 
+        isSelectProjectModalOpen,
+        setSelectProjectModalOpen,
         projectName,
         setProjectName,
         fileName,
@@ -76,7 +105,19 @@ export function ContextProvider(props) {
         newProjectName,
         setNewProjectName,
         newFileName,
-        setNewFileName
+        setNewFileName,
+        newText,
+        setNewText,
+        Project_List,
+        setProject_List,
+        isDataChange,
+        setDataChange,
+        isDelete,
+        setIsDelete,
+        whichMenuChidOpen,
+        setWhichMenuChidOpen,
+        selectedPreviewtheme,
+        setSelectedPreviewtheme
     }
     
     return (

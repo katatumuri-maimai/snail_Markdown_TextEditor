@@ -1,7 +1,8 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect} from 'react';
 import { TextInput, View} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
+import { saveFile } from '../../../modules/controlProjects';
 
 export default function InputArea() {
     const { theme } = useTheme();
@@ -9,12 +10,13 @@ export default function InputArea() {
         text,
         setText,
         isPreviewOpen,
-        absoluteX,
-        setAbsoluteX
+        projectName,
+        fileName
     } = useContext(ContextObject)
 
     function onChange(text) {
         setText(text)
+        saveFile(projectName, fileName, text)
     }
 
     let marginRight;
@@ -48,8 +50,10 @@ export default function InputArea() {
                 scrollEnabled={true}
                 textAlignVertical='top'
                 onChangeText={text => onChange(text)}
-                placeholder="Hello World!"
+                placeholder={!fileName?"メニューから新規作成":"Hello World!"}
                 value={text}
+                editable={!fileName ? false: true}
+                placeholderTextColor={styles.text.color}
             />
         </View>
     )

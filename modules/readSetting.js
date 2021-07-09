@@ -1,18 +1,30 @@
 import * as FileSystem from 'expo-file-system';
-import {StorageAccessFramework} from 'expo-file-system';
+import { StorageAccessFramework } from 'expo-file-system';
+import { Platform } from 'react-native';
 
 const snailSetting = {
     "theme": "Night",
-    "preview": "Inheritance",
+    "preview": "theme",
     "autoSave": "30"
 }
 
-export default async function readSetting(os) {
-    const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/setting/'
-    const settingFileName = 'snailSetting.json'
-    const fileUri = directoryUri + settingFileName
+
+const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/setting/'
+const settingFileName = 'snailSetting.json'
+const fileUri = directoryUri + settingFileName
+
+let FS
+
+if (Platform.OS == 'ios') {
+    FS = FileSystem
+} else if (Platform.OS == 'android') {
+    FS = StorageAccessFramework
+} else {
+    console.log("eeee");
+}
+
+export default async function readSetting() {
     let settingData = JSON.stringify(snailSetting)
-    let FS
 
     await FileSystem.makeDirectoryAsync(directoryUri, { intermediates: true })
         .then(e => {
@@ -30,14 +42,6 @@ export default async function readSetting(os) {
         })
 
 
-    console.log(os);
-    if (os == 'iOS') {
-        FS = FileSystem
-    } else if (os == 'Android') {
-        FS = StorageAccessFramework
-    } else {
-        console.log("eeee");
-    }
 
     if (isFileExits.exists===false) {
     await FS.writeAsStringAsync(fileUri, settingData, { encoding: FileSystem.EncodingType.UTF8 })
@@ -58,5 +62,57 @@ export default async function readSetting(os) {
             })
     }
     console.log("settingData>>"+settingData);
+    return JSON.parse(settingData)
+}
+
+
+
+export async function setThemeSetting(themeName) {
+    const settingData = await FS.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSettinge>>readAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.error("setThemeSetting>>readAsStringAsync >>" + err);
+        })
+
+    let new_settingData_json = await JSON.parse(settingData)
+    new_settingData_json["theme"] = themeName
+    
+  
+    await FS.writeAsStringAsync(fileUri, JSON.stringify(new_settingData_json), { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSetting>>writeAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.log(fileUri);
+            console.error("setThemeSetting>>writeAsStringAsync >>" + err);
+        })
+
+    return JSON.parse(settingData)
+}
+
+export async function setPreviewThemeSetting(themeName) {
+    const settingData = await FS.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSettinge>>readAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.error("setThemeSetting>>readAsStringAsync >>" + err);
+        })
+
+    let new_settingData_json = await JSON.parse(settingData)
+    new_settingData_json["preview"] = themeName
+
+
+    await FS.writeAsStringAsync(fileUri, JSON.stringify(new_settingData_json), { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSetting>>writeAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.log(fileUri);
+            console.error("setThemeSetting>>writeAsStringAsync >>" + err);
+        })
+
     return JSON.parse(settingData)
 }

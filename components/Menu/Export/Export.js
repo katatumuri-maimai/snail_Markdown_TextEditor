@@ -1,37 +1,45 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, Share} from 'react-native';
 import { ContextObject } from '../../../modules/context';
 import MenuBtn from '../_components/MenuBtn';
 import MenuTitle from '../_components/MenuTitle';
+import * as Print from 'expo-print';
+import { exportMdFile } from '../../../modules/importExportFile';
+
 
 export default function Export() {
     const {
-        setIsMenuOpen
+        setIsMenuOpen,
+        text,
+        fileName
     } = useContext(ContextObject)
 
     function onPress() {
         setIsMenuOpen(false)
     }
 
+
     return (
     <View>
         <MenuTitle>エクスポート</MenuTitle>
-        <MenuBtn
-            name='Markdown'
-            onPress={onPress}
-        />
-        <MenuBtn
-            name='HTML'
-            onPress={onPress}
-        />
-        <MenuBtn
-            name='印刷'
-            onPress={onPress}
-        />
-        <MenuBtn
-            name='バックアップ'
-            onPress={onPress}
-        />
+        <ScrollView>
+            <MenuBtn
+                name='Markdown'
+                    onPress={() => { exportMdFile(fileName, text)}}
+            />
+            <MenuBtn
+                name='HTML'
+                onPress={onPress}
+            />
+            <MenuBtn
+                name='印刷'
+                onPress={onPress}
+            />
+            <MenuBtn
+                name='バックアップ'
+                onPress={onPress}
+            />
+        </ScrollView>
     </View>
     )
 }
