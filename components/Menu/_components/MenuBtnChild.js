@@ -3,6 +3,7 @@ import { Pressable ,Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
+import DeleteDataBtn from './DeleteDataBtn';
 
 export default function MenuBtnChild(props) {
     const { theme } = useTheme();
@@ -61,6 +62,11 @@ export default function MenuBtnChild(props) {
             iconStyle={styles.icon}
             />
             <Text style={styles.btnText}>{props.name}</Text>
+            <DeleteDataBtn
+                isBtnOnPress={isOnPress}
+                projectName={props.projectName}
+                fileName={props.name}
+            />
         </Pressable>
     )
 }

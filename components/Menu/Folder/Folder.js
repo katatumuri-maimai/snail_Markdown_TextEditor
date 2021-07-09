@@ -253,6 +253,7 @@ function Project(props) {
                                 <MenuBtnChild
                                     key={e}
                                     name={e}
+                                    projectName={projectName}
                                     iconName='text-snippet'
                                     onPress={() => { onPressMenuBtnChild(projectName,e)}}
                                 />

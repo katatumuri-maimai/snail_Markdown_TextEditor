@@ -2,7 +2,7 @@ import React, { useContext, useState} from 'react';
 import { Text, Pressable } from 'react-native';
 import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-
+import DeleteDataBtn from './DeleteDataBtn';
 
 
 export default function MenuBtn(props) {
@@ -12,6 +12,7 @@ export default function MenuBtn(props) {
 
     const [isOnPress, setOnPress] = useState(false)
 
+    
     const styles={
         wrap: {
             width: '100%',
@@ -38,14 +39,23 @@ export default function MenuBtn(props) {
         props.onPress()
         { isOnPress ? setOnPress(false) : setOnPress(true) }
     }
-    
+
+
     return (
         <Pressable style={styles.wrap} onPress={onPress}>
             <Icon
             name={props.iconName}
             iconStyle={styles.icon}
             />
-            <Text style={styles.btnText}>{props.name}</Text>
+            <Text
+             style={styles.btnText}
+             numberOfLines={10}>
+                 {props.name}
+            </Text>
+            <DeleteDataBtn
+                isBtnOnPress={isOnPress}
+                projectName={props.name}
+            />
         </Pressable>
     )
 }

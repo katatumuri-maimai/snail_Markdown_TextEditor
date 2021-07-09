@@ -144,48 +144,31 @@ export async function readFileData(projectName, fileName) {
         })
 }
 
-// export async function readNewProject(projectName) {
-//     let ProjectData = []
-//     await FileSystem.makeDirectoryAsync(directoryUri, { intermediates: true })
-//         .then(e => {
-//             // console.log("readProjectsmakeDirectoryAsync" + e);
-//         }).catch(err => {
-//             console.error(err);
-//         })
+export async function removeData(projectName,fileName) {
+    const projectUri = directoryUri + encodeURIComponent(projectName)
+    let deleteUri;
+    let readUri;
 
-//     const Project_List = await FileSystem.readDirectoryAsync(directoryUri)
-//         .then(e => {
-//             // console.log("Project_ListreadDirectoryAsync >>" + e);
-//             return e
-//         }).catch(err => {
-//             console.error(err);
-//         })
+    if (!fileName){
+        deleteUri = projectUri
+        readUri = directoryUri
+    }else{
+        deleteUri = projectUri + '/' + encodeURIComponent(fileName.replace('.md',''))+'.md'
+        readUri = projectUri
+    }
 
-//     if (!Project_List) {
-//         console.log("Project_List" + Project_List);
-//         return null
-//     }
+    await FileSystem.deleteAsync(deleteUri)
 
+    const deleteData =await FileSystem.readDirectoryAsync(readUri)
+        .then(e => {
+            console.log("readAsStringAsync" + e);
+            return e
+        }).catch(err => {
+            console.error(err);
+        })
 
-//     for (let i in Project_List) {
-//         const projectName = encodeURIComponent(Project_List[i])
-//         const projectUri = directoryUri + projectName + '/'
-
-//         const File_List = await FileSystem.readDirectoryAsync(projectUri)
-//             .then(e => {
-//                 // console.log("File_ListreadDirectoryAsync >>" + e);
-//                 return e
-//             }).catch(err => {
-//                 console.error("File_ListreadDirectoryAsync >>" + err);
-//             })
-//         ProjectData.push({ [Project_List[i]]: File_List })
-//     }
-
-//     // console.log(ProjectData);
-
-//     return ProjectData
-// }
-
+    return (!fileName ? projectName:{ [projectName]: deleteData})
+}
 
 export async function removeAll(params) {
     FileSystem.deleteAsync(directoryUri)
