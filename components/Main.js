@@ -56,7 +56,7 @@ export default function Main() {
   }, [])
 
 
-  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(false)
+  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
   useEffect(() => {
@@ -84,7 +84,6 @@ export default function Main() {
   function keyboardDidChangeFrame(event) {
     const keyboardWidth = event.endCoordinates.width
     const difference = Number(windowWidth - keyboardWidth)
-
     if (-10 <= difference && difference<=50){
       setKeyboardAvoidingViewEnabled(true)
     } else if (50<=difference){
@@ -92,7 +91,6 @@ export default function Main() {
     }else{
       console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
     }
-    
   }
 
 
