@@ -55,11 +55,6 @@ export default function Main() {
     })
   }, [])
 
-  useEffect(()=>{
-    if (!fileName===false){
-    return ()=>saveFile(projectName, fileName, text)
-    }
-  }, [text])
 
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(false)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)

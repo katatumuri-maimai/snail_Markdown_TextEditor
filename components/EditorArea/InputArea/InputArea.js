@@ -1,7 +1,8 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect} from 'react';
 import { TextInput, View} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
+import { saveFile } from '../../../modules/controlProjects';
 
 export default function InputArea() {
     const { theme } = useTheme();
@@ -9,11 +10,13 @@ export default function InputArea() {
         text,
         setText,
         isPreviewOpen,
+        projectName,
         fileName
     } = useContext(ContextObject)
 
     function onChange(text) {
         setText(text)
+        saveFile(projectName, fileName, text)
     }
 
     let marginRight;
