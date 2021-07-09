@@ -1,6 +1,8 @@
+import * as Device from 'expo-device';
 import React, { createContext, useState, useEffect} from 'react';
 import { useWindowDimensions } from 'react-native';
 import { readProjects } from './controlProjects';
+import readSetting from './readSetting';
 
 const settingIconList = [
     'settings',
@@ -39,12 +41,25 @@ export function ContextProvider(props) {
     const [Project_List, setProject_List] = useState([])
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
+    const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
 
     useEffect(() => {
         readProjects().then(e => {
             setProject_List(e)
         })
     }, [])
+
+    useEffect(() => {
+        readSetting().then(e => {
+            setAppTheme(e.theme)
+            setSelectedPreviewtheme(e.preview)
+        })
+        Device.getDeviceTypeAsync().then(i => {
+            const Type = Device.DeviceType[i]
+            setDeviceType(Type)
+        })
+    }, [])
+
 
     const menuWidth = (isMenuOpen ? 280: 100)
     const halfWindowWidth = windowWidth / 2

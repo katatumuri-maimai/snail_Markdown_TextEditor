@@ -43,19 +43,6 @@ export default function Main() {
     setFileName
   } = useContext(ContextObject)
 
-  const os = Device.osName
-
-  useEffect(() => {
-    readSetting(os).then(e => {
-      setAppTheme(e.theme)
-    })
-    Device.getDeviceTypeAsync().then(i => {
-      const Type = Device.DeviceType[i]
-      setDeviceType(Type)
-    })
-  }, [])
-
-
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
