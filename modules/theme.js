@@ -1,3 +1,7 @@
+export const themeList=[
+    'Night',
+    'RoseQuartz'
+]
 
 export default theme = {
     Night: {
