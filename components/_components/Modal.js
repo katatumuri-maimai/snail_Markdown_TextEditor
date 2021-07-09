@@ -60,6 +60,20 @@ export function SetDataNameModal(props) {
         btnText: {
             color: theme.nav.iconColor,
             fontSize: 20,
+        },
+        memoView: {
+            justifyContent: 'center',
+            height: 100,
+            backgroundColor: theme.main.secondBackgroundColor,
+            padding: 30,
+            marginTop: -50,
+            marginBottom: 10,
+            borderRadius: 20,
+        },
+        memoText: {
+            textAlign: 'center',
+            color: theme.nav.iconColor,
+            fontSize: 20,
         }
     }
 
@@ -89,9 +103,7 @@ export function SetDataNameModal(props) {
             await Project_List.push({ [new_ProjectName]: undefined })
             setSetDataNameModalOpen(false)
         } else if (whichSetDataNameModalOpen == 'addFile') {
-            if(!newFileName){
-                
-            }else{
+            if(!newFileName===false){
             setSelectProjectModalOpen(true)
         }}
     }
@@ -107,7 +119,11 @@ export function SetDataNameModal(props) {
             animationType='fade'
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
+                {whichSetDataNameModalOpen != 'addProject'?
+                    <View style={styles.memoView}><Text style={styles.memoText}>memo📝ファイル作成の前に保存先のプロジェクトを作成してください</Text></View>
+                    : <View />}
                 <Pressable style={styles.modal} onPress={openModal}>
+    
                 <TextInput
                     style={styles.textInput}
                     onChangeText={text => { onChangeText(text)}}
