@@ -21,7 +21,8 @@
     "react-native-gesture-handler": "~1.10.3",
     "react-native-markdown-display": "^7.0.0-alpha.2",
     "react-native-web": "~0.17.1",
-    "expo-document-picker": "~9.2.4"
+    "expo-document-picker": "~9.2.4",
+    "expo-print": "~10.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6"
