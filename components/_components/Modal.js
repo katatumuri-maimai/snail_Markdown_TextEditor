@@ -16,7 +16,6 @@ export function SetDataNameModal(props) {
         newFileName,
         setNewFileName,
         Project_List
-        // setDataChange
     } = useContext(ContextObject)
 
 
@@ -143,7 +142,6 @@ function SelectProjectModal(props) {
         setNewFileName,
         Project_List,
         setProject_List,
-        // setDataChange
     } = useContext(ContextObject)
 
     const styles = {
@@ -208,7 +206,6 @@ function SelectProjectModal(props) {
     }
 
     async function onPressSaveFile(projectName) {
-        console.log(projectName);
         const new_Filelist = await createNewFile(projectName, newFileName)
         
         for (let i in Project_List) {
@@ -222,10 +219,6 @@ function SelectProjectModal(props) {
 
         setSetDataNameModalOpen(false)
     }
-    console.log('>>>'+Project_List);
-    console.log(Project_List);
-    
-
 
     return (
         props.isModalOpen?
