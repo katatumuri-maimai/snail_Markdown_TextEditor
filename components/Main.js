@@ -124,22 +124,24 @@ export default function Main() {
     const swipeX = event.nativeEvent.translationX
     const rightArea = previeArea <= absoluteX
     const lefghtArea = menuWidth >= absoluteX
+    const swipeY = event.nativeEvent.translationY
+    const isSwipeX = -20 <= swipeY && swipeY <= 20
 
-    if (rightArea && swipeX < 0) {
+    if (isSwipeX && rightArea && swipeX < 0) {
       // （←）画面右半分を右から左にスワイプした時
       setIsPreviewOpen(true)
       setAbsoluteX(absoluteX)
-    } else if (rightArea && swipeX > 0) {
+    } else if (isSwipeX && rightArea && swipeX > 0) {
       // （→）画面右半分を左から右にスワイプした時
       setIsPreviewOpen(false)
       setAbsoluteX(absoluteX)
     }
 
-    if (lefghtArea && swipeX < 0) {
+    if (isSwipeX && lefghtArea && swipeX < 0) {
       // （←）画面左半分を右から左にスワイプした時
       setIsMenuOpen(false)
       setAbsoluteX(absoluteX)
-    } else if (lefghtArea && swipeX > 0) {
+    } else if (isSwipeX && lefghtArea && swipeX > 0) {
       // （→）画面左半分を左から右にスワイプした時
       setIsMenuOpen(true)
       setAbsoluteX(absoluteX)
