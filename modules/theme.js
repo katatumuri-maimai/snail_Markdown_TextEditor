@@ -1,7 +1,8 @@
 export const themeList=[
     'Night',
     'RoseQuartz',
-    'Aquamarine'
+    'Aquamarine',
+    'Country'
 ]
 
 export default theme = {
@@ -179,60 +180,61 @@ export default theme = {
             }
         }
     },
-    temp: {
+    // Country
+    Country: {
         main: {
-            mainBackgroundColor: '#',
-            secondBackgroundColor: '#',
-            scrollBarColor: '#'
+            mainBackgroundColor: '#BE9C91',
+            secondBackgroundColor: '#D3B8AE',
+            scrollBarColor: '#D3B8AE'
         },
         textView: {
-            backgroundColor: '#',
-            textColor: '#'
+            backgroundColor: '#FFFFFF',
+            textColor: '#BE9C91'
         },
         topBar: {
-            titleTextColor: '#'
+            titleTextColor: '#FFFFFF'
         },
         nav: {
-            iconColor: '#',
+            iconColor: '#FFFFE5',
         },
         menu: {
-            titleColor: '#',
+            titleColor: '#BE9C91',
         },
         menuBtn: {
-            BackgroundColor: '#',
-            TextColor: '#',
-            iconColor: '#',
+            BackgroundColor: '#BE9C91',
+            TextColor: '#FFFFE5',
+            iconColor: '#FFECB3',
             onPress: {
-                BackgroundColor: '#',
-                TextColor: '#',
-                iconColor: '#',
+                BackgroundColor: '#FFECB3',
+                TextColor: '#BE9C91',
+                iconColor: '#BE9C91',
             }
         },
         menuBtnChild: {
             BackgroundColor: '#00000000',
-            TextColor: '#',
-            iconColor: '#',
-            BoderColor: '#',
-            pickerTextColor: '#',
+            TextColor: '#FFFFE5',
+            iconColor: '#FFFFE5',
+            BoderColor: '#FFFFE5',
+            pickerTextColor: '#FFFFE5',
             onPress: {
-                BackgroundColor: '#',
-                TextColor: '#',
-                iconColor: '#',
-                BoderColor: '#',
+                BackgroundColor: '#FFECB3',
+                TextColor: '#BE9C91',
+                iconColor: '#BE9C91',
+                BoderColor: '#BE9C91',
             }
         },
         PlusBtn: {
-            BackgroundColor: '#',
-            iconColor: '#',
+            BackgroundColor: '#00000000',
+            iconColor: '#FFFFE5',
         },
         typeSelectMenu: {
-            BackgroundColor: '#',
-            TextColor: '#',
-            iconColor: '#',
+            BackgroundColor: '#FFECB3',
+            TextColor: '#D3B8AE',
+            iconColor: '#D3B8AE',
             onPress: {
-                BackgroundColor: '#',
-                TextColor: '#',
-                iconColor: '#',
+                BackgroundColor: '#FFECB3',
+                TextColor: '#D3B8AE',
+                iconColor: '#D3B8AE',
             }
         }
     },
