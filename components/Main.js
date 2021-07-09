@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo} from 'react';
 import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -11,6 +11,7 @@ import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
 import { SetDataNameModal } from './_components/Modal';
+import { saveFile, saveProject } from '../modules/controlProjects';
 
 export default function Main() {
   const {
@@ -43,6 +44,24 @@ export default function Main() {
   } = useContext(ContextObject)
 
   const os = Device.osName
+
+  useEffect(() => {
+    readSetting(os).then(e => {
+      setAppTheme(e.theme)
+      setSaveTime(e.autoSave*1000)
+    })
+    Device.getDeviceTypeAsync().then(i => {
+      const Type = Device.DeviceType[i]
+      setDeviceType(Type)
+    })
+  }, [])
+
+  useEffect(()=>{
+    if (!fileName===false){
+    return ()=>saveFile(projectName, fileName, text)
+    }
+  }, [text])
+
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(false)
   const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
@@ -82,15 +101,7 @@ export default function Main() {
     
   }
 
-  useEffect(() => {
-    readSetting(os).then(e => {
-      setAppTheme(e.theme)
-    })
-    Device.getDeviceTypeAsync().then(i =>{
-      const Type = Device.DeviceType[i]
-      setDeviceType(Type)
-    })
-  }, [])
+
 
   if (!appTheme) {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
