@@ -7,20 +7,49 @@ import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
 import { Picker } from '@react-native-picker/picker';
 import { themeList } from '../../../modules/theme';
+import { Platform } from 'react-native';
 
 export default function Settings(props) {
     const { theme } = useTheme();
     const {
+        appTheme,
+        setAppTheme,
     } = useContext(ContextObject)
 
     const [isThemeMenuBtnOpen, setThemeMenuBtnOpen]=useState(false)
     const [isPreviewMenuBtnOpen, setPreviewMenuBtnOpen] = useState(false)
-    const [selectedTheme, setSelectedTheme] = useState('')
 
     const styles = {
         menu: {
         },
+        wrap: {
+            borderStyle: 'solid',
+            borderWidth: Platform.OS == 'ios' ? 0 : 3,
+            borderColor: theme.menuBtnChild.BoderColor,
+            width: '90%',
+            alignSelf: 'center',
+            marginTop: Platform.OS == 'ios' ? 0 : 10,
+            marginBottom: Platform.OS == 'ios' ? 0 : 10,
+            paddingHorizontal:10,
+            borderRadius: 20,
+        },
+        picker:{
+            height: Platform.OS =='ios'?'auto':46,
+            padding: 0,
+            boderWidth: 3,
+            color: theme.menuBtnChild.pickerTextColor,
+        },
+        pickerItem: {
+            padding: 0,
+            margin: 0,
+            color: theme.menuBtnChild.pickerTextColor,
+        },
+        dropdownIconColor: {
+            color: theme.menuBtnChild.pickerTextColor,
+        }
     }
+
+    console.log(Platform.OS);
 
     function onPress(is, set) {
         { is ? set(false) : set(true) }
@@ -35,18 +64,25 @@ export default function Settings(props) {
                 onPress={() => { onPress(isThemeMenuBtnOpen, setThemeMenuBtnOpen) }}
             />
                 {isThemeMenuBtnOpen ?
+                    <View　style= { styles.wrap }>
                     <Picker
-                        selectedValue={selectedTheme}
+                        selectedValue={appTheme}
                         onValueChange={(itemValue, itemIndex) =>
-                            setSelectedTheme(itemValue)
-                        }>
+                            setAppTheme(itemValue)
+                        }
+                        style={styles.picker}
+                        itemStyle={styles.pickerItem}
+                        dropdownIconColor={styles.dropdownIconColor.color}
+                        mode='dropdown'
+                        color={styles.dropdownIconColor.color}
+                        >
                         {themeList.map(e=>{
                             return(
                                 <Picker.Item key={e} label={e} value={e} />
                             )
                         })}
                         
-                    </Picker>
+                        </Picker></View>
                 :<View/>}
 
             <MenuBtn

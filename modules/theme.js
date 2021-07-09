@@ -38,6 +38,7 @@ export default theme = {
             TextColor: '#E3E3E3',
             iconColor: '#D1D1D1',
             BoderColor: '#707070',
+            pickerTextColor:'#FFFFFF',
             onPress: {
                 BackgroundColor: '#D1D1D1',
                 TextColor: '#888888',
@@ -94,6 +95,7 @@ export default theme = {
             TextColor: '#FFEEF8',
             iconColor: '#FFEEF8',
             BoderColor: '#FFEEF8',
+            pickerTextColor: '#BF5F82',
             onPress: {
                 BackgroundColor: '#BF5F82',
                 TextColor: '#FFEEF8',
