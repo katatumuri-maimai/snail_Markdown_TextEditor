@@ -8,6 +8,8 @@ import MenuTitle from '../_components/MenuTitle';
 import { Picker } from '@react-native-picker/picker';
 import { themeList } from '../../../modules/theme';
 import { Platform } from 'react-native';
+import { setThemeSetting } from '../../../modules/readSetting';
+
 
 export default function Settings(props) {
     const { theme } = useTheme();
@@ -55,6 +57,13 @@ export default function Settings(props) {
         { is ? set(false) : set(true) }
     }
 
+    async function onValueChange(itemValue, itemIndex) {
+        await setThemeSetting(itemValue)
+        setAppTheme(itemValue)
+    }
+
+    
+
     return (
         <View style={styles.menu}>
             <MenuTitle>設定</MenuTitle>
@@ -67,9 +76,7 @@ export default function Settings(props) {
                     <View　style= { styles.wrap }>
                     <Picker
                         selectedValue={appTheme}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setAppTheme(itemValue)
-                        }
+                        onValueChange={onValueChange}
                         style={styles.picker}
                         itemStyle={styles.pickerItem}
                         dropdownIconColor={styles.dropdownIconColor.color}
