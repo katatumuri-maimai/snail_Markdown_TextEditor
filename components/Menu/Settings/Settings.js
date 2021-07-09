@@ -58,8 +58,9 @@ export default function Settings(props) {
     }
 
     async function onValueChange(itemValue, itemIndex) {
-        await setThemeSetting(itemValue)
         setAppTheme(itemValue)
+        await setThemeSetting(itemValue)
+        
     }
 
     
