@@ -8,7 +8,8 @@ import MenuTitle from '../_components/MenuTitle';
 import { Picker } from '@react-native-picker/picker';
 import { themeList } from '../../../modules/theme';
 import { Platform } from 'react-native';
-import { setThemeSetting } from '../../../modules/readSetting';
+import { setPreviewThemeSetting, setThemeSetting } from '../../../modules/readSetting';
+
 
 
 export default function Settings(props) {
@@ -16,6 +17,8 @@ export default function Settings(props) {
     const {
         appTheme,
         setAppTheme,
+        selectedPreviewtheme,
+        setSelectedPreviewtheme
     } = useContext(ContextObject)
 
     const [isThemeMenuBtnOpen, setThemeMenuBtnOpen]=useState(false)
@@ -62,6 +65,12 @@ export default function Settings(props) {
         await setThemeSetting(itemValue)
         
     }
+    
+    async function onPreviewThemeValueChange(itemValue, itemIndex) {
+        setSelectedPreviewtheme(itemValue)
+        await setPreviewThemeSetting(itemValue)
+
+    }
 
     
 
@@ -97,7 +106,22 @@ export default function Settings(props) {
                 name='プレビュー'
                 onPress={() => { onPress(isPreviewMenuBtnOpen, setPreviewMenuBtnOpen) }}
             />
-            {isPreviewMenuBtnOpen ? <MenuBtnChild name='てす' /> : <View />}
+                {isPreviewMenuBtnOpen ?
+                    <View style={styles.wrap}>
+                        <Picker
+                            selectedValue={selectedPreviewtheme}
+                            onValueChange={onPreviewThemeValueChange}
+                            style={styles.picker}
+                            itemStyle={styles.pickerItem}
+                            dropdownIconColor={styles.dropdownIconColor.color}
+                            mode='dropdown'
+                            color={styles.dropdownIconColor.color}
+                        >
+                            <Picker.Item label='テーマ色' value='theme' />
+                            <Picker.Item label='白背景・黒文字' value='white' />
+
+                        </Picker></View>
+                    : <View />}
             </ScrollView>
         </View>
     )

@@ -109,7 +109,9 @@ export function ContextProvider(props) {
         isDelete,
         setIsDelete,
         whichMenuChidOpen,
-        setWhichMenuChidOpen
+        setWhichMenuChidOpen,
+        selectedPreviewtheme,
+        setSelectedPreviewtheme
     }
     
     return (

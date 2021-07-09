@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 const snailSetting = {
     "theme": "Night",
-    "preview": "Inheritance",
+    "preview": "theme",
     "autoSave": "30"
 }
 
@@ -80,6 +80,31 @@ export async function setThemeSetting(themeName) {
     new_settingData_json["theme"] = themeName
     
   
+    await FS.writeAsStringAsync(fileUri, JSON.stringify(new_settingData_json), { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSetting>>writeAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.log(fileUri);
+            console.error("setThemeSetting>>writeAsStringAsync >>" + err);
+        })
+
+    return JSON.parse(settingData)
+}
+
+export async function setPreviewThemeSetting(themeName) {
+    const settingData = await FS.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("setThemeSettinge>>readAsStringAsync >>" + e);
+            return e
+        }).catch(err => {
+            console.error("setThemeSetting>>readAsStringAsync >>" + err);
+        })
+
+    let new_settingData_json = await JSON.parse(settingData)
+    new_settingData_json["preview"] = themeName
+
+
     await FS.writeAsStringAsync(fileUri, JSON.stringify(new_settingData_json), { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
             // console.log("setThemeSetting>>writeAsStringAsync >>" + e);

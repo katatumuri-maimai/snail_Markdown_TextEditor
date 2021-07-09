@@ -10,7 +10,9 @@ export default function Preview() {
         text,
         windowWidth,
         absoluteX,
-        setAbsoluteX 
+        setAbsoluteX ,
+        selectedPreviewtheme,
+        setSelectedPreviewtheme
     } = useContext(ContextObject)
 
     const width = windowWidth - absoluteX
@@ -18,7 +20,7 @@ export default function Preview() {
     const styles = {
         container: {
             flex: 1,
-            backgroundColor: theme.textView.backgroundColor,
+            backgroundColor: selectedPreviewtheme =='theme'?theme.textView.backgroundColor:'#FFFFFF',
             padding: 20,
             paddingTop: 10,
             borderRadius: 20,
@@ -27,7 +29,7 @@ export default function Preview() {
         },
         text: {
             body:{
-                color: theme.textView.textColor,
+                color: selectedPreviewtheme == 'theme' ? theme.textView.textColor : '#000000',
             }
         }
     }
