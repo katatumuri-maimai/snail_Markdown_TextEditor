@@ -152,7 +152,7 @@ export default theme = {
             }
         },
         menuBtnChild: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             TextColor: '#FFFFFF',
             iconColor: '#FFFFFF',
             BoderColor: '#FFFFFF',
@@ -161,11 +161,11 @@ export default theme = {
                 BackgroundColor: '#FAFAFA',
                 TextColor: '#82B3C9',
                 iconColor: '#82B3C9',
-                BoderColor: 'none',
+                BoderColor: '#00000000',
             }
         },
         PlusBtn: {
-            BackgroundColor: 'none',
+            BackgroundColor: '#00000000',
             iconColor: '#FAFAFA',
         },
         typeSelectMenu: {
@@ -209,7 +209,7 @@ export default theme = {
             }
         },
         menuBtnChild: {
-            BackgroundColor: '#',
+            BackgroundColor: '#00000000',
             TextColor: '#',
             iconColor: '#',
             BoderColor: '#',
@@ -266,7 +266,7 @@ export default theme = {
             }
         },
         menuBtnChild: {
-            BackgroundColor: '#',
+            BackgroundColor: '#00000000',
             TextColor: '#',
             iconColor: '#',
             BoderColor: '#',
@@ -329,7 +329,7 @@ export default theme = {
             BoderColor: '#',
             pickerTextColor: '#',
             onPress: {
-                BackgroundColor: '#',
+                BackgroundColor: '#00000000',
                 TextColor: '#',
                 iconColor: '#',
                 BoderColor: '#',
@@ -386,7 +386,7 @@ export default theme = {
             BoderColor: '#',
             pickerTextColor: '#',
             onPress: {
-                BackgroundColor: '#',
+                BackgroundColor: '#00000000',
                 TextColor: '#',
                 iconColor: '#',
                 BoderColor: '#',
