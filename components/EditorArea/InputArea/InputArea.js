@@ -53,6 +53,7 @@ export default function InputArea() {
                 placeholder={!fileName?"メニューから新規作成":"Hello World!"}
                 value={text}
                 editable={!fileName ? false: true}
+                placeholderTextColor={styles.text.color}
             />
         </View>
     )

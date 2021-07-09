@@ -127,6 +127,7 @@ export function SetDataNameModal(props) {
                 <TextInput
                     style={styles.textInput}
                     onChangeText={text => { onChangeText(text)}}
+                    placeholderTextColor={styles.textInput.color}
                     placeholder={whichSetDataNameModalOpen == 'addProject'?'新規プロジェクト名':'新規ファイル名'}
                 />
                     <Pressable
