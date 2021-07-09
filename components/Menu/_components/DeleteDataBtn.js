@@ -9,7 +9,8 @@ export default function DeleteDataBtn(props) {
     const { theme } = useTheme();
     const {
         Project_List,
-        setProject_List
+        setProject_List,
+        setIsDelete
     } = useContext(ContextObject)
 
     const [isOnPressDotIcon, setOnPressDotIcon] = useState(false)
@@ -44,6 +45,7 @@ export default function DeleteDataBtn(props) {
                             Project_List.splice(i, 1)
                             : Project_List.splice(i, 1, result)
                 }}}
+        setIsDelete(true)
         }
 
     return (

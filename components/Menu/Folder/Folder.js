@@ -13,13 +13,21 @@ export default function Folder(params) {
     const {
         setIsMenuOpen,
         Project_List,
-        setProject_List
+        setProject_List,
+        isDelete,
+        setIsDelete
     } = useContext(ContextObject)
 
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
 
-    
+    useEffect(()=>{
+        console.log('useEffect');
+        if (isDelete){
+        setIsDelete(false)
+        }
+    }, [isDelete])
+
     const styles = {
         view:{
             position: 'relative',
@@ -38,11 +46,11 @@ export default function Folder(params) {
         }
     }
 
+
     function onPressPlusIcon() {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false):setTypeSelectMenuOpen(true)}
 
     }
-
 
     return (
         <View style={styles.view}>

@@ -12,7 +12,7 @@ export default function Menu() {
     const { theme } = useTheme();
     const {
         menuWidth,
-        whichMenuOpen
+        whichMenuOpen,
     } = useContext(ContextObject)
 
     const styles = {
@@ -30,8 +30,6 @@ export default function Menu() {
             textAlign: 'center'
         }
     }
-
-
 
     return (
         <View style={styles.menu}>

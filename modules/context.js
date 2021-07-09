@@ -37,6 +37,7 @@ export function ContextProvider(props) {
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
     const [Project_List, setProject_List] = useState([])
+    const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
 
     useEffect(() => {
@@ -44,7 +45,6 @@ export function ContextProvider(props) {
             setProject_List(e)
         })
     }, [])
-
 
     const menuWidth = (isMenuOpen ? 280: 100)
     const halfWindowWidth = windowWidth / 2
@@ -91,6 +91,8 @@ export function ContextProvider(props) {
         setProject_List,
         isDataChange,
         setDataChange,
+        isDelete,
+        setIsDelete,
         whichMenuChidOpen,
         setWhichMenuChidOpen
     }
