@@ -86,9 +86,9 @@ export function SetDataNameModal(props) {
 
     async function saveData(params) {
         if (whichSetDataNameModalOpen == 'addProject') {
-            const new_ProjectName =await saveProject(newProjectName)
+            const new_ProjectName = await saveProject(newProjectName)
+            await Project_List.push({ [new_ProjectName]: undefined })
             setSetDataNameModalOpen(false)
-            Project_List.push({ [new_ProjectName]:undefined})
         } else if (whichSetDataNameModalOpen == 'addFile') {
             if(!newFileName){
                 
@@ -210,10 +210,7 @@ function SelectProjectModal(props) {
     async function onPressSaveFile(projectName) {
         console.log(projectName);
         const new_Filelist = await createNewFile(projectName, newFileName)
-        setSetDataNameModalOpen(false)
-
-        // Project_List.push(new_Filelist)
-
+        
         for (let i in Project_List) {
             for (const key in Project_List[i]) {
                 console.log(key);
@@ -222,6 +219,8 @@ function SelectProjectModal(props) {
                 }
             }
         }
+
+        setSetDataNameModalOpen(false)
     }
     console.log('>>>'+Project_List);
     console.log(Project_List);
