@@ -251,6 +251,7 @@ function Project(props) {
                     name={projectName}
                     iconName={isOnonPressMenuBtn ?'folder-open':'folder'}
                     onPress={onPressMenuBtn}
+                    enableDeleteDataBtn={true}
                 />
             }
             {isOnonPressMenuBtn?
@@ -264,6 +265,7 @@ function Project(props) {
                                     projectName={projectName}
                                     iconName='text-snippet'
                                     onPress={() => { onPressMenuBtnChild(projectName,e)}}
+                                    enableDeleteDataBtn={true}
                                 />
                             )
                         }))

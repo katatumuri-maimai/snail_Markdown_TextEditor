@@ -1,5 +1,5 @@
 import React, { useContext, useState} from 'react';
-import { Text, Pressable } from 'react-native';
+import { Text, Pressable, View} from 'react-native';
 import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import DeleteDataBtn from './DeleteDataBtn';
@@ -52,10 +52,11 @@ export default function MenuBtn(props) {
              numberOfLines={10}>
                  {props.name}
             </Text>
-            <DeleteDataBtn
-                isBtnOnPress={isOnPress}
-                projectName={props.name}
-            />
+            {props.enableDeleteDataBtn ?
+                <DeleteDataBtn
+                    isBtnOnPress={isOnPress}
+                    projectName={props.projectName}
+                /> : <View />}
         </Pressable>
     )
 }

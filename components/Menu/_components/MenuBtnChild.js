@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable ,Text} from 'react-native';
+import { Pressable, Text, View} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
@@ -62,11 +62,13 @@ export default function MenuBtnChild(props) {
             iconStyle={styles.icon}
             />
             <Text style={styles.btnText}>{props.name}</Text>
-            <DeleteDataBtn
-                isBtnOnPress={isOnPress}
-                projectName={props.projectName}
-                fileName={props.name}
-            />
+            {props.enableDeleteDataBtn?
+                <DeleteDataBtn
+                    isBtnOnPress={isOnPress}
+                    projectName={props.projectName}
+                    fileName={props.name}
+                />:<View/>}
+            
         </Pressable>
     )
 }
