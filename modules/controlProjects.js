@@ -245,10 +245,11 @@ export async function templateProjects(os) {
 }
 
 function removeMarks(name) {
-    const marks = ["\\", '/', ':', '*', '?', "<", ">", '|', /^ */g, /^　*/g];
+    const marks = [/\\/g, /\//g, /\:/g, /\*/g, /\?/g, /\</g, /\>/g, /\|/g, /^ */g, /^　*/g];
+    // const marks = [/"\\"/, '/', ':', '*', '?', "<", ">", '|', /^ */g, /^　*/g];
     let name_removeMarks = name;
     for (const i in marks) {
-        name_removeMarks = name_removeMarks.replaceAll(marks[i], '')
+        name_removeMarks = name_removeMarks.replace(marks[i], '')
     }
     return (name_removeMarks);
 }
