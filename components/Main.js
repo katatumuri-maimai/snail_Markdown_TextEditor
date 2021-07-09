@@ -10,8 +10,10 @@ import TopBar from './TopBar/TopBar';
 import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
-import { SetDataNameModal } from './_components/Modal';
+import { SetDataNameModal, SelectProjectModal} from './_components/Modal';
 import { saveFile, saveProject } from '../modules/controlProjects';
+import { importFile } from '../modules/importExportFile';
+
 
 export default function Main() {
   const {
@@ -27,8 +29,12 @@ export default function Main() {
     setTitle,
     text,
     setText,
+    settingIconList,
+    canOpenSettingIconList,
     isMenuOpen,
     setIsMenuOpen,
+    whichMenuOpen,
+    setWhichMenuOpen,
     menuWidth,
     isPreviewOpen,
     setIsPreviewOpen,
@@ -37,10 +43,29 @@ export default function Main() {
     setAbsoluteX,
     isSetDataNameModalOpen,
     setSetDataNameModalOpen,
+    isSelectProjectModalOpen,
+    whichSetDataNameModalOpen,
+    setWhichDataNameModalOpen,
     projectName,
     setProjectName,
     fileName,
-    setFileName
+    setFileName,
+    newProjectName,
+    setNewProjectName,
+    newFileName,
+    setNewFileName,
+    newText,
+    setNewText,
+    Project_List,
+    setProject_List,
+    isDataChange,
+    setDataChange,
+    isDelete,
+    setIsDelete,
+    whichMenuChidOpen,
+    setWhichMenuChidOpen,
+    selectedPreviewtheme,
+    setSelectedPreviewtheme
   } = useContext(ContextObject)
 
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
@@ -79,7 +104,6 @@ export default function Main() {
       console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
     }
   }
-
 
 
   if (!appTheme) {
@@ -133,7 +157,6 @@ export default function Main() {
     }
   }
 
-
   return (
         <ThemeProvider theme={theme[appTheme]}>
           <StatusBar hidden={false}/>
@@ -145,6 +168,10 @@ export default function Main() {
               keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
               enabled={keyboardAvoidingViewEnabled}
               >
+            <SelectProjectModal
+              keyboardPadding={keyboardScreenY}
+              isModalOpen={isSelectProjectModalOpen}
+            />
             {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY}/> : <View />}
                 <TopBar
                 title={title}
@@ -158,6 +185,7 @@ export default function Main() {
             
               </KeyboardAvoidingView>
             </Pressable>
+          
           </SafeAreaView>
         </ThemeProvider>
   );

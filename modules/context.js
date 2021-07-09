@@ -33,11 +33,13 @@ export function ContextProvider(props) {
     const [whichMenuOpen, setWhichMenuOpen] = useState('none')
     const [isSetDataNameModalOpen, setSetDataNameModalOpen] = useState(false)
     const [whichSetDataNameModalOpen, setWhichDataNameModalOpen] = useState('')
+    const [isSelectProjectModalOpen, setSelectProjectModalOpen] = useState(false)
     const [isDataChange, setDataChange] = useState('')
     const [projectName, setProjectName] = useState('')
     const [fileName, setFileName] = useState('')
     const [newProjectName, setNewProjectName] = useState('')
     const [newFileName, setNewFileName] = useState('')
+    const [newText, setNewText] = useState('')
     const [Project_List, setProject_List] = useState([])
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
@@ -93,7 +95,9 @@ export function ContextProvider(props) {
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
         whichSetDataNameModalOpen,
-        setWhichDataNameModalOpen,
+        setWhichDataNameModalOpen, 
+        isSelectProjectModalOpen,
+        setSelectProjectModalOpen,
         projectName,
         setProjectName,
         fileName,
@@ -102,6 +106,8 @@ export function ContextProvider(props) {
         setNewProjectName,
         newFileName,
         setNewFileName,
+        newText,
+        setNewText,
         Project_List,
         setProject_List,
         isDataChange,

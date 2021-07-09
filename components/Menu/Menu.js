@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
+import { importFile } from '../../modules/importExportFile';
 import Export from './Export/Export';
 import Folder from './Folder/Folder';
 import Settings from './Settings/Settings';
-
 
 
 export default function Menu() {
@@ -41,24 +41,26 @@ export default function Menu() {
 function WhichMenu(params) {
     const { theme } = useTheme();
     const {
-        whichMenuOpen
+        whichMenuOpen,
+        isMenuOpen,
+        setIsMenuOpen,
+        Project_List,
+        setProject_List,
+        newText,
+        setNewText,
+        newFileName,
+        setNewFileName,
+        setSetDataNameModalOpen,
     } = useContext(ContextObject)
 
-    switch (whichMenuOpen) {
-        case 'settings':
-            return <Settings />
-            break;
 
-        case 'folder':
-            return <Folder />
-            break;
-
-        case 'file-upload':
-            return <Export />
-            break;
-
-        default:
-            return <Settings />
-            break;
+    if (whichMenuOpen == 'settings'){
+        return <Settings />
+    } else if (whichMenuOpen == 'folder'){
+        return <Folder />
+    } else if (whichMenuOpen == 'file-upload'){
+        return <Export />
     }
+
+    return <View/>
 }

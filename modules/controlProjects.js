@@ -30,7 +30,7 @@ export async function saveProject(projectName) {
 
 }
 
-export async function createNewFile(projectName, fileName) {
+export async function createNewFile(projectName, fileName,content) {
     const projectUri = directoryUri + encodeURIComponent(removeMarks(projectName))
 
     const Files = await FileSystem.readDirectoryAsync(projectUri)
@@ -47,7 +47,7 @@ export async function createNewFile(projectName, fileName) {
     new_FileName = removeMarks(new_FileName)
     const fileUri = projectUri + '/'+ encodeURIComponent(new_FileName)+'.md'
 
-    await FS.writeAsStringAsync(fileUri, '', { encoding: FileSystem.EncodingType.UTF8 })
+    await FS.writeAsStringAsync(fileUri, content, { encoding: FileSystem.EncodingType.UTF8 })
         .then(e => {
             // console.log("saveFilemakeDirectoryAsync" + e);
         }).catch(err => {

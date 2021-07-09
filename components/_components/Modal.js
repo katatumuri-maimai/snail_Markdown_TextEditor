@@ -15,11 +15,12 @@ export function SetDataNameModal(props) {
         setNewProjectName,
         newFileName,
         setNewFileName,
-        Project_List
+        Project_List,
+        isSelectProjectModalOpen,
+        setSelectProjectModalOpen,
     } = useContext(ContextObject)
 
 
-    const [isSelectProjectModalOpen, setSelectProjectModalOpen]=useState(false)
 
     const styles = {
         centeredView: {
@@ -93,6 +94,7 @@ export function SetDataNameModal(props) {
 
     function closeModal(params) {
         setSetDataNameModalOpen(false)
+        setSelectProjectModalOpen(false)
         setNewProjectName('')
         setNewFileName('')
     }
@@ -138,25 +140,25 @@ export function SetDataNameModal(props) {
                     </Pressable>
                 </Pressable>
             </Pressable>
-            <SelectProjectModal
-                keyboardPadding={props.keyboardPadding}
-                isModalOpen={isSelectProjectModalOpen}
-            />
         </Modal>
     )
 }
 
-function SelectProjectModal(props) {
+export function SelectProjectModal(props) {
     const { theme } = useTheme();
 
     const {
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
         whichSetDataNameModalOpen,
+        isSelectProjectModalOpen,
+        setSelectProjectModalOpen,
         newProjectName,
         setNewProjectName,
         newFileName,
         setNewFileName,
+        newText,
+        setNewText,
         Project_List,
         setProject_List,
     } = useContext(ContextObject)
@@ -218,12 +220,14 @@ function SelectProjectModal(props) {
 
     function closeModal(params) {
         setSetDataNameModalOpen(false)
+        setSelectProjectModalOpen(false)
         setNewProjectName('')
         setNewFileName('')
+        setNewText('')
     }
 
     async function onPressSaveFile(projectName) {
-        const new_Filelist = await createNewFile(projectName, newFileName)
+        const new_Filelist = await createNewFile(projectName, newFileName, newText)
         
         for (let i in Project_List) {
             for (const key in Project_List[i]) {
@@ -235,7 +239,10 @@ function SelectProjectModal(props) {
         }
 
         setSetDataNameModalOpen(false)
+        setSelectProjectModalOpen(false)
     }
+
+    console.log('modal>>>'+props.isModalOpen);
 
     return (
         props.isModalOpen?
@@ -244,7 +251,7 @@ function SelectProjectModal(props) {
             transparent={true}
             presentationStyle='overFullScreen'
             onRequestClose={closeModal}
-            visible={isSetDataNameModalOpen}
+            // visible={isSetDataNameModalOpen}
             animationType='fade'
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
