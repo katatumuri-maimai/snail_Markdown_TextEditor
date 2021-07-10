@@ -96,29 +96,24 @@ export async function exportHtmlFile(filename,content) {
 
 
 
-// 編集ちゅう
-
 export async function exportPdfFile(filename, content) {
-    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.pdf'
     const html = marked(content)
     console.log(html);
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
         .then(e => {
-            // console.log("makeDirectoryAsync" + e);
         }).catch(err => {
             console.error(err);
         })
 
-    await FileSystem.writeAsStringAsync(fileUri, html, { encoding: FileSystem.EncodingType.UTF8 })
-        .then(e => {
-            // console.log("writeAsStringAsync >>" + e);
-        }).catch(err => {
-            console.log(fileUri);
-            console.error("writeAsStringAsync >>" + err);
-        })
+    const pdf = await Print.printToFileAsync({ html: html})
+    const shareUrl = await FileSystem.getContentUriAsync(pdf.uri)
 
-    // await Print.printAsync({ html: html })
+    Share.share({ url: shareUrl })
+        .then(e => {
+        }).catch(err => {
+            console.error(err);
+        })
 }
 
 export async function printHtmlFile(filename, content) {
