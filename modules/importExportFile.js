@@ -4,7 +4,7 @@ import * as Device from 'expo-device';
 import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
-// const marked = require("marked");
+import * as Print from 'expo-print';
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
@@ -94,6 +94,37 @@ export async function exportHtmlFile(filename,content) {
 
 }
 
+
+
+// 編集ちゅう
+
+export async function exportPdfFile(filename, content) {
+    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.pdf'
+    const html = marked(content)
+    console.log(html);
+
+    await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
+        .then(e => {
+            // console.log("makeDirectoryAsync" + e);
+        }).catch(err => {
+            console.error(err);
+        })
+
+    await FileSystem.writeAsStringAsync(fileUri, html, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("writeAsStringAsync >>" + e);
+        }).catch(err => {
+            console.log(fileUri);
+            console.error("writeAsStringAsync >>" + err);
+        })
+
+    // await Print.printAsync({ html: html })
+}
+
+export async function printHtmlFile(filename, content) {
+    const html = marked(content)
+    await Print.printAsync({ html: html })
+}
 
 
 function removeMarks(name) {
