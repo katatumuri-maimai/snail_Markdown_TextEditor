@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Modal, TextInput, View, Pressable,Text} from 'react-native';
+import { Modal, TextInput, View, Pressable,Text,ScrollView} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import { createNewFile, saveProject } from '../../modules/controlProjects';
+import { createNewFile, readFileData, saveProject } from '../../modules/controlProjects';
+import *as IEF from '../../modules/importExportFile';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
@@ -249,12 +250,11 @@ export function SelectProjectModal(props) {
             transparent={true}
             presentationStyle='overFullScreen'
             onRequestClose={closeModal}
-            // visible={isSetDataNameModalOpen}
             animationType='fade'
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
                 <Pressable style={styles.modal} onPress={openModal}>
-                        <Text style={styles.text}>「{newFileName}」を保存先するプロジェクトフォルダを選んでください</Text>
+                        <Text style={styles.text}>「{newFileName}」を保存するプロジェクトフォルダを選んでください</Text>
                     <View style={styles.Wrap}>
                     {Project_List.map(e => {
                         let projectName;
@@ -285,3 +285,231 @@ export function SelectProjectModal(props) {
     )
 }
 
+
+export function SelectFileModal(props) {
+    const { theme } = useTheme();
+
+    const {
+        isSetDataNameModalOpen,
+        setSetDataNameModalOpen,
+        whichSetDataNameModalOpen,
+        isSelectProjectModalOpen,
+        setSelectProjectModalOpen,
+        newProjectName,
+        setNewProjectName,
+        newFileName,
+        setNewFileName,
+        newText,
+        setNewText,
+        Project_List,
+        setProject_List,
+    } = useContext(ContextObject)
+
+    const styles = {
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: 'rgba(255, 255, 255,0.5)',
+            paddingBottom: props.keyboardPadding
+        },
+        modal: {
+            flexDirection: 'column',
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.main.mainBackgroundColor,
+            textAlign: 'center',
+            width: '80%',
+            height: '80%',
+            padding: 20,
+            borderRadius: 20
+        },
+        scrollView: {
+            width: '100%'
+        },
+        Wrap: {
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            width: '100%',
+        },
+        text: {
+            color: theme.topBar.titleTextColor,
+            fontSize: 20,
+            marginBottom: 20,
+        },
+        projects: {
+            flexDirection: 'row',
+            height: 50,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            backgroundColor: theme.main.secondBackgroundColor,
+            borderRadius: 20,
+            paddingHorizontal: 20,
+            margin: 10
+        },
+        projectsIcon: {
+            color: theme.nav.iconColor,
+            fontSize: 30,
+        },
+        projectsBtnText: {
+            color: theme.nav.iconColor,
+            fontSize: 16,
+            marginLeft: 10
+        },
+        downIcon: {
+            position: 'absolute',
+            right:10
+        },
+        filesWrap: {
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            flexWrap:'wrap',
+            marginHorizontal: 30,
+        },
+        filesBtn: {
+            flexDirection: 'row',
+            width: '30%',
+            height: 50,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            borderRadius: 20,
+            paddingHorizontal: 20,
+            margin: 10,
+            borderColor: theme.topBar.titleTextColor,
+            borderStyle: 'solid',
+            borderWidth:3
+        },
+        filesBtnIcon: {
+            color: theme.topBar.titleTextColor,
+            fontSize: 30,
+        },
+        filesBtnText: {
+            color: theme.topBar.titleTextColor,
+            fontSize: 16,
+            marginLeft: 10,
+        }
+    }
+
+
+  
+
+
+    // async function onPressSaveFile(projectName) {
+    //     const new_Filelist = await createNewFile(projectName, newFileName, newText)
+
+    //     for (let i in Project_List) {
+    //         for (const key in Project_List[i]) {
+    //             console.log(key);
+    //             if (key == projectName) {
+    //                 Project_List.splice(i, 1, new_Filelist)
+    //             }
+    //         }
+    //     }
+
+    //     setSetDataNameModalOpen(false)
+    //     setSelectProjectModalOpen(false)
+    // }
+
+    return (
+        <Modal
+            transparent={true}
+            presentationStyle='overFullScreen'
+            onRequestClose={props.closeModal}
+            animationType='fade'
+        >
+            <Pressable style={styles.centeredView} onPress={props.closeModal}>
+                <Pressable style={styles.modal} onPress={props.openModal}>
+                    <Text style={styles.text}>エクスポートするファイルを選んでください</Text>
+                    <ScrollView style={styles.scrollView}>
+                        <View style={styles.Wrap}>
+                        {Project_List.map(e => {
+                            let projectName;
+                            for (let key in e) {
+                                projectName = key
+                            }
+                            return (
+                                <Projects
+                                    key={projectName}
+                                    projectName={projectName}
+                                    styles={styles}
+                                    projectObj={e}
+                                    serectedMenu={props.serectedMenu}
+                                />
+                            )
+                        })}
+                        </View>
+                    </ScrollView>
+                </Pressable>
+            </Pressable>
+        </Modal>
+    )
+}
+
+function Projects(props) {
+    const [isProjectOpen, setIsProjectOpen] = useState(false)
+
+    const styles       = props.styles
+    const projectName  = props.projectName
+    const projectObj   = props.projectObj
+    const serectedMenu = props.serectedMenu
+
+    async function onPressFile(filename) {
+        const text = await readFileData(projectName, filename)
+        
+        let Export =
+              serectedMenu == 'Markdown' ? IEF.exportMdFile
+            : serectedMenu == 'HTML'     ? IEF.exportHtmlFile
+            : serectedMenu == 'PDF'      ? IEF.exportPdfFile
+            : serectedMenu == 'print'    ? IEF.printHtmlFile
+            : null
+
+        Export(filename, text)
+    }
+    
+    
+    return(
+        <View style={styles.Wrap}>
+        <Pressable
+            style={styles.projects}
+            onPress={() => { setIsProjectOpen(!isProjectOpen)}}
+        >
+            <Icon
+                name={isProjectOpen ? 'folder-open' : 'folder'}
+                iconStyle={styles.projectsIcon}
+            />
+            <Text
+                style={styles.projectsBtnText}
+            >{projectName}</Text>
+            <Icon
+                name='arrow-drop-down'
+                iconStyle={styles.projectsIcon}
+                containerStyle={styles.downIcon}
+            />
+        </Pressable>
+            {isProjectOpen?
+                <View style={styles.filesWrap}>
+                    {projectObj[projectName].map(f=>{
+                    return(
+                        <Pressable
+                            key={f}
+                            style={styles.filesBtn}
+                            onPress={()=>{onPressFile(f)}}
+                        >
+                            <Icon
+                                name='text-snippet'
+                                iconStyle={styles.filesBtnIcon}
+                            />
+                            <Text
+                                style={styles.filesBtnText}
+                            >{f}</Text>
+                        </Pressable>
+                    )
+                })}
+                </View>
+            :null}
+        </View>
+        
+    )
+}

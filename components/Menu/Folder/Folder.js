@@ -272,7 +272,7 @@ function Project(props) {
                         }))
                     
                 ):
-            <View/>}
+            null}
 
         </View>
     )

@@ -135,7 +135,7 @@ export default theme = {
             textColor: '#82B3C9'
         },
         topBar: {
-            titleTextColor: '#FAFAFA'
+            titleTextColor: '#95bedb'
         },
         nav: {
             iconColor: '#FAFAFA',
