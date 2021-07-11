@@ -8,6 +8,7 @@ import *as IEF from '../../modules/importExportFile';
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
     const {
+        isLandscape,
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
         whichSetDataNameModalOpen,
@@ -30,7 +31,7 @@ export function SetDataNameModal(props) {
             paddingBottom: props.keyboardPadding
         },
         modal: {
-            flexDirection: 'row',
+            flexDirection: isLandscape ? 'row' : 'column',
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: theme.main.mainBackgroundColor,
@@ -40,7 +41,7 @@ export function SetDataNameModal(props) {
             borderRadius: 20
         },
         textInput: {
-            width: '80%',
+            width: isLandscape?'80%':'100%',
             height: 50,
             backgroundColor: theme.textView.backgroundColor,
             color: theme.textView.textColor,
@@ -63,17 +64,18 @@ export function SetDataNameModal(props) {
         },
         memoView: {
             justifyContent: 'center',
-            height: 100,
             backgroundColor: theme.main.secondBackgroundColor,
-            padding: 30,
+            padding: 20,
             marginTop: -50,
             marginBottom: 10,
             borderRadius: 20,
+            maxWidth: '80%',
         },
         memoText: {
             textAlign: 'center',
             color: theme.nav.iconColor,
             fontSize: 20,
+            marginVertical:10
         }
     }
 
@@ -123,8 +125,8 @@ export function SetDataNameModal(props) {
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
                 {whichSetDataNameModalOpen != 'addProject'?
-                    <View style={styles.memoView}><Text style={styles.memoText}>memo📝ファイル作成の前に保存先のプロジェクトを作成してください</Text></View>
-                    : <View />}
+                    <View style={styles.memoView}><Text style={styles.memoText}>memo📝</Text><Text style={styles.memoText}>ファイル作成の前に保存先のプロジェクトを作成してください</Text></View>
+                    : null}
                 <Pressable style={styles.modal} onPress={openModal}>
     
                 <TextInput
