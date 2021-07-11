@@ -161,7 +161,7 @@ export default function Main() {
   return (
         <ThemeProvider theme={theme[appTheme]}>
       <View style={styles.view}>
-          <StatusBar hidden={false}/>
+          <StatusBar hidden={true}/>
           <SafeAreaView style={styles.view}>
         <Pressable style={styles.view} onPress={Keyboard.dismiss}>
               <KeyboardAvoidingView
