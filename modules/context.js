@@ -41,6 +41,7 @@ export function ContextProvider(props) {
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
     const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
+    const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
     useEffect(() => {
         readProjects().then(e => {
@@ -113,7 +114,9 @@ export function ContextProvider(props) {
         whichMenuChidOpen,
         setWhichMenuChidOpen,
         selectedPreviewtheme,
-        setSelectedPreviewtheme
+        setSelectedPreviewtheme,
+        keyboardScreenY,
+        setKeyboardScreenYd
     }
     
     return (

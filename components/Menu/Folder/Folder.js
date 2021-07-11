@@ -114,7 +114,6 @@ function TypeSelectMenu(props) {
             top: 30,
             left: 0,
             zIndex: 100,
-            // backgroundColor: theme.typeSelectMenu.BackgroundColor,
             width: '80%',
             borderRadius: 20,
         },

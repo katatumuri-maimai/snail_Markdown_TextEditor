@@ -61,61 +61,64 @@ export default function Main() {
     whichMenuChidOpen,
     setWhichMenuChidOpen,
     selectedPreviewtheme,
-    setSelectedPreviewtheme
+    setSelectedPreviewtheme,
+    keyboardScreenY,
+    setKeyboardScreenYd
   } = useContext(ContextObject)
 
   const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
-  const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
+  
 
   useEffect(() => {
-    Keyboard.addListener('keyboardWillShow', keyboardWillShow);
-    Keyboard.addListener('keyboardWillHide', keyboardWillHide);
+    Keyboard.addListener('keyboardWillShow', keyboardShow);
+    Keyboard.addListener('keyboardDidHide', keyboardHide);
+    Keyboard.addListener('keyboardWillShow', keyboardShow);
+    Keyboard.addListener('keyboardDidHide', keyboardHide);
     Keyboard.addListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     return () => {
-      Keyboard.removeListener('keyboardWillShow', keyboardWillShow);
-      Keyboard.removeListener('keyboardWillHide', keyboardWillHide);
+      Keyboard.removeListener('keyboardWillShow', keyboardShow);
+      Keyboard.removeListener('keyboardDidHide', keyboardHide);
+      Keyboard.removeListener('keyboardWillShow', keyboardShow);
+      Keyboard.removeListener('keyboardDidHide', keyboardHide);
       Keyboard.removeListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     };
   }, []);
 
-
-  function keyboardWillHide(event) {
+  function keyboardShow(event) {
     setKeyboardScreenYd(event.endCoordinates.height)
-    setKeyboardAvoidingViewEnabled(false)
   }
 
-  function keyboardWillShow(event) {
-    setKeyboardScreenYd(event.endCoordinates.height)
-    setKeyboardAvoidingViewEnabled(true)
+  function keyboardHide() {
+    setKeyboardScreenYd(0)
   }
 
   function keyboardDidChangeFrame(event) {
     const keyboardWidth = event.endCoordinates.width
     const difference = Number(windowWidth - keyboardWidth)
-    if (-10 <= difference && difference<=50){
-      setKeyboardAvoidingViewEnabled(true)
-    } else if (50<=difference){
-      setKeyboardAvoidingViewEnabled(false)
-    }else{
-      console.error('Main.js>>keyboardDidChangeFrame>>' + difference);
+    if (50<=difference){
+      setKeyboardScreenYd(0)
     }
   }
-
 
   if (!appTheme) {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
   }
+
   const styles = {
     view: {
       flex: 1,
       backgroundColor: theme[appTheme].main.mainBackgroundColor,
+    },
+    keyboardView: {
+      flex: 1,
+      paddingBottom: Platform.OS == 'ios' ? keyboardScreenY : 0
     },
     app: {
       flex: 1,
       flexDirection: 'column',
       height: '100%',
       backgroundColor: theme[appTheme].main.mainBackgroundColor,
-      alignItems: 'center'
+      alignItems: 'center',
     },
     wrap:{
       flex: 1,
@@ -154,17 +157,18 @@ export default function Main() {
     }
   }
 
+  console.log('keyboardAvoidingViewEnabled>>>'+keyboardAvoidingViewEnabled);
+
   return (
         <ThemeProvider theme={theme[appTheme]}>
       <View style={styles.view}>
           <StatusBar hidden={true}/>
           <SafeAreaView style={styles.view}>
-        <Pressable style={styles.view} onPress={Keyboard.dismiss}>
+          <Pressable style={styles.keyboardView} onPress={Keyboard.dismiss}>
               <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
               style={styles.app}
-              keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
-              enabled={keyboardAvoidingViewEnabled}
+              enabled={Platform.OS != 'ios'}
               >
             {isSelectProjectModalOpen?<SelectProjectModal keyboardPadding={keyboardScreenY}/>:null}
             {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY} /> : null}
