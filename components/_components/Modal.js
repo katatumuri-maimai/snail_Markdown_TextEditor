@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text,ScrollView} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
@@ -7,7 +7,6 @@ import *as IEF from '../../modules/importExportFile';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
-
     const {
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
@@ -17,7 +16,6 @@ export function SetDataNameModal(props) {
         newFileName,
         setNewFileName,
         Project_List,
-        isSelectProjectModalOpen,
         setSelectProjectModalOpen,
     } = useContext(ContextObject)
 
@@ -89,18 +87,18 @@ export function SetDataNameModal(props) {
     }
 
 
-    function openModal(params) {
+    function openModal() {
         setSetDataNameModalOpen(true)
     }
 
-    function closeModal(params) {
+    function closeModal() {
         setSetDataNameModalOpen(false)
         setSelectProjectModalOpen(false)
         setNewProjectName('')
         setNewFileName('')
     }
 
-    async function saveData(params) {
+    async function saveData() {
         if (whichSetDataNameModalOpen == 'addProject') {
             const new_ProjectName = await saveProject(newProjectName)
             await Project_List.push({ [new_ProjectName]: undefined })
@@ -147,21 +145,15 @@ export function SetDataNameModal(props) {
 
 export function SelectProjectModal(props) {
     const { theme } = useTheme();
-
     const {
-        isSetDataNameModalOpen,
         setSetDataNameModalOpen,
-        whichSetDataNameModalOpen,
-        isSelectProjectModalOpen,
         setSelectProjectModalOpen,
-        newProjectName,
         setNewProjectName,
         newFileName,
         setNewFileName,
         newText,
         setNewText,
         Project_List,
-        setProject_List,
     } = useContext(ContextObject)
 
     const styles = {
@@ -215,11 +207,11 @@ export function SelectProjectModal(props) {
     }
 
 
-    function openModal(params) {
+    function openModal() {
         setSetDataNameModalOpen(true)
     }
 
-    function closeModal(params) {
+    function closeModal() {
         setSetDataNameModalOpen(false)
         setSelectProjectModalOpen(false)
         setNewProjectName('')
@@ -231,11 +223,11 @@ export function SelectProjectModal(props) {
         const new_Filelist = await createNewFile(projectName, newFileName, newText)
         
         for (let i in Project_List) {
-            for (const key in Project_List[i]) {
-                console.log(key);
-                if (key == projectName){
-                    Project_List.splice(i, 1, new_Filelist)
-                }
+            const key = Object.entries(Project_List[i])[0][0]
+            console.log(key);
+
+            if (key == projectName){
+                Project_List.splice(i, 1, new_Filelist)
             }
         }
 
@@ -288,21 +280,8 @@ export function SelectProjectModal(props) {
 
 export function SelectFileModal(props) {
     const { theme } = useTheme();
-
     const {
-        isSetDataNameModalOpen,
-        setSetDataNameModalOpen,
-        whichSetDataNameModalOpen,
-        isSelectProjectModalOpen,
-        setSelectProjectModalOpen,
-        newProjectName,
-        setNewProjectName,
-        newFileName,
-        setNewFileName,
-        newText,
-        setNewText,
         Project_List,
-        setProject_List,
     } = useContext(ContextObject)
 
     const styles = {
@@ -391,26 +370,6 @@ export function SelectFileModal(props) {
             marginLeft: 10,
         }
     }
-
-
-  
-
-
-    // async function onPressSaveFile(projectName) {
-    //     const new_Filelist = await createNewFile(projectName, newFileName, newText)
-
-    //     for (let i in Project_List) {
-    //         for (const key in Project_List[i]) {
-    //             console.log(key);
-    //             if (key == projectName) {
-    //                 Project_List.splice(i, 1, new_Filelist)
-    //             }
-    //         }
-    //     }
-
-    //     setSetDataNameModalOpen(false)
-    //     setSelectProjectModalOpen(false)
-    // }
 
     return (
         <Modal
