@@ -17,13 +17,13 @@ export default function MenuBtn(props) {
         wrap: {
             width: '100%',
             minHeight: 46,
-            marginTop: 10,
             backgroundColor: (isOnPress ? theme.menuBtn.onPress.BackgroundColor :theme.menuBtn.BackgroundColor),
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 20,
-            paddingVertical:10
+            paddingVertical:10,
+            marginTop: isOnPress?15:10
         },
         icon:{
             color: (isOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),

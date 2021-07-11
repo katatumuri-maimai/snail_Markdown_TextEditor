@@ -11,9 +11,7 @@ import MenuTitle from '../_components/MenuTitle';
 export default function Folder(params) {
     const { theme } = useTheme();
     const {
-        setIsMenuOpen,
         Project_List,
-        setProject_List,
         isDelete,
         setIsDelete
     } = useContext(ContextObject)
@@ -97,14 +95,8 @@ function TypeSelectMenu(props) {
     const { theme } = useTheme();
     const {
         boxSadowStyle,
-        isSetDataNameModalOpen,
         setSetDataNameModalOpen,
-        whichSetDataNameModalOpen,
         setWhichDataNameModalOpen,
-        projectName,
-        setProjectName,
-        fileName,
-        setFileName
     } = useContext(ContextObject)
 
     const styles={
@@ -157,11 +149,9 @@ function TypeSelectMenuBtn(props) {
 
     const [isOnPress, setOnPress] = useState(false)
 
-    console.log(isOnPress);
     const styles = {
         view: {
-            // backgroundColor: props.backgroundColor,
-            backgroundColor: isOnPress ? theme.typeSelectMenu.BackgroundColor : theme.typeSelectMenu.onPress.BackgroundColor ,
+            backgroundColor: isOnPress ? theme.typeSelectMenu.onPress.BackgroundColor : theme.typeSelectMenu.BackgroundColor ,
             height: '50%',
             flexDirection: 'row',
             alignItems: 'center',
@@ -174,26 +164,24 @@ function TypeSelectMenuBtn(props) {
             borderBottomRightRadius: props.addType == 'addProject' ? 0 : 20,
             borderBottomStartRadius: props.addType == 'addProject' ? 0 : 20,
             padding: 20,
+            
         },
         icon: {
-            color: isOnPress? theme.typeSelectMenu.iconColor : theme.typeSelectMenu.onPress.iconColor,
+            color: isOnPress ? theme.typeSelectMenu.onPress.iconColor : theme.typeSelectMenu.iconColor,
             marginRight: 10,
             fontSize: 30,
         },
         text: {
-            color: isOnPress? theme.typeSelectMenu.TextColor : theme.typeSelectMenu.onPress.TextColor,
+            color: isOnPress ? theme.typeSelectMenu.onPress.TextColor : theme.typeSelectMenu.TextColor,
             fontSize: 20,
         }
     }
-
-    function onPress() {
-        props.onPress()
-        { isOnPress ? setOnPress(false) : setOnPress(true) }
-        console.log('onpress');
-    }
-
     return (
-            <Pressable style={styles.view} onPress={onPress}>
+        <Pressable
+         style={styles.view}
+         onPress={props.onPress} 
+         onPressIn={() => { isOnPress ? setOnPress(false) : setOnPress(true) }}
+         >
                 <Icon
                 name={props.iconName}
                 iconStyle={styles.icon}

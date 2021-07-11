@@ -57,7 +57,7 @@ export default function MenuBtnChild(props) {
     
 
     return (
-        <Pressable style={styles.wrap} onPress={onPress}>
+        <Pressable style={styles.wrap} onPressIn={onPress}>
             <Icon
             name={props.iconName}
             iconStyle={styles.icon}
@@ -68,7 +68,7 @@ export default function MenuBtnChild(props) {
                     isBtnOnPress={isOnPress}
                     projectName={props.projectName}
                     fileName={props.name}
-                />:<View/>}
+                />:null}
             
         </Pressable>
     )
