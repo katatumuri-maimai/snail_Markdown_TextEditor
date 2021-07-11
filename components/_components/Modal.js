@@ -104,7 +104,8 @@ export function SetDataNameModal(props) {
             await Project_List.push({ [new_ProjectName]: undefined })
             setSetDataNameModalOpen(false)
         } else if (whichSetDataNameModalOpen == 'addFile') {
-            if(!newFileName===false){
+            if (!newFileName === false) {
+                setSetDataNameModalOpen(false)
             setSelectProjectModalOpen(true)
         }}
     }

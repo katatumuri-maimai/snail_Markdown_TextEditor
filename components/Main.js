@@ -112,6 +112,7 @@ export default function Main() {
   const styles = {
     view: {
       flex: 1,
+      backgroundColor: theme[appTheme].main.mainBackgroundColor,
     },
     app: {
       flex: 1,
@@ -159,6 +160,7 @@ export default function Main() {
 
   return (
         <ThemeProvider theme={theme[appTheme]}>
+      <View style={styles.view}>
           <StatusBar hidden={false}/>
           <SafeAreaView style={styles.view}>
         <Pressable style={styles.view} onPress={Keyboard.dismiss}>
@@ -184,6 +186,7 @@ export default function Main() {
             </Pressable>
           
           </SafeAreaView>
+      </View>
         </ThemeProvider>
   );
 }

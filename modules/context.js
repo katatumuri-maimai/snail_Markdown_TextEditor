@@ -63,9 +63,9 @@ export function ContextProvider(props) {
     }, [])
 
 
-    const menuWidth = (isMenuOpen ? 280: 100)
+    const menuWidth = (isMenuOpen ? 350: 200)
     const halfWindowWidth = windowWidth / 2
-    let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-100)
+    let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
     const ContextValue = {
         deviceType,
