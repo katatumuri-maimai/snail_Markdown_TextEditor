@@ -4,7 +4,7 @@ import { ContextObject } from '../../../modules/context';
 import MenuBtn from '../_components/MenuBtn';
 import MenuTitle from '../_components/MenuTitle';
 import * as Print from 'expo-print';
-import { exportMdFile, exportHtmlFile, printHtmlFile, exportPdfFile} from '../../../modules/importExportFile';
+import *as IEF from '../../../modules/importExportFile';
 
 
 
@@ -26,23 +26,23 @@ export default function Export() {
         <ScrollView>
             <MenuBtn
                 name='Markdown'
-                    onPress={() => { exportMdFile(fileName, text)}}
+                    onPress={() => { IEF.exportMdFile(fileName, text)}}
             />
             <MenuBtn
                 name='HTML'
-                    onPress={() => { exportHtmlFile(fileName, text)}}
+                    onPress={() => { IEF.exportHtmlFile(fileName, text)}}
             />
             <MenuBtn
                 name='PDF'
-                    onPress={() => { exportPdfFile(fileName, text) }}
+                    onPress={() => { IEF.exportPdfFile(fileName, text) }}
             />
             <MenuBtn
                 name='プリント'
-                    onPress={() => { printHtmlFile(fileName, text)}}
+                    onPress={() => { IEF.printHtmlFile(fileName, text)}}
             />
             <MenuBtn
                 name='バックアップ'
-                onPress={onPress}
+                    onPress={onPress}
             />
         </ScrollView>
     </View>
