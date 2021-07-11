@@ -37,12 +37,15 @@ export default function MenuBtn(props) {
     }
     function onPress() {
         props.onPress()
-        { isOnPress ? setOnPress(false) : setOnPress(true) }
+        isOnPress? setOnPress(false): setOnPress(true) 
     }
 
+    function onPressOut() {
+        if (props.onPressOut) setOnPress(false)
+    }
 
     return (
-        <Pressable style={styles.wrap} onPress={onPress}>
+        <Pressable style={styles.wrap} onPressIn={onPress} onPressOut={onPressOut}>
             <Icon
             name={props.iconName}
             iconStyle={styles.icon}
@@ -56,7 +59,7 @@ export default function MenuBtn(props) {
                 <DeleteDataBtn
                     isBtnOnPress={isOnPress}
                     projectName={props.projectName}
-                /> : <View />}
+                /> : null}
         </Pressable>
     )
 }

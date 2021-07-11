@@ -3,7 +3,6 @@ import { View, Text, ScrollView, Share} from 'react-native';
 import { ContextObject } from '../../../modules/context';
 import MenuBtn from '../_components/MenuBtn';
 import MenuTitle from '../_components/MenuTitle';
-import * as Print from 'expo-print';
 import *as IEF from '../../../modules/importExportFile';
 
 
@@ -15,11 +14,6 @@ export default function Export() {
         fileName
     } = useContext(ContextObject)
 
-    function onPress() {
-        setIsMenuOpen(false)
-    }
-
-
     return (
     <View>
         <MenuTitle>エクスポート</MenuTitle>
@@ -27,23 +21,27 @@ export default function Export() {
             <MenuBtn
                 name='Markdown'
                     onPress={() => { IEF.exportMdFile(fileName, text)}}
+                    onPressOut={true}
             />
             <MenuBtn
                 name='HTML'
                     onPress={() => { IEF.exportHtmlFile(fileName, text)}}
+                    onPressOut={true}
             />
             <MenuBtn
                 name='PDF'
                     onPress={() => { IEF.exportPdfFile(fileName, text) }}
+                    onPressOut={true}
             />
             <MenuBtn
                 name='プリント'
                     onPress={() => { IEF.printHtmlFile(fileName, text)}}
+                    onPressOut={true}
             />
-            <MenuBtn
+            {/* <MenuBtn
                 name='バックアップ'
                     onPress={onPress}
-            />
+            /> */}
         </ScrollView>
     </View>
     )
