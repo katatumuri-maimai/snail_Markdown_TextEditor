@@ -21,8 +21,6 @@ const canOpenSettingIconList = [
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
-    const [windowWidth, setWindowWidth] = useState(useWindowDimensions().width)
-    const [windowHeight, setWindowHeight] = useState(useWindowDimensions().height)
     const [appTheme, setAppTheme] = useState("Night")
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
@@ -48,25 +46,30 @@ export function ContextProvider(props) {
         readProjects().then(e => {
             setProject_List(e)
         })
-    }, [])
 
-    useEffect(() => {
         readSetting().then(e => {
             setAppTheme(e.theme)
             setSelectedPreviewtheme(e.preview)
         })
     }, [])
 
+    const windowWidth        = useWindowDimensions().width
+    const windowHeight       = useWindowDimensions().height
+    const isLandscape        = (windowWidth / windowHeight) >= 1
+    const isWindowWidthSmall = windowWidth < 760
 
-    const menuWidth = (isMenuOpen ? 350: 200)
+    const deviceType = Device.deviceType
+
+    const menuWidth       = (isMenuOpen ? 350: 200)
     const halfWindowWidth = windowWidth / 2
-    let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
+    const previeArea      = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
-    const ContextValue = {
+    const ContextValue    = {
+        deviceType,
+        isLandscape,
+        isWindowWidthSmall,
         windowWidth,
-        setWindowWidth,
         windowHeight,
-        setWindowHeight,
         appTheme,
         setAppTheme,
         title,

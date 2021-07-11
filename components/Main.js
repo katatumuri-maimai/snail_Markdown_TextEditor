@@ -18,9 +18,7 @@ import { importFile } from '../modules/importExportFile';
 export default function Main() {
   const {
     windowWidth,
-    setWindowWidth,
     windowHeight,
-    setWindowHeight,
     appTheme,
     setAppTheme,
     title,

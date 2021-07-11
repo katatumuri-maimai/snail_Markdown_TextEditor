@@ -7,6 +7,7 @@ import { saveFile } from '../../../modules/controlProjects';
 export default function InputArea() {
     const { theme } = useTheme();
     const {
+        isWindowWidthSmall,
         text,
         setText,
         isPreviewOpen,
@@ -19,22 +20,14 @@ export default function InputArea() {
         saveFile(projectName, fileName, text)
     }
 
-    let marginRight;
-
-    if (isPreviewOpen){
-        marginRight = 5
-    }else{
-        marginRight = 0
-    }
-
     const styles = {
         container: {
             flex: 1,
             backgroundColor: theme.textView.backgroundColor,
             padding: 20,
             borderRadius: 20,
-            marginRight: marginRight,
-            // width: absoluteX
+            marginRight: isPreviewOpen && !isWindowWidthSmall?5:0,
+            marginTop: isWindowWidthSmall?5:0
         },
         text: {
             color: theme.textView.textColor,

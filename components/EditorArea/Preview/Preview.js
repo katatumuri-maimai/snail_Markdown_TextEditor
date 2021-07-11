@@ -7,6 +7,7 @@ import { ContextObject } from '../../../modules/context';
 export default function Preview() {
     const { theme } = useTheme();
     const {
+        isWindowWidthSmall,
         text,
         windowWidth,
         absoluteX,
@@ -15,7 +16,6 @@ export default function Preview() {
         setSelectedPreviewtheme
     } = useContext(ContextObject)
 
-    const width = windowWidth - absoluteX
 
     const styles = {
         container: {
@@ -24,8 +24,7 @@ export default function Preview() {
             padding: 20,
             paddingTop: 10,
             borderRadius: 20,
-            marginLeft:5,
-            // width: width
+            marginLeft: isWindowWidthSmall?0:5,
         },
         text: {
             body:{

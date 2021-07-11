@@ -10,10 +10,11 @@ import Preview from './Preview/Preview';
 
 export default function EditorArea(props) {
     const {
+        deviceType,
+        isLandscape,
+        isWindowWidthSmall,
         windowWidth,
-        setWindowWidth,
         windowHeight,
-        setWindowHeight,
         appTheme,
         setAppTheme,
         title,
@@ -28,7 +29,7 @@ export default function EditorArea(props) {
 
     const style = {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: isWindowWidthSmall ? 'column-reverse': 'row',
         position: 'relative',
         width: '100%',
         height: '100%'
