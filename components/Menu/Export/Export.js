@@ -10,7 +10,7 @@ import { SelectFileModal } from '../../_components/Modal';
 export default function Export() {
     const {
         text,
-        fileName
+        fileName,
     } = useContext(ContextObject)
 
     const [isSelectFileModalOpen, setIsSelectFileModalOpen]=useState(false)

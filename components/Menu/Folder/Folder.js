@@ -11,6 +11,7 @@ import MenuTitle from '../_components/MenuTitle';
 export default function Folder(params) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         Project_List,
         isDelete,
         setIsDelete
@@ -56,7 +57,7 @@ export default function Folder(params) {
                 name='add-circle'
                 color={theme.PlusBtn.iconColor}
                 containerStyle={styles.plusIconContainer}
-                iconStyle={styles.plusIcon}
+                iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 onPress={onPressPlusIcon}
             />
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : null}
@@ -107,6 +108,7 @@ function TypeSelectMenu(props) {
             top: 30,
             left: 0,
             zIndex: 100,
+            backgroundColor: theme.typeSelectMenu.onPress.BackgroundColor,
             width: '80%',
             borderRadius: 20,
         },
@@ -131,6 +133,7 @@ function TypeSelectMenu(props) {
                 addType='addProject'
                 backgroundColor='pink'
                 onPress={onPressAddProject}
+                borderBottom={true}
             />
             <TypeSelectMenuBtn
                 iconName='note-add'
@@ -146,7 +149,9 @@ function TypeSelectMenu(props) {
 
 function TypeSelectMenuBtn(props) {
     const { theme } = useTheme();
-
+    const { 
+        boxSadowStyle
+    }=useContext(ContextObject)
     const [isOnPress, setOnPress] = useState(false)
 
     const styles = {
@@ -164,7 +169,9 @@ function TypeSelectMenuBtn(props) {
             borderBottomRightRadius: props.addType == 'addProject' ? 0 : 20,
             borderBottomStartRadius: props.addType == 'addProject' ? 0 : 20,
             padding: 20,
-            
+            borderColor:'rgba(94, 94, 94,0.05)',
+            borderStyle: 'solid',
+            borderBottomWidth: props.borderBottom?3:0
         },
         icon: {
             color: isOnPress ? theme.typeSelectMenu.onPress.iconColor : theme.typeSelectMenu.iconColor,
@@ -178,7 +185,7 @@ function TypeSelectMenuBtn(props) {
     }
     return (
         <Pressable
-         style={styles.view}
+        style={[styles.view, boxSadowStyle.btn]}
          onPress={props.onPress} 
          onPressIn={() => { isOnPress ? setOnPress(false) : setOnPress(true) }}
          >

@@ -8,6 +8,7 @@ import DeleteDataBtn from './DeleteDataBtn';
 export default function MenuBtnChild(props) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         whichMenuChidOpen,
         setWhichMenuChidOpen
     } = useContext(ContextObject)
@@ -57,7 +58,7 @@ export default function MenuBtnChild(props) {
     
 
     return (
-        <Pressable style={styles.wrap} onPressIn={onPress}>
+        <Pressable style={[styles.wrap, boxSadowStyle.btn]} onPressIn={onPress}>
             <Icon
             name={props.iconName}
             iconStyle={styles.icon}

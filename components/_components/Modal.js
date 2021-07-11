@@ -264,7 +264,7 @@ export function SelectProjectModal(props) {
                         return(
                             <Pressable
                                 key={projectName}
-                                style={styles.btn}
+                                style={[styles.btn, boxSadowStyle.btn]}
                                 onPress={() => { onPressSaveFile(projectName)}}
                             >
                                 <Icon
@@ -423,6 +423,10 @@ export function SelectFileModal(props) {
 }
 
 function Projects(props) {
+    const{
+        boxSadowStyle
+    }=useContext(ContextObject)
+
     const [isProjectOpen, setIsProjectOpen] = useState(false)
 
     const styles       = props.styles
@@ -447,7 +451,7 @@ function Projects(props) {
     return(
         <View style={styles.Wrap}>
         <Pressable
-            style={styles.projects}
+            style={[styles.projects, boxSadowStyle.btn]}
             onPress={() => { setIsProjectOpen(!isProjectOpen)}}
         >
             <Icon
@@ -469,7 +473,7 @@ function Projects(props) {
                     return(
                         <Pressable
                             key={f}
-                            style={styles.filesBtn}
+                            style={[styles.filesBtn, boxSadowStyle.btn]}
                             onPress={()=>{onPressFile(f)}}
                         >
                             <Icon

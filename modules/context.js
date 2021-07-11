@@ -5,11 +5,17 @@ import { readProjects } from './controlProjects';
 import readSetting from './readSetting';
 
 const boxSadowStyle = {
+    btn: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.05,
+        shadowRadius: 1,
+    },
     shadowColor: 'black',
     elevation: 10,
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
-    shadowRadius: 20,
+    shadowRadius: 10,
     }
 
 
