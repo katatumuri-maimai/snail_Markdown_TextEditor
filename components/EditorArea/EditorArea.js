@@ -10,8 +10,6 @@ import Preview from './Preview/Preview';
 
 export default function EditorArea(props) {
     const {
-        deviceType,
-        setDeviceType,
         windowWidth,
         setWindowWidth,
         windowHeight,

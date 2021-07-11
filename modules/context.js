@@ -21,7 +21,6 @@ const canOpenSettingIconList = [
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
-    const [deviceType, setDeviceType] = useState(useWindowDimensions().width)
     const [windowWidth, setWindowWidth] = useState(useWindowDimensions().width)
     const [windowHeight, setWindowHeight] = useState(useWindowDimensions().height)
     const [appTheme, setAppTheme] = useState("Night")
@@ -56,10 +55,6 @@ export function ContextProvider(props) {
             setAppTheme(e.theme)
             setSelectedPreviewtheme(e.preview)
         })
-        Device.getDeviceTypeAsync().then(i => {
-            const Type = Device.DeviceType[i]
-            setDeviceType(Type)
-        })
     }, [])
 
 
@@ -68,8 +63,6 @@ export function ContextProvider(props) {
     let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
     const ContextValue = {
-        deviceType,
-        setDeviceType,
         windowWidth,
         setWindowWidth,
         windowHeight,

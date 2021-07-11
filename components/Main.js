@@ -17,8 +17,6 @@ import { importFile } from '../modules/importExportFile';
 
 export default function Main() {
   const {
-    deviceType,
-    setDeviceType,
     windowWidth,
     setWindowWidth,
     windowHeight,
