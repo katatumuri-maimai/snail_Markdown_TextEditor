@@ -172,8 +172,8 @@ export default theme = {
         },
         typeSelectMenu: {
             BackgroundColor: '#FAFAFA',
-            TextColor: '#B3E5FC',
-            iconColor: '#B3E5FC',
+            TextColor: '#82B3C9',
+            iconColor: '#82B3C9',
             onPress: {
                 BackgroundColor: '#E1F5FE',
                 TextColor: '#FAFAFA',
