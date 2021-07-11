@@ -16,14 +16,14 @@ export default function MenuBtn(props) {
     const styles={
         wrap: {
             width: '100%',
-            height: 46,
+            minHeight: 46,
             marginTop: 10,
             backgroundColor: (isOnPress ? theme.menuBtn.onPress.BackgroundColor :theme.menuBtn.BackgroundColor),
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft:10,
-            paddingRight: 10
+            paddingHorizontal: 20,
+            paddingVertical:10
         },
         icon:{
             color: (isOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),
@@ -32,7 +32,8 @@ export default function MenuBtn(props) {
         },
         btnText:{
             color: (isOnPress ? theme.menuBtn.onPress.TextColor : theme.menuBtn.TextColor),
-            fontSize: 18
+            fontSize: 18,
+            width: '80%'
         }
     }
     function onPress() {

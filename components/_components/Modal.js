@@ -287,6 +287,8 @@ export function SelectProjectModal(props) {
 export function SelectFileModal(props) {
     const { theme } = useTheme();
     const {
+        isLandscape,
+        isWindowWidthSmall,
         Project_List,
     } = useContext(ContextObject)
 
@@ -325,12 +327,13 @@ export function SelectFileModal(props) {
         },
         projects: {
             flexDirection: 'row',
-            height: 50,
+            minHeight: 50,
             justifyContent: 'flex-start',
             alignItems: 'center',
             backgroundColor: theme.main.secondBackgroundColor,
             borderRadius: 20,
             paddingHorizontal: 20,
+            paddingVertical: 10,
             margin: 10
         },
         projectsIcon: {
@@ -340,6 +343,7 @@ export function SelectFileModal(props) {
         projectsBtnText: {
             color: theme.nav.iconColor,
             fontSize: 16,
+            width: '80%',
             marginLeft: 10
         },
         downIcon: {
@@ -347,7 +351,7 @@ export function SelectFileModal(props) {
             right:10
         },
         filesWrap: {
-            flexDirection: 'row',
+            flexDirection: isWindowWidthSmall ?'column':'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
             flexWrap:'wrap',
@@ -355,12 +359,13 @@ export function SelectFileModal(props) {
         },
         filesBtn: {
             flexDirection: 'row',
-            width: '30%',
-            height: 50,
+            width: isWindowWidthSmall?'100%':(isLandscape?'30%':'45%'),
+            minHeight: 50,
             justifyContent: 'flex-start',
             alignItems: 'center',
             borderRadius: 20,
             paddingHorizontal: 20,
+            paddingVertical: 10,
             margin: 10,
             borderColor: theme.topBar.titleTextColor,
             borderStyle: 'solid',
@@ -373,6 +378,7 @@ export function SelectFileModal(props) {
         filesBtnText: {
             color: theme.topBar.titleTextColor,
             fontSize: 16,
+            width:'80%',
             marginLeft: 10,
         }
     }

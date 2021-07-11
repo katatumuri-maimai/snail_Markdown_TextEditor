@@ -61,7 +61,7 @@ export default function Folder(params) {
                 iconStyle={styles.plusIcon}
                 onPress={onPressPlusIcon}
             />
-            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
+            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : null}
             <MenuTitle>プロジェクト</MenuTitle>
 
             <ScrollView>

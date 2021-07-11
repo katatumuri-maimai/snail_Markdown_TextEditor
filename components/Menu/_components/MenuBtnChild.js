@@ -18,7 +18,7 @@ export default function MenuBtnChild(props) {
         wrap: {
             alignSelf: 'flex-end',
             width: '90%',
-            height: 46,
+            minHeight: 46,
             marginTop: 10,
             backgroundColor: (isOnPress ? theme.menuBtnChild.onPress.BackgroundColor:theme.menuBtnChild.BackgroundColor),
             borderColor: (isOnPress ? theme.menuBtnChild.onPress.BoderColor : theme.menuBtnChild.BoderColor),
@@ -27,8 +27,8 @@ export default function MenuBtnChild(props) {
             borderRadius: 20,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft: 10,
-            paddingRight: 10
+            paddingHorizontal: 20,
+            paddingVertical: 10
         },
         icon:{
             color: (isOnPress ? theme.menuBtnChild.onPress.iconColor : theme.menuBtnChild.iconColor),
@@ -37,7 +37,8 @@ export default function MenuBtnChild(props) {
         },
         btnText:{
             color: (isOnPress ? theme.menuBtnChild.onPress.TextColor : theme.menuBtnChild.TextColor),
-            fontSize: 18
+            fontSize: 18,
+            width: '80%'
         }
     }
 
