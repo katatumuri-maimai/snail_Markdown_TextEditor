@@ -4,7 +4,8 @@ import { ContextObject } from '../../../modules/context';
 import MenuBtn from '../_components/MenuBtn';
 import MenuTitle from '../_components/MenuTitle';
 import * as Print from 'expo-print';
-import { exportMdFile } from '../../../modules/importExportFile';
+import { exportMdFile, exportHtmlFile, printHtmlFile, exportPdfFile} from '../../../modules/importExportFile';
+
 
 
 export default function Export() {
@@ -29,11 +30,15 @@ export default function Export() {
             />
             <MenuBtn
                 name='HTML'
-                onPress={onPress}
+                    onPress={() => { exportHtmlFile(fileName, text)}}
             />
             <MenuBtn
-                name='印刷'
-                onPress={onPress}
+                name='PDF'
+                    onPress={() => { exportPdfFile(fileName, text) }}
+            />
+            <MenuBtn
+                name='プリント'
+                    onPress={() => { printHtmlFile(fileName, text)}}
             />
             <MenuBtn
                 name='バックアップ'

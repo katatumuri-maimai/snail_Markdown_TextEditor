@@ -3,6 +3,8 @@ import { StorageAccessFramework } from 'expo-file-system';
 import * as Device from 'expo-device';
 import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
+import marked from 'marked';
+import * as Print from 'expo-print';
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
@@ -60,6 +62,65 @@ export async function exportMdFile(filename, content) {
         })
 
 }
+
+
+export async function exportHtmlFile(filename,content) {
+    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.html'
+    const html=marked(content)
+
+    await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
+        .then(e => {
+            // console.log("makeDirectoryAsync" + e);
+        }).catch(err => {
+            console.error(err);
+        })
+
+    await FileSystem.writeAsStringAsync(fileUri, html, { encoding: FileSystem.EncodingType.UTF8 })
+        .then(e => {
+            // console.log("writeAsStringAsync >>" + e);
+        }).catch(err => {
+            console.log(fileUri);
+            console.error("writeAsStringAsync >>" + err);
+        })
+
+
+    const shareUrl = await FileSystem.getContentUriAsync(fileUri)
+    Share.share({ url: shareUrl })
+        .then(e => {
+            // console.log(Share.sharedAction);
+        }).catch(err => {
+            console.error(err);
+        })
+
+}
+
+
+
+export async function exportPdfFile(filename, content) {
+    const html = marked(content)
+    console.log(html);
+
+    await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
+        .then(e => {
+        }).catch(err => {
+            console.error(err);
+        })
+
+    const pdf = await Print.printToFileAsync({ html: html})
+    const shareUrl = await FileSystem.getContentUriAsync(pdf.uri)
+
+    Share.share({ url: shareUrl })
+        .then(e => {
+        }).catch(err => {
+            console.error(err);
+        })
+}
+
+export async function printHtmlFile(filename, content) {
+    const html = marked(content)
+    await Print.printAsync({ html: html })
+}
+
 
 function removeMarks(name) {
     const marks = [/\\/g, /\//g, /\:/g, /\*/g, /\?/g, /\</g, /\>/g, /\|/g, /^ */g, /^　*/g];
