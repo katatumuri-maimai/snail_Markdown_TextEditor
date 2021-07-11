@@ -119,6 +119,7 @@ export function SetDataNameModal(props) {
             onRequestClose={closeModal}
             visible={isSetDataNameModalOpen}
             animationType='fade'
+            supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
                 {whichSetDataNameModalOpen != 'addProject'?
@@ -244,6 +245,7 @@ export function SelectProjectModal(props) {
             presentationStyle='overFullScreen'
             onRequestClose={closeModal}
             animationType='fade'
+            supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
             <Pressable style={styles.centeredView} onPress={closeModal}>
                 <Pressable style={styles.modal} onPress={openModal}>
@@ -378,6 +380,7 @@ export function SelectFileModal(props) {
             presentationStyle='overFullScreen'
             onRequestClose={props.closeModal}
             animationType='fade'
+            supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
             <Pressable style={styles.centeredView} onPress={props.closeModal}>
                 <Pressable style={styles.modal} onPress={props.openModal}>
