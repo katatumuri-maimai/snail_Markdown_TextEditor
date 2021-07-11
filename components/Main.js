@@ -168,11 +168,8 @@ export default function Main() {
               keyboardVerticalOffset={Platform.OS == 'ios' ? '10' : '0'}
               enabled={keyboardAvoidingViewEnabled}
               >
-            <SelectProjectModal
-              keyboardPadding={keyboardScreenY}
-              isModalOpen={isSelectProjectModalOpen}
-            />
-            {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY}/> : <View />}
+            {isSelectProjectModalOpen?<SelectProjectModal keyboardPadding={keyboardScreenY}/>:null}
+            {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY} /> : null}
                 <TopBar
                 title={title}
                 />

@@ -245,8 +245,6 @@ export function SelectProjectModal(props) {
     console.log('modal>>>'+props.isModalOpen);
 
     return (
-        props.isModalOpen?
-        
         <Modal
             transparent={true}
             presentationStyle='overFullScreen'
@@ -284,7 +282,6 @@ export function SelectProjectModal(props) {
                 </Pressable>
             </Pressable>
         </Modal>
-        :<View/>
-        
     )
 }
+
