@@ -175,7 +175,7 @@ export default function Main() {
                 />
             <PanGestureHandler onGestureEvent={(event) => { onSwipeEvent(event) }}>
                 <View style={styles.wrap}>
-                {isMenuOpen ? <Menu />:<View/>}
+                {isMenuOpen ? <Menu />:null}
                   <EditorArea/>
                 </View>
             </PanGestureHandler>
