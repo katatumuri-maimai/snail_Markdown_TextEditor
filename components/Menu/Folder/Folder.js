@@ -252,6 +252,7 @@ function Project(props) {
                     iconName={isOnonPressMenuBtn ?'folder-open':'folder'}
                     onPress={onPressMenuBtn}
                     enableDeleteDataBtn={true}
+                    projectName={projectName}
                 />
             }
             {isOnonPressMenuBtn?
