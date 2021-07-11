@@ -157,7 +157,6 @@ export default function Main() {
     }
   }
 
-  console.log('keyboardAvoidingViewEnabled>>>'+keyboardAvoidingViewEnabled);
 
   return (
         <ThemeProvider theme={theme[appTheme]}>

@@ -96,6 +96,7 @@ export default function Folder(params) {
 function TypeSelectMenu(props) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
         whichSetDataNameModalOpen,
@@ -131,7 +132,7 @@ function TypeSelectMenu(props) {
     }
 
     return(
-        <View style={styles.view}>
+        <View style={[styles.view, boxSadowStyle]}>
             <TypeSelectMenuBtn
                 iconName='create-new-folder'
                 text='プロジェクト'

@@ -8,6 +8,7 @@ import *as IEF from '../../modules/importExportFile';
 export function SetDataNameModal(props) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         isLandscape,
         isSetDataNameModalOpen,
         setSetDataNameModalOpen,
@@ -123,7 +124,7 @@ export function SetDataNameModal(props) {
             animationType='fade'
             supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
-            <Pressable style={styles.centeredView} onPress={closeModal}>
+            <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={closeModal}>
                 {whichSetDataNameModalOpen != 'addProject'?
                     <View style={styles.memoView}><Text style={styles.memoText}>memo📝</Text><Text style={styles.memoText}>ファイル作成の前に保存先のプロジェクトを作成してください</Text></View>
                     : null}
@@ -151,6 +152,7 @@ export function SetDataNameModal(props) {
 export function SelectProjectModal(props) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         setSetDataNameModalOpen,
         setSelectProjectModalOpen,
         setNewProjectName,
@@ -250,7 +252,7 @@ export function SelectProjectModal(props) {
             animationType='fade'
             supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
-            <Pressable style={styles.centeredView} onPress={closeModal}>
+            <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={closeModal}>
                 <Pressable style={styles.modal} onPress={openModal}>
                         <Text style={styles.text}>「{newFileName}」を保存するプロジェクトフォルダを選んでください</Text>
                     <View style={styles.Wrap}>
@@ -287,6 +289,7 @@ export function SelectProjectModal(props) {
 export function SelectFileModal(props) {
     const { theme } = useTheme();
     const {
+        boxSadowStyle,
         isLandscape,
         isWindowWidthSmall,
         Project_List,
@@ -391,7 +394,7 @@ export function SelectFileModal(props) {
             animationType='fade'
             supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
         >
-            <Pressable style={styles.centeredView} onPress={props.closeModal}>
+            <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={props.closeModal}>
                 <Pressable style={styles.modal} onPress={props.openModal}>
                     <Text style={styles.text}>エクスポートするファイルを選んでください</Text>
                     <ScrollView style={styles.scrollView}>

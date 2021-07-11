@@ -4,6 +4,15 @@ import { useWindowDimensions } from 'react-native';
 import { readProjects } from './controlProjects';
 import readSetting from './readSetting';
 
+const boxSadowStyle = {
+    shadowColor: 'black',
+    elevation: 10,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    }
+
+
 const settingIconList = [
     'settings',
     'folder',
@@ -66,6 +75,7 @@ export function ContextProvider(props) {
     const previeArea      = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
     const ContextValue    = {
+        boxSadowStyle,
         deviceType,
         isLandscape,
         isWindowWidthSmall,
