@@ -11,9 +11,8 @@ import MenuTitle from '../_components/MenuTitle';
 export default function Folder(params) {
     const { theme } = useTheme();
     const {
-        setIsMenuOpen,
+        boxSadowStyle,
         Project_List,
-        setProject_List,
         isDelete,
         setIsDelete
     } = useContext(ContextObject)
@@ -58,10 +57,10 @@ export default function Folder(params) {
                 name='add-circle'
                 color={theme.PlusBtn.iconColor}
                 containerStyle={styles.plusIconContainer}
-                iconStyle={styles.plusIcon}
+                iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 onPress={onPressPlusIcon}
             />
-            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : <View/>}
+            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : null}
             <MenuTitle>プロジェクト</MenuTitle>
 
             <ScrollView>
@@ -96,14 +95,9 @@ export default function Folder(params) {
 function TypeSelectMenu(props) {
     const { theme } = useTheme();
     const {
-        isSetDataNameModalOpen,
+        boxSadowStyle,
         setSetDataNameModalOpen,
-        whichSetDataNameModalOpen,
         setWhichDataNameModalOpen,
-        projectName,
-        setProjectName,
-        fileName,
-        setFileName
     } = useContext(ContextObject)
 
     const styles={
@@ -114,7 +108,7 @@ function TypeSelectMenu(props) {
             top: 30,
             left: 0,
             zIndex: 100,
-            // backgroundColor: theme.typeSelectMenu.BackgroundColor,
+            backgroundColor: theme.typeSelectMenu.onPress.BackgroundColor,
             width: '80%',
             borderRadius: 20,
         },
@@ -132,13 +126,14 @@ function TypeSelectMenu(props) {
     }
 
     return(
-        <View style={styles.view}>
+        <View style={[styles.view, boxSadowStyle]}>
             <TypeSelectMenuBtn
                 iconName='create-new-folder'
                 text='プロジェクト'
                 addType='addProject'
                 backgroundColor='pink'
                 onPress={onPressAddProject}
+                borderBottom={true}
             />
             <TypeSelectMenuBtn
                 iconName='note-add'
@@ -154,14 +149,14 @@ function TypeSelectMenu(props) {
 
 function TypeSelectMenuBtn(props) {
     const { theme } = useTheme();
-
+    const { 
+        boxSadowStyle
+    }=useContext(ContextObject)
     const [isOnPress, setOnPress] = useState(false)
 
-    console.log(isOnPress);
     const styles = {
         view: {
-            // backgroundColor: props.backgroundColor,
-            backgroundColor: isOnPress ? theme.typeSelectMenu.BackgroundColor : theme.typeSelectMenu.onPress.BackgroundColor ,
+            backgroundColor: isOnPress ? theme.typeSelectMenu.onPress.BackgroundColor : theme.typeSelectMenu.BackgroundColor ,
             height: '50%',
             flexDirection: 'row',
             alignItems: 'center',
@@ -174,26 +169,26 @@ function TypeSelectMenuBtn(props) {
             borderBottomRightRadius: props.addType == 'addProject' ? 0 : 20,
             borderBottomStartRadius: props.addType == 'addProject' ? 0 : 20,
             padding: 20,
+            borderColor:'rgba(94, 94, 94,0.05)',
+            borderStyle: 'solid',
+            borderBottomWidth: props.borderBottom?3:0
         },
         icon: {
-            color: isOnPress? theme.typeSelectMenu.iconColor : theme.typeSelectMenu.onPress.iconColor,
+            color: isOnPress ? theme.typeSelectMenu.onPress.iconColor : theme.typeSelectMenu.iconColor,
             marginRight: 10,
             fontSize: 30,
         },
         text: {
-            color: isOnPress? theme.typeSelectMenu.TextColor : theme.typeSelectMenu.onPress.TextColor,
+            color: isOnPress ? theme.typeSelectMenu.onPress.TextColor : theme.typeSelectMenu.TextColor,
             fontSize: 20,
         }
     }
-
-    function onPress() {
-        props.onPress()
-        { isOnPress ? setOnPress(false) : setOnPress(true) }
-        console.log('onpress');
-    }
-
     return (
-            <Pressable style={styles.view} onPress={onPress}>
+        <Pressable
+        style={[styles.view, boxSadowStyle.btn]}
+         onPress={props.onPress} 
+         onPressIn={() => { isOnPress ? setOnPress(false) : setOnPress(true) }}
+         >
                 <Icon
                 name={props.iconName}
                 iconStyle={styles.icon}
@@ -252,6 +247,7 @@ function Project(props) {
                     iconName={isOnonPressMenuBtn ?'folder-open':'folder'}
                     onPress={onPressMenuBtn}
                     enableDeleteDataBtn={true}
+                    projectName={projectName}
                 />
             }
             {isOnonPressMenuBtn?
@@ -271,7 +267,7 @@ function Project(props) {
                         }))
                     
                 ):
-            <View/>}
+            null}
 
         </View>
     )

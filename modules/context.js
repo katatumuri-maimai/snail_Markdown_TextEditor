@@ -4,6 +4,21 @@ import { useWindowDimensions } from 'react-native';
 import { readProjects } from './controlProjects';
 import readSetting from './readSetting';
 
+const boxSadowStyle = {
+    btn: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.05,
+        shadowRadius: 1,
+    },
+    shadowColor: 'black',
+    elevation: 10,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    }
+
+
 const settingIconList = [
     'settings',
     'folder',
@@ -21,9 +36,6 @@ const canOpenSettingIconList = [
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
-    const [deviceType, setDeviceType] = useState(useWindowDimensions().width)
-    const [windowWidth, setWindowWidth] = useState(useWindowDimensions().width)
-    const [windowHeight, setWindowHeight] = useState(useWindowDimensions().height)
     const [appTheme, setAppTheme] = useState("Night")
     const [title, setTitle] = useState("Title")
     const [text, setText] = useState("")
@@ -44,36 +56,37 @@ export function ContextProvider(props) {
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
     const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
+    const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
     useEffect(() => {
         readProjects().then(e => {
             setProject_List(e)
         })
-    }, [])
 
-    useEffect(() => {
         readSetting().then(e => {
             setAppTheme(e.theme)
             setSelectedPreviewtheme(e.preview)
         })
-        Device.getDeviceTypeAsync().then(i => {
-            const Type = Device.DeviceType[i]
-            setDeviceType(Type)
-        })
     }, [])
 
+    const windowWidth        = useWindowDimensions().width
+    const windowHeight       = useWindowDimensions().height
+    const isLandscape        = (windowWidth / windowHeight) >= 1
+    const isWindowWidthSmall = windowWidth < 760
 
-    const menuWidth = (isMenuOpen ? 280: 100)
+    const deviceType = Device.deviceType
+
+    const menuWidth       = (isMenuOpen ? 350: 200)
     const halfWindowWidth = windowWidth / 2
-    let previeArea = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-100)
+    const previeArea      = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
-    const ContextValue = {
+    const ContextValue    = {
+        boxSadowStyle,
         deviceType,
-        setDeviceType,
+        isLandscape,
+        isWindowWidthSmall,
         windowWidth,
-        setWindowWidth,
         windowHeight,
-        setWindowHeight,
         appTheme,
         setAppTheme,
         title,
@@ -117,7 +130,9 @@ export function ContextProvider(props) {
         whichMenuChidOpen,
         setWhichMenuChidOpen,
         selectedPreviewtheme,
-        setSelectedPreviewtheme
+        setSelectedPreviewtheme,
+        keyboardScreenY,
+        setKeyboardScreenYd
     }
     
     return (

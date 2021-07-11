@@ -47,7 +47,8 @@ export default function Nav(props) {
       top: 10,
       backgroundColor: 'pink',
       backgroundColor: theme.main.secondBackgroundColor,
-      borderRadius: 20
+      borderRadius: 20,
+      zindex:1
     }
   }
   

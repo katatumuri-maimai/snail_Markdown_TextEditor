@@ -9,7 +9,8 @@ export default function Title(props) {
     let { theme } = useTheme();
     
     const style={
-        color: theme.topBar.titleTextColor
+        color: theme.topBar.titleTextColor,
+        zIndex: -1,
     }
 
     return (

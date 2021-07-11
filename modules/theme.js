@@ -135,7 +135,7 @@ export default theme = {
             textColor: '#82B3C9'
         },
         topBar: {
-            titleTextColor: '#FAFAFA'
+            titleTextColor: '#95bedb'
         },
         nav: {
             iconColor: '#FAFAFA',
@@ -172,10 +172,10 @@ export default theme = {
         },
         typeSelectMenu: {
             BackgroundColor: '#FAFAFA',
-            TextColor: '#B3E5FC',
-            iconColor: '#B3E5FC',
+            TextColor: '#82B3C9',
+            iconColor: '#82B3C9',
             onPress: {
-                BackgroundColor: '#E1F5FE',
+                BackgroundColor: '#82B3C9',
                 TextColor: '#FAFAFA',
                 iconColor: '#FAFAFA',
             }

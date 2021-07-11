@@ -11,13 +11,11 @@ import Settings from './Settings/Settings';
 export default function Menu() {
     const { theme } = useTheme();
     const {
-        menuWidth,
-        whichMenuOpen,
     } = useContext(ContextObject)
 
     const styles = {
         menu:{
-            width: menuWidth,
+            width: 280,
             backgroundColor: theme.main.secondBackgroundColor,
             borderRadius: 20,
             marginRight: 10,
@@ -42,15 +40,6 @@ function WhichMenu(params) {
     const { theme } = useTheme();
     const {
         whichMenuOpen,
-        isMenuOpen,
-        setIsMenuOpen,
-        Project_List,
-        setProject_List,
-        newText,
-        setNewText,
-        newFileName,
-        setNewFileName,
-        setSetDataNameModalOpen,
     } = useContext(ContextObject)
 
 
@@ -62,5 +51,5 @@ function WhichMenu(params) {
         return <Export />
     }
 
-    return <View/>
+    return <Settings />
 }

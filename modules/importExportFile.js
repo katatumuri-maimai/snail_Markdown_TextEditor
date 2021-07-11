@@ -6,6 +6,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
 import * as Print from 'expo-print';
 
+
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
