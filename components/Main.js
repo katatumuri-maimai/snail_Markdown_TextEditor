@@ -97,6 +97,8 @@ export default function Main() {
     const difference = Number(windowWidth - keyboardWidth)
     if (50<=difference){
       setKeyboardScreenYd(0)
+    }else{
+      setKeyboardScreenYd(event.endCoordinates.height)
     }
   }
 
@@ -156,7 +158,7 @@ export default function Main() {
       setAbsoluteX(absoluteX)
     }
   }
-
+  console.log(keyboardScreenY);
 
   return (
         <ThemeProvider theme={theme[appTheme]}>
@@ -164,11 +166,11 @@ export default function Main() {
           <StatusBar hidden={true}/>
           <SafeAreaView style={styles.view}>
           <Pressable style={styles.keyboardView} onPress={Keyboard.dismiss}>
-              <KeyboardAvoidingView
+              {/* <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
               style={styles.app}
               enabled={Platform.OS != 'ios'}
-              >
+              > */}
             {isSelectProjectModalOpen?<SelectProjectModal keyboardPadding={keyboardScreenY}/>:null}
             {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY} /> : null}
                 <TopBar
@@ -181,7 +183,7 @@ export default function Main() {
                 </View>
             </PanGestureHandler>
             
-              </KeyboardAvoidingView>
+              {/* </KeyboardAvoidingView> */}
             </Pressable>
           
           </SafeAreaView>
