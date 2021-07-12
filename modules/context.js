@@ -2,6 +2,7 @@ import * as Device from 'expo-device';
 import React, { createContext, useState, useEffect} from 'react';
 import { useWindowDimensions } from 'react-native';
 import { readProjects } from './controlProjects';
+import { readImages } from './imagePickUp';
 import readSetting from './readSetting';
 
 const boxSadowStyle = {
@@ -63,6 +64,9 @@ export function ContextProvider(props) {
     useEffect(() => {
         readProjects().then(e => {
             setProject_List(e)
+        })
+        readImages().then(e=>{
+            setImage_List(e)
         })
 
         readSetting().then(e => {

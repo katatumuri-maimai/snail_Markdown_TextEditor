@@ -31,5 +31,5 @@ export async function importImage() {
 
 export async function readImages(){
     const imageList = await FileSystem.readDirectoryAsync(imagePickerUri)
-    console.log(imageList);
+    return imageList
 }

@@ -75,7 +75,7 @@ export default function Images(params) {
                         const fileList = e[projectName]
 
                         return (
-                            <View></View>
+                            <View key={e}><Text>{e}</Text></View>
                         )
                     })
 
