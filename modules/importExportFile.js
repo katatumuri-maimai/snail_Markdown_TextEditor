@@ -6,11 +6,15 @@ import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
+import * as ImagePicker from 'expo-image-picker';
+import * as Clipboard from 'expo-clipboard';
 
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
+const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
-const documentPickerUri = FileSystem.cacheDirectory + 'DocumentPicker/'
+const documentPickerCacheUri = FileSystem.cacheDirectory + 'DocumentPicker/'
+const imagePickerCacheUri = FileSystem.cacheDirectory + 'ImagePicker/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importFile() {
@@ -20,7 +24,7 @@ export async function importFile() {
     if (state == "success") {
         const filename = data.name
         const dataUri = data.uri
-        const fileUri = documentPickerUri+dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
+        const fileUri = documentPickerCacheUri+dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
 
         const filecontent = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
             .then(e => {
@@ -35,6 +39,25 @@ export async function importFile() {
             filename: filename,
             filecontent: filecontent
         })
+    }
+}
+
+export async function importImage(params) {
+    const data = await ImagePicker.launchImageLibraryAsync({ quality: 0})
+    // console.log(data.base64);
+    if (!data.cancelled && data.type == 'image') {
+        const dataUri = data.uri
+        const fileUri = imagePickerUri + dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
+
+        await FileSystem.makeDirectoryAsync(imagePickerUri,{ intermediates: true })
+        await FS.copyAsync({ from: dataUri, to: fileUri})
+        // console.log(t);
+        
+        // FileSystem.readAsStringAsync(fileUri).then(e=>{console.log(e);})
+
+        const text = `![image](${fileUri})`
+
+        Clipboard.setString(text)
     }
 }
 
@@ -117,6 +140,7 @@ export async function exportPdfFile(filename, content) {
         await FS.copyAsync({ from: shareUrl, to: fileUri})
         Sharing.shareAsync(fileUri)
 }
+
 
 export async function printHtmlFile(filename, content) {
     const html = `<style>@page{margin: 50px;}</style>${marked(content)}`

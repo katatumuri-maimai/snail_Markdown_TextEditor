@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { PanGestureHandler} from 'react-native-gesture-handler';
 import { ContextObject } from '../../../../modules/context';
-import { importFile } from '../../../../modules/importExportFile';
+import { importFile, importImage} from '../../../../modules/importExportFile';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -132,7 +132,7 @@ function NavOpened(props) {
     }
 
     if (icon == 'image'){
-      // setIsMenuOpen(isMenuOpen)
+      importImage()
     }
 
     if (icon == 'file-download') {
