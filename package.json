@@ -24,7 +24,8 @@
     "react-native-gesture-handler": "~1.10.3",
     "react-native-markdown-display": "^7.0.0-alpha.2",
     "react-native-web": "~0.17.1",
-    "zlib": "^1.0.5"
+    "zlib": "^1.0.5",
+    "expo-sharing": "~9.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6"

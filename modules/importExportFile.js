@@ -5,6 +5,7 @@ import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
 import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
@@ -36,7 +37,8 @@ export async function importFile() {
 }
 
 export async function exportMdFile(filename, content) {
-    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.md'
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri = cacheDirectoryUri + encodeURIComponent(filename_removeMarks) + '.md'
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
         .then(e => {
@@ -55,7 +57,7 @@ export async function exportMdFile(filename, content) {
 
 
     const shareUrl = await FileSystem.getContentUriAsync(fileUri)
-    Share.share({ url: shareUrl })
+    Share.share({ message: content, url: shareUrl, title: `${filename_removeMarks}.md`})
         .then(e => {
             // console.log(Share.sharedAction);
         }).catch(err => {
@@ -66,7 +68,8 @@ export async function exportMdFile(filename, content) {
 
 
 export async function exportHtmlFile(filename,content) {
-    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.html'
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri = cacheDirectoryUri + encodeURIComponent(filename_removeMarks) + '.html'
     const html=marked(content)
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
@@ -86,7 +89,7 @@ export async function exportHtmlFile(filename,content) {
 
 
     const shareUrl = await FileSystem.getContentUriAsync(fileUri)
-    Share.share({ url: shareUrl })
+    Share.share({ message: html, url: shareUrl, title: `${filename_removeMarks}.html` })
         .then(e => {
             // console.log(Share.sharedAction);
         }).catch(err => {
@@ -98,28 +101,25 @@ export async function exportHtmlFile(filename,content) {
 
 
 export async function exportPdfFile(filename, content) {
-    const html = marked(content)
-    console.log(html);
-
-    await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
-        .then(e => {
-        }).catch(err => {
-            console.error(err);
-        })
-
-    const pdf = await Print.printToFileAsync({ html: html})
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri  = cacheDirectoryUri+filename_removeMarks+'.pdf'
+    const html     = `<style>@page{margin: 50px;}</style>${marked(content)}`
+    const pdf      = await Print.printToFileAsync({ html: html})
     const shareUrl = await FileSystem.getContentUriAsync(pdf.uri)
 
-    Share.share({ url: shareUrl })
-        .then(e => {
-        }).catch(err => {
-            console.error(err);
-        })
+        await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
+            .then(e => {
+            }).catch(err => {
+                console.error(err);
+            })
+        await FS.copyAsync({ from: shareUrl, to: fileUri})
+        Sharing.shareAsync(fileUri)
 }
 
 export async function printHtmlFile(filename, content) {
-    const html = marked(content)
-    await Print.printAsync({ html: html })
+    const html = `<style>@page{margin: 50px;}</style>${marked(content)}`
+    console.log(html);
+    await Print.printAsync({ html: html }).catch(err=>{console.error(err);})
 }
 
 
