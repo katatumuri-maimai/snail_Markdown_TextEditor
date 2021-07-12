@@ -153,6 +153,8 @@ export function SetDataNameModal(props) {
 export function SelectProjectModal(props) {
     const { theme } = useTheme();
     const {
+        isWindowWidthSmall,
+        isLandscape,
         boxSadowStyle,
         setSetDataNameModalOpen,
         setSelectProjectModalOpen,
@@ -183,11 +185,15 @@ export function SelectProjectModal(props) {
             padding: 20,
             borderRadius: 20
         },
+        scroll: {
+            width: '100%',
+        },
         Wrap:{
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'center',
-            flexWrap:'wrap'
+            justifyContent: 'flex-start',
+            flexWrap:'wrap',
+            width: '100%',
         },
         text: {
             color: theme.topBar.titleTextColor,
@@ -195,9 +201,10 @@ export function SelectProjectModal(props) {
             marginBottom: 20,
         },
         btn: {
-            width: 150,
-            height: 100,
-            justifyContent: 'center',
+            width: isWindowWidthSmall?'95%':'30%',
+            height: isWindowWidthSmall?50:100,
+            flexDirection: isWindowWidthSmall ? 'row' :'column',
+            justifyContent: isWindowWidthSmall?'flex-start':'center',
             alignItems: 'center',
             backgroundColor: theme.main.secondBackgroundColor,
             borderRadius: 20,
@@ -206,11 +213,14 @@ export function SelectProjectModal(props) {
         },
         icon:{
             color: theme.nav.iconColor,
-            fontSize: 50,
+            fontSize: isWindowWidthSmall?30:50,
         },
         btnText: {
             color: theme.nav.iconColor,
             fontSize: 16,
+            marginLeft: isWindowWidthSmall?10:0,
+            width: '80%',
+            textAlign: isWindowWidthSmall?'left':'center'
         }
     }
 
@@ -256,6 +266,7 @@ export function SelectProjectModal(props) {
             <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={closeModal}>
                 <Pressable style={styles.modal} onPress={openModal}>
                         <Text style={styles.text}>「{newFileName}」を保存するプロジェクトフォルダを選んでください</Text>
+                    <ScrollView style={styles.scroll}>
                     <View style={styles.Wrap}>
                     {Project_List.map(e => {
                         let projectName;
@@ -280,6 +291,7 @@ export function SelectProjectModal(props) {
                         )
                     })}
                     </View>
+                    </ScrollView>
                 </Pressable>
             </Pressable>
         </Modal>
