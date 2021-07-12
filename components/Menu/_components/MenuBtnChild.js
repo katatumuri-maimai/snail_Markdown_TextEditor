@@ -43,13 +43,15 @@ export default function MenuBtnChild(props) {
         }
     }
 
+    const file = props.projectName + '/' + props.name
+
     function onPress(params) {
         props.onPress()
-        setWhichMenuChidOpen(props.name)
+        setWhichMenuChidOpen(file)
     }
 
     useEffect(()=>{
-        if (whichMenuChidOpen == props.name) {
+        if (whichMenuChidOpen == file) {
             setOnPress(true)
         } else {
             setOnPress(false)
