@@ -54,7 +54,7 @@ export default function MenuBtn(props) {
             />
             <Text
              style={styles.btnText}
-             numberOfLines={10}>
+             numberOfLines={3}>
                  {props.name}
             </Text>
             {props.enableDeleteDataBtn ?

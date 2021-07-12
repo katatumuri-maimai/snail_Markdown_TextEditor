@@ -135,6 +135,7 @@ export function SetDataNameModal(props) {
                     onChangeText={text => { onChangeText(text)}}
                     placeholderTextColor={styles.textInput.color}
                     autoFocus={true}
+                    numberOfLines={1}
                     placeholder={whichSetDataNameModalOpen == 'addProject'?'新規プロジェクト名':'新規ファイル名'}
                 />
                     <Pressable
@@ -273,7 +274,7 @@ export function SelectProjectModal(props) {
                                 />
                                 <Text 
                                 style={styles.btnText}
-                                numberOfLines={20}
+                                numberOfLines={2}
                                 >{projectName}</Text>
                             </Pressable>
                         )
@@ -460,6 +461,7 @@ function Projects(props) {
             />
             <Text
                 style={styles.projectsBtnText}
+                numberOfLines={2}
             >{projectName}</Text>
             <Icon
                 name='arrow-drop-down'
@@ -482,6 +484,7 @@ function Projects(props) {
                             />
                             <Text
                                 style={styles.filesBtnText}
+                                numberOfLines={2}
                             >{f}</Text>
                         </Pressable>
                     )

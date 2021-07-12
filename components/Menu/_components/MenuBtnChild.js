@@ -63,7 +63,7 @@ export default function MenuBtnChild(props) {
             name={props.iconName}
             iconStyle={styles.icon}
             />
-            <Text style={styles.btnText}>{props.name}</Text>
+            <Text style={styles.btnText} numberOfLines={3}>{props.name}</Text>
             {props.enableDeleteDataBtn?
                 <DeleteDataBtn
                     isBtnOnPress={isOnPress}

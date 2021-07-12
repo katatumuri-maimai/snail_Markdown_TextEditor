@@ -12,10 +12,10 @@ export default function Title(props) {
         color: theme.topBar.titleTextColor,
         zIndex: -1,
         width: '70%',
-        maxHight: 54,
+        maxHeight: 54,
     }
 
     return (
-        <Text style={style}>{props.title}</Text>
+        <Text style={style} numberOfLines={2}>{props.title}</Text>
     )
 }
