@@ -1,20 +1,15 @@
 import * as FileSystem from 'expo-file-system';
-import { readDirectoryAsync, StorageAccessFramework } from 'expo-file-system';
+import { StorageAccessFramework } from 'expo-file-system';
 import * as Device from 'expo-device';
 import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
-import * as ImagePicker from 'expo-image-picker';
-import * as Clipboard from 'expo-clipboard';
 
 
-const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
-const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
 const documentPickerCacheUri = FileSystem.cacheDirectory + 'DocumentPicker/'
-const imagePickerCacheUri = FileSystem.cacheDirectory + 'ImagePicker/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importFile() {
@@ -42,24 +37,6 @@ export async function importFile() {
     }
 }
 
-export async function importImage(params) {
-    const data = await ImagePicker.launchImageLibraryAsync({ quality: 0})
-    // console.log(data.base64);
-    if (!data.cancelled && data.type == 'image') {
-        const dataUri = data.uri
-        const fileUri = imagePickerUri + dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
-
-        await FileSystem.makeDirectoryAsync(imagePickerUri,{ intermediates: true })
-        await FS.copyAsync({ from: dataUri, to: fileUri})
-        // console.log(t);
-        
-        // FileSystem.readAsStringAsync(fileUri).then(e=>{console.log(e);})
-
-        const text = `![image](${dataUri.match(".+/(.+?)([\?#;].*)?$")[1]})`
-
-        Clipboard.setString(text)
-    }
-}
 
 export async function exportMdFile(filename, content) {
     const filename_removeMarks = removeMarks(filename.replace('.md', ''))

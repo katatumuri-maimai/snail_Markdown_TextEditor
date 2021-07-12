@@ -30,6 +30,7 @@ const settingIconList = [
 const canOpenSettingIconList = [
     'settings',
     'folder',
+    'image',
     'file-upload'
 ]
 
@@ -53,6 +54,7 @@ export function ContextProvider(props) {
     const [newFileName, setNewFileName] = useState('')
     const [newText, setNewText] = useState('')
     const [Project_List, setProject_List] = useState([])
+    const [Image_List, setImage_List] = useState([])
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
     const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
@@ -123,6 +125,8 @@ export function ContextProvider(props) {
         setNewText,
         Project_List,
         setProject_List,
+        Image_List, 
+        setImage_List,
         isDataChange,
         setDataChange,
         isDelete,

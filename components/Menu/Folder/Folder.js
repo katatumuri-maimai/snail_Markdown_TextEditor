@@ -131,7 +131,6 @@ function TypeSelectMenu(props) {
                 iconName='create-new-folder'
                 text='プロジェクト'
                 addType='addProject'
-                backgroundColor='pink'
                 onPress={onPressAddProject}
                 borderBottom={true}
             />
@@ -139,7 +138,6 @@ function TypeSelectMenu(props) {
                 iconName='note-add'
                 text='ファイル'
                 addType='addFile'
-                backgroundColor='red'
                 onPress={onPressAddFile}
             />
 
