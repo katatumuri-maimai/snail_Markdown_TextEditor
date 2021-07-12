@@ -43,7 +43,7 @@ export async function createNewFile(projectName, fileName,content) {
             console.error(err);
         })
 
-    const new_FileName = createNewName(Files, `${removeMarks(fileName)}`)
+    const new_FileName = createNewName(Files, removeMarks(fileName))
     const fileUri = projectUri + '/'+ encodeURIComponent(new_FileName)+'.md'
 
     await FS.writeAsStringAsync(fileUri, content, { encoding: FileSystem.EncodingType.UTF8 })
