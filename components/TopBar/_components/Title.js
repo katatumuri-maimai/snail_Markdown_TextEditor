@@ -11,6 +11,8 @@ export default function Title(props) {
     const style={
         color: theme.topBar.titleTextColor,
         zIndex: -1,
+        width: '70%',
+        maxHight: 54,
     }
 
     return (
