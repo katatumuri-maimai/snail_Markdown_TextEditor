@@ -93,6 +93,7 @@ function NavOpened(props) {
     settingIconList,
     canOpenSettingIconList,
     setWhichMenuOpen,
+    isMenuOpen,
     setIsMenuOpen,
     newFileName,
     setNewFileName,
@@ -131,11 +132,11 @@ function NavOpened(props) {
     }
 
     if (icon == 'image'){
-      setIsMenuOpen(false)
+      // setIsMenuOpen(isMenuOpen)
     }
 
     if (icon == 'file-download') {
-      setIsMenuOpen(false)
+      // setIsMenuOpen(isMenuOpen)
       const result= await onPressImport()
       if(result){
       setSelectProjectModalOpen(true)

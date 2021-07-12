@@ -45,7 +45,7 @@ function WhichMenu(params) {
 
     if (whichMenuOpen == 'settings'){
         return <Settings />
-    } else if (whichMenuOpen == 'folder'){
+    } else if (whichMenuOpen == 'folder' || whichMenuOpen == 'file-download'){
         return <Folder />
     } else if (whichMenuOpen == 'file-upload'){
         return <Export />
