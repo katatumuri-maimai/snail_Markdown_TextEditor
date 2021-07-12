@@ -1,5 +1,5 @@
 import * as FileSystem from 'expo-file-system';
-import { StorageAccessFramework } from 'expo-file-system';
+import { readDirectoryAsync, StorageAccessFramework } from 'expo-file-system';
 import * as Device from 'expo-device';
 import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
@@ -10,19 +10,21 @@ import * as Sharing from 'expo-sharing';
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
+const documentPickerUri = FileSystem.cacheDirectory + 'DocumentPicker/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importFile() {
-    const data = await DocumentPicker.getDocumentAsync()
+    const data = await DocumentPicker.getDocumentAsync({ type: 'text/*', copyToCacheDirectory: true})
     const state = data.type
 
     if (state == "success") {
         const filename = data.name
-        const fileUri = data.uri
+        const dataUri = data.uri
+        const fileUri = documentPickerUri+dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
 
         const filecontent = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
             .then(e => {
-                console.log("readAsStringAsync >>" + e);
+                // console.log("readAsStringAsync >>" + e);
                 return e
             }).catch(err => {
                 console.error("readAsStringAsync >>" + err);
