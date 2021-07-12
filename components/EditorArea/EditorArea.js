@@ -38,7 +38,7 @@ export default function EditorArea(props) {
     return (
             <View style={style}>
                 <InputArea />
-                {isPreviewOpen ? <Preview />:<View/>}
+                {isPreviewOpen ? <Preview />:null}
             </View>
     )
 }

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { View, Text, Pressable,ScrollView} from 'react-native';
+import { View, Text, Pressable} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import {readFileData, removeAll} from '../../../modules/controlProjects';
 import MenuBtn from '../_components/MenuBtn';
 import MenuBtnChild from '../_components/MenuBtnChild';
 import MenuTitle from '../_components/MenuTitle';
-
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Folder(params) {
     const { theme } = useTheme();

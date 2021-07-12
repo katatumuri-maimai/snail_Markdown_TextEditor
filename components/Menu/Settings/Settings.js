@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, ScrollView} from 'react-native';
+import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuBtn from '../_components/MenuBtn';

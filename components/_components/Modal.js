@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Modal, TextInput, View, Pressable,Text,ScrollView} from 'react-native';
+import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
 import { createNewFile, readFileData, saveProject } from '../../modules/controlProjects';
 import *as IEF from '../../modules/importExportFile';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export function SetDataNameModal(props) {
     const { theme } = useTheme();

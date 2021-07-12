@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ScrollView} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
 import Markdown from 'react-native-markdown-display';
 import { ContextObject } from '../../../modules/context';

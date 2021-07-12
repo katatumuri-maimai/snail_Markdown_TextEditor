@@ -158,8 +158,6 @@ export default function Main() {
       setAbsoluteX(absoluteX)
     }
   }
-  console.log(keyboardScreenY);
-
   return (
         <ThemeProvider theme={theme[appTheme]}>
       <View style={styles.view}>
