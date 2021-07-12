@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
-import { importImage } from '../../../modules/imagePickUp';
-
+import { importImage, imagePickerUri} from '../../../modules/imagePickUp';
 
 
 export default function Images(params) {
@@ -43,6 +42,15 @@ export default function Images(params) {
         },
         plusIcon: {
             fontSize: 40
+        },
+        wrap:{
+            flexDirection: 'row',
+            flexWrap:'wrap'
+        },
+        image: {
+            width: 120, 
+            height: 120 ,
+            margin:5
         }
     }
 
@@ -65,21 +73,23 @@ export default function Images(params) {
             <MenuTitle>イメージ</MenuTitle>
 
             <ScrollView>
+                <View style={styles.wrap}>
                 {!Image_List ?
                     <Text>loading...🐌</Text>
                     : Image_List.map(e => {
-                        let projectName;
-                        for (let key in e) {
-                            projectName = key
-                        }
-                        const fileList = e[projectName]
-
+                        const imageUri = imagePickerUri+e
                         return (
-                            <View key={e}><Text>{e}</Text></View>
+                            <Pressable>
+                                <Image
+                                    style={styles.image}
+                                    source={{ uri: imageUri}}
+                                />
+                            </Pressable>
                         )
                     })
 
                 }
+                </View>
             </ScrollView>
 
 

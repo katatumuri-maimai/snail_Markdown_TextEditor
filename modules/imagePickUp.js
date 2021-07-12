@@ -7,7 +7,7 @@ import * as DocumentPicker from 'expo-document-picker';
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
-const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
+export const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 const imagePickerCacheUri = cacheDirectoryUri + 'ImagePicker/'
 
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
