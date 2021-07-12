@@ -55,7 +55,7 @@ export async function importImage(params) {
         
         // FileSystem.readAsStringAsync(fileUri).then(e=>{console.log(e);})
 
-        const text = `![image](${fileUri})`
+        const text = `![image](${dataUri.match(".+/(.+?)([\?#;].*)?$")[1]})`
 
         Clipboard.setString(text)
     }
