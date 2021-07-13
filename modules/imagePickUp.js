@@ -26,10 +26,28 @@ export async function importImage() {
         const text = `![image](${fileName})`
 
         Clipboard.setString(text)
+
+        return fileName
     }
 }
 
 export async function readImages(){
     const imageList = await FileSystem.readDirectoryAsync(imagePickerUri)
-    return imageList
+    let imageDataList=[];
+
+    await imageList.forEach(async e=>{
+        const data=await FileSystem.getInfoAsync(imagePickerUri+e)
+        imageDataList.push(data);
+    })
+
+    imageDataList.sort(function (a, b) {
+        if (a.modificationTime > b.modificationTime) return -1;
+        if (a.modificationTime < b.modificationTime) return 1;
+        return 0;
+    });
+
+    console.log(imageList);
+    console.log(imageDataList);
+
+    return imageDataList
 }

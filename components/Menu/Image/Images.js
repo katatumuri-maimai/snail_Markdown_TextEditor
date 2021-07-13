@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Pressable, Image} from 'react-native';
+import { View, Text, Pressable, Image, ActivityIndicator, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
@@ -13,19 +13,11 @@ export default function Images(params) {
         boxSadowStyle,
         Image_List,
         setImage_List,
-        isDelete,
-        setIsDelete
     } = useContext(ContextObject)
 
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
-
-    useEffect(() => {
-        console.log('useEffect');
-        if (isDelete) {
-            setIsDelete(false)
-        }
-    }, [isDelete])
+    const [isImportImage, setIsImportImage] = useState(false)
 
     const styles = {
         view: {
@@ -47,18 +39,31 @@ export default function Images(params) {
             flexDirection: 'row',
             flexWrap:'wrap'
         },
+        center:{
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
         image: {
             width: 120, 
             height: 120 ,
             margin:5
+        },
+        indicator: {
+            width: 120,
+            height: 120,
+            margin: 5
+
+
         }
     }
 
 
     function onPressPlusIcon() {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
-
     }
+
+    console.log(Image_List);
+    let i=0
 
     return (
         <View style={styles.view}>
@@ -69,25 +74,31 @@ export default function Images(params) {
                 iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 onPress={onPressPlusIcon}
             />
-            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false) }} /> : null}
+            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false) }} onPressOut={() => { setIsImportImage(!isImportImage)}}/> : null}
             <MenuTitle>イメージ</MenuTitle>
-
             <ScrollView>
                 <View style={styles.wrap}>
-                {!Image_List ?
+                    {!Image_List ?
                     <Text>loading...🐌</Text>
-                    : Image_List.map(e => {
-                        const imageUri = imagePickerUri+e
+                        : Image_List.map(e => {
+                        const imageUri = e.uri
+                        i=i+1
                         return (
-                            <Pressable>
-                                <Image
+                            <Pressable key={i} style={styles.center}>
+                                {e == undefined ?
+                                <ActivityIndicator
+                                    size={Platform.OS == 'ios' ? 'large' : 40}
+                                    style={styles.indicator}
+                                    color={theme.PlusBtn.iconColor}
+                                />
+                                :<Image
                                     style={styles.image}
                                     source={{ uri: imageUri}}
                                 />
+                                }
                             </Pressable>
                         )
                     })
-
                 }
                 </View>
             </ScrollView>
@@ -101,6 +112,8 @@ function TypeSelectMenu(props) {
     const { theme } = useTheme();
     const {
         boxSadowStyle,
+        Image_List,
+        setImage_List,
         setSetDataNameModalOpen,
         setWhichDataNameModalOpen,
     } = useContext(ContextObject)
@@ -120,9 +133,15 @@ function TypeSelectMenu(props) {
         },
     }
 
-    function onPressPhoto() {
+    async function onPressPhoto() {
         props.onPress()
-        importImage()
+        Image_List.unshift(undefined)
+        const image = await importImage()
+        if (!!image){
+            for (let i in Image_List){
+                if (!Image_List[i]) {Image_List.splice(i,1,image)}
+        }}
+        props.onPressOut()
     }
 
     function onPressCamera() {
