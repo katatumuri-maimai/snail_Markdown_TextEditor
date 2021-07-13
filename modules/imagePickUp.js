@@ -22,12 +22,12 @@ export async function importImage() {
 
         await FileSystem.makeDirectoryAsync(imagePickerUri, { intermediates: true })
         await FS.copyAsync({ from: dataUri, to: fileUri })
+        const imageData= await FileSystem.getInfoAsync(fileUri)
 
         const text = `![image](${fileName})`
-
         Clipboard.setString(text)
 
-        return fileName
+        return imageData
     }
 }
 
@@ -35,19 +35,20 @@ export async function readImages(){
     const imageList = await FileSystem.readDirectoryAsync(imagePickerUri)
     let imageDataList=[];
 
-    await imageList.forEach(async e=>{
-        const data=await FileSystem.getInfoAsync(imagePickerUri+e)
+    for (const i in imageList) {
+        const data = await FileSystem.getInfoAsync(imagePickerUri + imageList[i])
         imageDataList.push(data);
-    })
+    }
 
-    imageDataList.sort(function (a, b) {
-        if (a.modificationTime > b.modificationTime) return -1;
-        if (a.modificationTime < b.modificationTime) return 1;
-        return 0;
-    });
-
-    console.log(imageList);
-    console.log(imageDataList);
-
-    return imageDataList
+    if (imageDataList.length > 0){
+         const sort_imageDataList = imageDataList.sort((a, b) => {
+            if (a.modificationTime > b.modificationTime)
+                return -1;
+            if (a.modificationTime < b.modificationTime)
+                return 1;
+            return 0;
+        });
+        
+        return sort_imageDataList
+    }
 }

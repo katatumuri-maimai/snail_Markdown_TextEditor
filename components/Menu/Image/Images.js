@@ -62,7 +62,7 @@ export default function Images(params) {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
     }
 
-    console.log(Image_List);
+    // console.log(Image_List);
     let i=0
 
     return (
@@ -81,7 +81,6 @@ export default function Images(params) {
                     {!Image_List ?
                     <Text>loading...🐌</Text>
                         : Image_List.map(e => {
-                        const imageUri = e.uri
                         i=i+1
                         return (
                             <Pressable key={i} style={styles.center}>
@@ -93,7 +92,7 @@ export default function Images(params) {
                                 />
                                 :<Image
                                     style={styles.image}
-                                    source={{ uri: imageUri}}
+                                    source={{ uri: e.uri}}
                                 />
                                 }
                             </Pressable>
