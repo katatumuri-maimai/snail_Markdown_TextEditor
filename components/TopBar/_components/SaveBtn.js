@@ -50,9 +50,11 @@ export default function SaveBtn() {
         }
     }
 
-    async function onPress(params) {
+    async function onPress() {
+        if (!!fileName){
         await saveFile(projectName, fileName, text)
         setIsSave(true)
+        }
     }
 
     return (
