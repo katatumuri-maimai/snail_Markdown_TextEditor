@@ -62,7 +62,7 @@ export default function Images(params) {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
     }
 
-    // console.log(Image_List);
+    console.log(isImportImage);
     let i=0
 
     return (
@@ -136,10 +136,12 @@ function TypeSelectMenu(props) {
         props.onPress()
         Image_List.unshift(undefined)
         const image = await importImage()
-        if (!!image){
-            for (let i in Image_List){
-                if (!Image_List[i]) {Image_List.splice(i,1,image)}
-        }}
+        console.log(image);
+        for (let i in Image_List) {
+            if (!Image_List[i]) { 
+                !!image ? Image_List.splice(i, 1, image.uri) : Image_List.splice(i, 1)
+            }
+        }
         props.onPressOut()
     }
 

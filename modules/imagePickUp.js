@@ -14,7 +14,7 @@ let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importImage() {
     const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
-    // console.log(data.base64);
+    console.log('>>>>'+data.cancelled);
     if (!data.cancelled && data.type == 'image') {
         const dataUri = data.uri
         const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
@@ -28,10 +28,11 @@ export async function importImage() {
         Clipboard.setString(text)
 
         return imageData
-    }
+    } 
 }
 
 export async function readImages(){
+    await FileSystem.makeDirectoryAsync(imagePickerUri, { intermediates: true })
     const imageList = await FileSystem.readDirectoryAsync(imagePickerUri)
     let imageDataList=[];
 
@@ -48,7 +49,10 @@ export async function readImages(){
                 return 1;
             return 0;
         });
-        
+
         return sort_imageDataList
+    }else{
+        return imageDataList
     }
+    
 }
