@@ -7,8 +7,7 @@ import MenuTitle from '../_components/MenuTitle';
 import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../../modules/imagePickUp';
 import * as Clipboard from 'expo-clipboard';
 import { Keyboard } from 'react-native';
-
-
+import DeleteImageBtn from '../_components/DeleteImageBtn';
 
 export default function Images(params) {
     const { theme } = useTheme();
@@ -16,10 +15,19 @@ export default function Images(params) {
         boxSadowStyle,
         Image_List,
         setImage_List,
+        isDelete,
+        setIsDelete
     } = useContext(ContextObject)
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
     const [isImportImage, setIsImportImage] = useState(false)
+
+    useEffect(() => {
+        console.log('useEffect');
+        if (isDelete) {
+            setIsDelete(false)
+        }
+    }, [isDelete])
 
     const styles = {
         view: {
@@ -127,6 +135,9 @@ export default function Images(params) {
                                         <Image
                                             style={styles.image}
                                             source={{ uri: uri}}
+                                        />
+                                        <DeleteImageBtn
+                                            imageUri={uri }
                                         />
                                     </Tooltip>
                                     }

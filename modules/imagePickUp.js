@@ -97,3 +97,11 @@ export async function readImages(){
     }
     
 }
+
+
+export async function deletImage(imageUri) {
+    await FileSystem.deleteAsync(imageUri)
+
+    const new_Image_List = await readImages()
+    return new_Image_List
+}

@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Text, Pressable } from 'react-native';
 import { Icon, useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-import { removeData } from '../../../modules/controlProjects';
+import { deletImage } from '../../../modules/imagePickUp';
 
 
-export default function DeleteDataBtn(props) {
+export default function DeleteImageBtn(props) {
     const { theme } = useTheme();
     const {
-        Project_List,
-        setProject_List,
+        boxSadowStyle,
+        setImage_List,
         setIsDelete
     } = useContext(ContextObject)
 
@@ -17,47 +17,43 @@ export default function DeleteDataBtn(props) {
 
     const styles = {
         dotIcon: {
-            color: (props.isBtnOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),
+            color: '#737373',
             fontSize: 20,
         },
         dotIconContainer: {
             position: 'absolute',
-            right: 0,
+            right: 5,
+            bottom:5,
+            backgroundColor: '#FFFFFF',
             width: 30,
-            height: 30,
+            height:30,
+            padding:5,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            borderRadius: 50,
+            opacity:isOnPressDotIcon?0.7:0.3,
+            
         }
     }
 
     function onPressDotIcon() {
-        console.log('s');
         { isOnPressDotIcon ? setOnPressDotIcon(false) : setOnPressDotIcon(true) }
     }
 
     async function onLongPressDotIcon() {
         if (isOnPressDotIcon) {
-        const projectName = props.projectName
-        const fileName = props.fileName
-        const result= await removeData(projectName, fileName)
+            const imageUri = props.imageUri
+            const new_Image_List= await deletImage(imageUri)
 
-        console.log(result);
+            console.log(new_Image_List);
+            setImage_List(new_Image_List)
 
-            for(let i in Project_List){
-                for (let key in Project_List[i]) {
-                    if (key == projectName) {
-                        console.log('key>>' + key);
-                        !fileName ?
-                            Project_List.splice(i, 1)
-                            : Project_List.splice(i, 1, result)
-                }}}
         setIsDelete(true)
         }}
 
     return (
         <Pressable
             onPress={onPressDotIcon}
-            // onPressOut={onPressDotIcon}
             onLongPress={onLongPressDotIcon}
             style={styles.dotIconContainer}
         >
