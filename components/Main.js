@@ -171,8 +171,8 @@ export default function Main() {
               style={styles.app}
               enabled={Platform.OS != 'ios'}
               > */}
-            {isSelectProjectModalOpen?<SelectProjectModal keyboardPadding={keyboardScreenY}/>:null}
-            {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={keyboardScreenY} /> : null}
+            {isSelectProjectModalOpen ? <SelectProjectModal keyboardPadding={Platform.OS == 'ios' ?keyboardScreenY:0}/>:null}
+            {isSetDataNameModalOpen ? <SetDataNameModal keyboardPadding={Platform.OS == 'ios' ?keyboardScreenY:0} /> : null}
                 <TopBar
                 title={title}
                 />
