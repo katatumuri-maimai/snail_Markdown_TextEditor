@@ -53,11 +53,10 @@ export default function Folder(params) {
 
     return (
         <View style={styles.view}>
-            <Pressable onPress={onPressPlusIcon}>
+            <Pressable onPress={onPressPlusIcon} style={styles.plusIconContainer}>
                 <Icon
                     name='add-circle'
                     color={theme.PlusBtn.iconColor}
-                    containerStyle={styles.plusIconContainer}
                     iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 />
             </Pressable>

@@ -28,15 +28,18 @@ export default function DeleteDataBtn(props) {
     }
 
     function onPressDotIcon() {
+        console.log('s');
         { isOnPressDotIcon ? setOnPressDotIcon(false) : setOnPressDotIcon(true) }
     }
 
     async function onLongPressDotIcon() {
         const projectName = props.projectName
         const fileName = props.fileName
-        const result= isOnPressDotIcon ? await removeData(projectName, fileName) : console.log('DeleteDataBtn>>削除できませんでした');
+        const result= await removeData(projectName, fileName)
 
         console.log(result);
+
+        if (isOnPressDotIcon){
             for(let i in Project_List){
                 for (let key in Project_List[i]) {
                     if (key == projectName) {
@@ -46,17 +49,17 @@ export default function DeleteDataBtn(props) {
                             : Project_List.splice(i, 1, result)
                 }}}
         setIsDelete(true)
-        }
+        }}
 
     return (
         <Pressable
             onPress={onPressDotIcon}
             onLongPress={onLongPressDotIcon}
+            style={styles.dotIconContainer}
         >
             <Icon
                 name={isOnPressDotIcon ? 'delete' : 'more-vert'}
                 iconStyle={styles.dotIcon}
-                containerStyle={styles.dotIconContainer}
             />
         </Pressable>
     )
