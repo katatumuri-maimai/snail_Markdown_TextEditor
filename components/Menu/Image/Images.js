@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme, Tooltip} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
-import { importImage} from '../../../modules/imagePickUp';
-import { ImageTextCopiedModal } from '../../_components/Modal';
+import { importImage } from '../../../modules/imagePickUp';
+import * as Clipboard from 'expo-clipboard';
+import { Keyboard } from 'react-native';
 
 
 
@@ -64,11 +65,13 @@ export default function Images(params) {
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
     }
 
+    function willEndImageLoad() {
+        setIsImportImage(!isImportImage)
+    }
 
-    useEffect(()=>{
-        console.log(Image_List);
-    }, [Image_List])
-
+    const tooltipRef = useRef(null);
+    const tooltipRef2 = useRef(null);
+    
     let i=0
 
     return (
@@ -80,13 +83,24 @@ export default function Images(params) {
                     iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 />
             </Pressable>
-            {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false) }} onPressOut={() => { setIsImportImage(!isImportImage)}}/> : null}
+            {isTypeSelectMenuOpen ?
+             <TypeSelectMenu
+                onPress={() => { setTypeSelectMenuOpen(false) }} 
+                willEndImageLoad={willEndImageLoad}
+                didEndImageLoad={()=>{tooltipRef.current.toggleTooltip()}}
+                /> : null}
             <MenuTitle>イメージ</MenuTitle>
             <ScrollView>
                 <View style={styles.wrap}>
                     {!Image_List ?
                     <Text>loading...🐌</Text>
                         : Image_List.map(e => {
+                            let uri ,fileName ,text 
+                            if (!!e){
+                                uri = e.uri
+                                fileName = uri.match(".+/(.+?)([\?#;].*)?$")[1]
+                                text = `![image](${fileName})`
+                            }
                             i=i+1
                             return (
                                 <Pressable key={i} style={styles.center}>
@@ -97,10 +111,13 @@ export default function Images(params) {
                                         color={theme.PlusBtn.iconColor}
                                     />
                                     : <Tooltip
-                                        popover={<Text>Info here</Text>}>
+                                        ref={i === 1 ? tooltipRef : tooltipRef2}
+                                        popover={<Text>{text}コピーしました</Text>}
+                                        onOpen={() => { Clipboard.setString(text)}}
+                                        >
                                         <Image
                                             style={styles.image}
-                                            source={{ uri: e.uri}}
+                                            source={{ uri: uri}}
                                         />
                                     </Tooltip>
                                     }
@@ -157,8 +174,8 @@ function TypeSelectMenu(props) {
             }
         }
         setImage_List(new_Image_List)
-
-        props.onPressOut()
+        props.willEndImageLoad()
+        props.didEndImageLoad()
     }
 
     function onPressCamera() {
