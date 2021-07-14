@@ -164,8 +164,8 @@ export default function Main() {
         <ThemeProvider theme={theme[appTheme]}>
       <View style={styles.view}>
           <StatusBar hidden={true}/>
-          <SafeAreaView style={styles.view}>
-          <Pressable style={styles.keyboardView} onPress={Keyboard.dismiss}>
+        <SafeAreaView style={styles.keyboardView}>
+          <View style={styles.keyboardView}>
               {/* <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
               style={styles.app}
@@ -184,7 +184,7 @@ export default function Main() {
             </PanGestureHandler>
             
               {/* </KeyboardAvoidingView> */}
-            </Pressable>
+          </View>
           
           </SafeAreaView>
       </View>
