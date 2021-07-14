@@ -71,15 +71,17 @@ export default function Main() {
 
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', keyboardShow);
+    Keyboard.addListener('keyboardDidShow', keyboardShow);
+    Keyboard.addListener('keyboardWillHide', keyboardHide);
     Keyboard.addListener('keyboardDidHide', keyboardHide);
-    Keyboard.addListener('keyboardWillShow', keyboardShow);
-    Keyboard.addListener('keyboardDidHide', keyboardHide);
+    Keyboard.addListener('keyboardWillChangeFrame', keyboardDidChangeFrame);
     Keyboard.addListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     return () => {
       Keyboard.removeListener('keyboardWillShow', keyboardShow);
+      Keyboard.removeListener('keyboardDidShow', keyboardShow);
+      Keyboard.removeListener('keyboardWillHide', keyboardHide);
       Keyboard.removeListener('keyboardDidHide', keyboardHide);
-      Keyboard.removeListener('keyboardWillShow', keyboardShow);
-      Keyboard.removeListener('keyboardDidHide', keyboardHide);
+      Keyboard.removeListener('keyboardWillChangeFrame', keyboardDidChangeFrame);
       Keyboard.removeListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     };
   }, []);
@@ -95,7 +97,7 @@ export default function Main() {
   function keyboardDidChangeFrame(event) {
     const keyboardWidth = event.endCoordinates.width
     const difference = Number(windowWidth - keyboardWidth)
-    if (50<=difference){
+    if (10<=difference){
       setKeyboardScreenYd(0)
     }else{
       setKeyboardScreenYd(event.endCoordinates.height)
