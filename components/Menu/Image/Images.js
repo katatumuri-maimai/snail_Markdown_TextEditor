@@ -54,8 +54,15 @@ export default function Images(params) {
             width: 120,
             height: 120,
             margin: 5
-
-
+        },
+        tooltip:{
+            width: 'auto',
+            height: 'auto',
+            backgroundColor: theme.main.secondBackgroundColor,
+        },
+        tooltipText: {
+            margin:3,
+            color: theme.nav.iconColor
         }
     }
 
@@ -112,8 +119,10 @@ export default function Images(params) {
                                     />
                                     : <Tooltip
                                         ref={i === 1 ? tooltipRef : tooltipRef2}
-                                        popover={<Text>{text}コピーしました</Text>}
+                                        popover={<Text style={styles.tooltipText}>copy📝{text}</Text>}
                                         onOpen={() => { Clipboard.setString(text)}}
+                                        containerStyle={styles.tooltip}
+                                        pointerColor={styles.tooltip.backgroundColor}
                                         >
                                         <Image
                                             style={styles.image}
