@@ -53,13 +53,14 @@ export default function Folder(params) {
 
     return (
         <View style={styles.view}>
-            <Icon
-                name='add-circle'
-                color={theme.PlusBtn.iconColor}
-                containerStyle={styles.plusIconContainer}
-                iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
-                onPress={onPressPlusIcon}
-            />
+            <Pressable onPress={onPressPlusIcon}>
+                <Icon
+                    name='add-circle'
+                    color={theme.PlusBtn.iconColor}
+                    containerStyle={styles.plusIconContainer}
+                    iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
+                />
+            </Pressable>
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false)}}/> : null}
             <MenuTitle>プロジェクト</MenuTitle>
 

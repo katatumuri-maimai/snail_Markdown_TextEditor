@@ -49,12 +49,15 @@ export default function DeleteDataBtn(props) {
         }
 
     return (
+        <Pressable
+            onPress={onPressDotIcon}
+            onLongPress={onLongPressDotIcon}
+        >
             <Icon
                 name={isOnPressDotIcon ? 'delete' : 'more-vert'}
                 iconStyle={styles.dotIcon}
                 containerStyle={styles.dotIconContainer}
-                onPress={onPressDotIcon}
-                onLongPress={onLongPressDotIcon}
             />
+        </Pressable>
     )
 }

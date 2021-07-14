@@ -80,12 +80,13 @@ function NavClosed(props) {
     }
   }
     return (
+      <Pressable onPress={props.onPress}>
           <Icon
           name='arrow-forward-ios'
           containerStyle={style.iconContainer}
           iconStyle={style.icon}
-          onPress={props.onPress}
           />
+      </Pressable>
     )
 }
 
@@ -163,13 +164,13 @@ function NavOpened(props) {
       <View style={style.contener}>
         {settingIconList.map(e=>{
           return (
+            <Pressable key={e} onPress={() => { onPress(e) }}>
             <Icon
-              key={e}
               name={e}
               containerStyle={style.iconContainer}
               iconStyle={style.icon}
-              onPress={()=>{onPress(e)}}
             />
+            </Pressable>
           )
         })}
       </View>

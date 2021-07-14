@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text} from 'react-native';
+import { View, Text, Pressable} from 'react-native';
 import { useTheme ,Icon} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import { saveFile } from '../../../modules/controlProjects';
@@ -59,13 +59,12 @@ export default function SaveBtn() {
          isSave?
             <View style={styles.view}><Text style={styles.text}>保存しました</Text></View >
 
-        :<View style={styles.view}>
+        : <Pressable onPress={onPress} style={styles.view}>
             <Icon
                 name='save'
                 iconStyle={styles.icon}
-                onPress={onPress}
             />
-        </View>
+        </Pressable>
         
     )
 }

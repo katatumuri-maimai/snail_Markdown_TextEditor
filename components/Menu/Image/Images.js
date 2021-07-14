@@ -73,14 +73,14 @@ export default function Images(params) {
 
     return (
         <View style={styles.view}>
-            <Icon
-                name='add-circle'
-                color={theme.PlusBtn.iconColor}
-                containerStyle={styles.plusIconContainer}
-                iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
-                onPress={onPressPlusIcon}
-                // onLongPress={()=>{console.log("a");}}
-            />
+            <Pressable onPress={onPressPlusIcon}>
+                <Icon
+                    name='add-circle'
+                    color={theme.PlusBtn.iconColor}
+                    containerStyle={styles.plusIconContainer}
+                    iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
+                />
+            </Pressable>
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false) }} onPressOut={() => { setIsImportImage(!isImportImage)}}/> : null}
             <MenuTitle>イメージ</MenuTitle>
             <ScrollView>
