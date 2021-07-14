@@ -13,6 +13,7 @@ export default function Title(props) {
         zIndex: -1,
         width: '70%',
         maxHeight: 54,
+        textAlign: 'center'
     }
 
     return (
