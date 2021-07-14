@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef} from 'react';
 import { View, Text, Pressable, Image, ActivityIndicator, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Icon, useTheme } from 'react-native-elements';
+import { Icon, useTheme, Tooltip} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
-import { importImage, imagePickerUri} from '../../../modules/imagePickUp';
+import { importImage} from '../../../modules/imagePickUp';
+import { ImageTextCopiedModal } from '../../_components/Modal';
+
 
 
 export default function Images(params) {
@@ -14,7 +16,6 @@ export default function Images(params) {
         Image_List,
         setImage_List,
     } = useContext(ContextObject)
-
 
     const [isTypeSelectMenuOpen, setTypeSelectMenuOpen] = useState(false)
     const [isImportImage, setIsImportImage] = useState(false)
@@ -59,10 +60,15 @@ export default function Images(params) {
 
 
     function onPressPlusIcon() {
+        console.log("a");
         { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
     }
 
-    // console.log(isImportImage);
+
+    useEffect(()=>{
+        console.log(Image_List);
+    }, [Image_List])
+
     let i=0
 
     return (
@@ -73,6 +79,7 @@ export default function Images(params) {
                 containerStyle={styles.plusIconContainer}
                 iconStyle={[styles.plusIcon, boxSadowStyle.btn]}
                 onPress={onPressPlusIcon}
+                // onLongPress={()=>{console.log("a");}}
             />
             {isTypeSelectMenuOpen ? <TypeSelectMenu onPress={() => { setTypeSelectMenuOpen(false) }} onPressOut={() => { setIsImportImage(!isImportImage)}}/> : null}
             <MenuTitle>イメージ</MenuTitle>
@@ -81,22 +88,25 @@ export default function Images(params) {
                     {!Image_List ?
                     <Text>loading...🐌</Text>
                         : Image_List.map(e => {
-                        i=i+1
-                        return (
-                            <Pressable key={i} style={styles.center}>
-                                {e == undefined ?
-                                <ActivityIndicator
-                                    size={Platform.OS == 'ios' ? 'large' : 40}
-                                    style={styles.indicator}
-                                    color={theme.PlusBtn.iconColor}
-                                />
-                                :<Image
-                                    style={styles.image}
-                                    source={{ uri: e.uri}}
-                                />
-                                }
-                            </Pressable>
-                        )
+                            i=i+1
+                            return (
+                                <Pressable key={i} style={styles.center}>
+                                    {e == undefined ?
+                                    <ActivityIndicator
+                                        size={Platform.OS == 'ios' ? 'large' : 40}
+                                        style={styles.indicator}
+                                        color={theme.PlusBtn.iconColor}
+                                    />
+                                    : <Tooltip
+                                        popover={<Text>Info here</Text>}>
+                                        <Image
+                                            style={styles.image}
+                                            source={{ uri: e.uri}}
+                                        />
+                                    </Tooltip>
+                                    }
+                                </Pressable>
+                            )
                     })
                 }
                 </View>
@@ -133,15 +143,22 @@ function TypeSelectMenu(props) {
     }
 
     async function onPressPhoto() {
+        let new_Image_List = [...Image_List]
+        
         props.onPress()
-        Image_List.unshift(undefined)
+
+        new_Image_List.unshift(undefined)
+        setImage_List(new_Image_List)
+
         const image = await importImage()
         console.log(image);
-        for (let i in Image_List) {
-            if (!Image_List[i]) { 
-                !!image ? Image_List.splice(i, 1, image) : Image_List.splice(i, 1)
+        for (let i in new_Image_List) {
+            if (!new_Image_List[i]) {
+                !!image ? new_Image_List.splice(i, 1, image) : new_Image_List.splice(i, 1)
             }
         }
+        setImage_List(new_Image_List)
+
         props.onPressOut()
     }
 

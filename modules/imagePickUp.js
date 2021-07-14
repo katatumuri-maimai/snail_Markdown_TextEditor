@@ -7,14 +7,13 @@ import * as DocumentPicker from 'expo-document-picker';
 
 const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
-export const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
+const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 const imagePickerCacheUri = cacheDirectoryUri + 'ImagePicker/'
 
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importImage() {
     const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
-    console.log('>>>>'+data.cancelled);
     if (!data.cancelled && data.type == 'image') {
         const dataUri = data.uri
         const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
