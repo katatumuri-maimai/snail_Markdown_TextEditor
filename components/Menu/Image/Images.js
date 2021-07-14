@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme, Tooltip} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
-import { importImage } from '../../../modules/imagePickUp';
+import { importImageFromMediaLibrary } from '../../../modules/imagePickUp';
 import * as Clipboard from 'expo-clipboard';
 import { Keyboard } from 'react-native';
 
@@ -175,7 +175,7 @@ function TypeSelectMenu(props) {
         new_Image_List.unshift(undefined)
         setImage_List(new_Image_List)
 
-        const image = await importImage()
+        const image = await importImageFromMediaLibrary()
         console.log(image);
         for (let i in new_Image_List) {
             if (!new_Image_List[i]) {

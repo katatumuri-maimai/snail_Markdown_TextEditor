@@ -12,7 +12,7 @@ const imagePickerCacheUri = cacheDirectoryUri + 'ImagePicker/'
 
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
-export async function importImage() {
+export async function importImageFromMediaLibrary() {
     const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
     if (!data.cancelled && data.type == 'image') {
         const dataUri = data.uri
@@ -28,6 +28,24 @@ export async function importImage() {
 
         return imageData
     } 
+}
+
+export async function importImageFromCamera() {
+    const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
+    if (!data.cancelled && data.type == 'image') {
+        const dataUri = data.uri
+        const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
+        const fileUri = imagePickerUri + fileName
+
+        await FileSystem.makeDirectoryAsync(imagePickerUri, { intermediates: true })
+        await FS.copyAsync({ from: dataUri, to: fileUri })
+        const imageData = await FileSystem.getInfoAsync(fileUri)
+
+        const text = `![image](${fileName})`
+        Clipboard.setString(text)
+
+        return imageData
+    }
 }
 
 export async function readImages(){
