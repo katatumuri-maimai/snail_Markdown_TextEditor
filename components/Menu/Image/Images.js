@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme, Tooltip} from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
-import { importImageFromMediaLibrary } from '../../../modules/imagePickUp';
+import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../../modules/imagePickUp';
 import * as Clipboard from 'expo-clipboard';
 import { Keyboard } from 'react-native';
 
@@ -167,7 +167,7 @@ function TypeSelectMenu(props) {
         },
     }
 
-    async function onPressPhoto() {
+    async function onPress(type) {
         let new_Image_List = [...Image_List]
         
         props.onPress()
@@ -175,8 +175,13 @@ function TypeSelectMenu(props) {
         new_Image_List.unshift(undefined)
         setImage_List(new_Image_List)
 
-        const image = await importImageFromMediaLibrary()
-        console.log(image);
+        const image = 
+                  type == 'photo' ? await importImageFromMediaLibrary()
+                : type == 'camera' ? await importImageFromCamera()
+                : type == 'folder' ? await importImageFromFolder()
+                : null
+
+
         for (let i in new_Image_List) {
             if (!new_Image_List[i]) {
                 !!image ? new_Image_List.splice(i, 1, image) : new_Image_List.splice(i, 1)
@@ -184,11 +189,13 @@ function TypeSelectMenu(props) {
         }
         setImage_List(new_Image_List)
         props.willEndImageLoad()
-        props.didEndImageLoad()
+
+        !image?null:props.didEndImageLoad()
     }
 
     function onPressCamera() {
         props.onPress()
+        importImageFromCamera()
     }
     function onPressFile() {
         props.onPress()
@@ -200,18 +207,18 @@ function TypeSelectMenu(props) {
                 iconName='add-photo-alternate'
                 text='アルバム'
                 position='top'
-                onPress={onPressPhoto}
+                onPress={() => { onPress('photo')}}
             />
             <TypeSelectMenuBtn
                 iconName='photo-camera'
                 text='カメラ'
-                onPress={onPressCamera}
+                onPress={() => { onPress('camera') }}
             />
             <TypeSelectMenuBtn
                 iconName='folder'
                 text='ファイル'
                 position='bottom'
-                onPress={onPressFile}
+                onPress={() => { onPress('folder') }}
             />
 
         </View>

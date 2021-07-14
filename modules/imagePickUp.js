@@ -9,11 +9,13 @@ const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
 const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 const imagePickerCacheUri = cacheDirectoryUri + 'ImagePicker/'
+const documentPickerCacheUri = FileSystem.cacheDirectory + 'DocumentPicker/'
 
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importImageFromMediaLibrary() {
-    const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
+    await ImagePicker.requestMediaLibraryPermissionsAsync(true)
+    const data = await ImagePicker.launchImageLibraryAsync({ quality: 0.5 })
     if (!data.cancelled && data.type == 'image') {
         const dataUri = data.uri
         const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
@@ -31,7 +33,9 @@ export async function importImageFromMediaLibrary() {
 }
 
 export async function importImageFromCamera() {
-    const data = await ImagePicker.launchImageLibraryAsync({ quality: 1 })
+    await ImagePicker.requestCameraPermissionsAsync()
+    const data = await ImagePicker.launchCameraAsync({ quality: 0.5 })
+    console.log(data);
     if (!data.cancelled && data.type == 'image') {
         const dataUri = data.uri
         const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
@@ -39,6 +43,26 @@ export async function importImageFromCamera() {
 
         await FileSystem.makeDirectoryAsync(imagePickerUri, { intermediates: true })
         await FS.copyAsync({ from: dataUri, to: fileUri })
+        const imageData = await FileSystem.getInfoAsync(fileUri)
+
+        const text = `![image](${fileName})`
+        Clipboard.setString(text)
+
+        return imageData
+    }
+}
+
+export async function importImageFromFolder() {
+    const data = await DocumentPicker.getDocumentAsync({ type: 'image/*', copyToCacheDirectory:true})
+    console.log(data);
+    if (data.type == "success") {
+        const dataUri = data.uri
+        const fileName = dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
+        const cacheFileUri = documentPickerCacheUri + fileName
+        const fileUri = imagePickerUri + fileName
+        
+        await FileSystem.makeDirectoryAsync(imagePickerUri, { intermediates: true })
+        await FS.copyAsync({ from: cacheFileUri, to: fileUri })
         const imageData = await FileSystem.getInfoAsync(fileUri)
 
         const text = `![image](${fileName})`
