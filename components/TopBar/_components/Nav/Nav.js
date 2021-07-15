@@ -13,12 +13,6 @@ export default function Nav(props) {
   const {
     isMenuOpen,
     setIsMenuOpen,
-    whichMenuOpen,
-    newText,
-    setNewText,
-    newFileName,
-    setNewFileName,
-    setSetDataNameModalOpen,
   } = useContext(ContextObject)
 
   function onNavOpen() {
@@ -95,13 +89,9 @@ function NavOpened(props) {
     settingIconList,
     canOpenSettingIconList,
     setWhichMenuOpen,
-    isMenuOpen,
     setIsMenuOpen,
-    newFileName,
     setNewFileName,
-    newText,
     setNewText,
-    setSetDataNameModalOpen,
     isSelectProjectModalOpen,
     setSelectProjectModalOpen
   } = useContext(ContextObject)
@@ -133,16 +123,10 @@ function NavOpened(props) {
       setIsMenuOpen(true);
     }
 
-    if (icon == 'image'){
-      // importImage()
-    }
-
     if (icon == 'file-download') {
-      // setIsMenuOpen(isMenuOpen)
       const result= await onPressImport()
       if(result){
       setSelectProjectModalOpen(true)
-      console.log(isSelectProjectModalOpen);
       }
     }
   }
@@ -157,8 +141,6 @@ function NavOpened(props) {
     }
     return true
   }
-
-
 
     return (
       <View style={style.contener}>

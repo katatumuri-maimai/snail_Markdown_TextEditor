@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react';
+import React, { useContext, useEffect, useMemo} from 'react';
 import { TextInput, View} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
@@ -14,25 +14,17 @@ export default function InputArea() {
         projectName,
         fileName
     } = useContext(ContextObject)
+    
+    const styles = useMemo(()=>{
+        return inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall)
+    }, [theme, isPreviewOpen, isWindowWidthSmall])
+    
+
+    
 
     function onChange(text) {
         setText(text)
         saveFile(projectName, fileName, text)
-    }
-
-    const styles = {
-        container: {
-            flex: 1,
-            backgroundColor: theme.textView.backgroundColor,
-            padding: 20,
-            borderRadius: 20,
-            marginRight: isPreviewOpen && !isWindowWidthSmall?5:0,
-            marginTop: isWindowWidthSmall?5:0
-        },
-        text: {
-            color: theme.textView.textColor,
-            height: '100%'
-        }
     }
 
     return (
@@ -50,4 +42,21 @@ export default function InputArea() {
             />
         </View>
     )
+}
+
+function inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall) {
+   return {
+        container: {
+            flex: 1,
+            backgroundColor: theme.textView.backgroundColor,
+            padding: 20,
+            borderRadius: 20,
+            marginRight: isPreviewOpen && !isWindowWidthSmall ? 5 : 0,
+            marginTop: isWindowWidthSmall ? 5 : 0
+        },
+        text: {
+            color: theme.textView.textColor,
+            height: '100%'
+        }
+    }
 }

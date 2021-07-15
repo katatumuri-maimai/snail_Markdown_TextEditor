@@ -1,73 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect, useContext, useCallback, useMemo} from 'react';
-import { Text, View, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Pressable} from 'react-native';
+import React, { useEffect, useContext, useMemo} from 'react';
+import { Text, View, SafeAreaView, Platform, Keyboard} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import * as Device from 'expo-device';
-import readSetting from '../modules/readSetting';
+import { StatusBar } from 'expo-status-bar';
 import theme from '../modules/theme';
 import TopBar from './TopBar/TopBar';
-import { ContextObject } from '../modules/context';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
-import { SetDataNameModal, SelectProjectModal} from './_components/Modal';
-import { saveFile, saveProject } from '../modules/controlProjects';
-import { importFile } from '../modules/importExportFile';
+import { SetDataNameModal, SelectProjectModal } from './_components/Modal';
+import { ContextObject } from '../modules/context';
 
 
 export default function Main() {
   const {
     windowWidth,
-    windowHeight,
     appTheme,
-    setAppTheme,
     title,
-    setTitle,
-    text,
-    setText,
-    settingIconList,
-    canOpenSettingIconList,
     isMenuOpen,
     setIsMenuOpen,
-    whichMenuOpen,
-    setWhichMenuOpen,
     menuWidth,
-    isPreviewOpen,
     setIsPreviewOpen,
     previeArea,
-    absoluteX,
     setAbsoluteX,
     isSetDataNameModalOpen,
-    setSetDataNameModalOpen,
     isSelectProjectModalOpen,
-    whichSetDataNameModalOpen,
-    setWhichDataNameModalOpen,
-    projectName,
-    setProjectName,
-    fileName,
-    setFileName,
-    newProjectName,
-    setNewProjectName,
-    newFileName,
-    setNewFileName,
-    newText,
-    setNewText,
-    Project_List,
-    setProject_List,
-    isDataChange,
-    setDataChange,
-    isDelete,
-    setIsDelete,
-    whichMenuChidOpen,
-    setWhichMenuChidOpen,
-    selectedPreviewtheme,
-    setSelectedPreviewtheme,
     keyboardScreenY,
     setKeyboardScreenYd
   } = useContext(ContextObject)
 
-  const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState(true)
-  
+
+  if (!appTheme) {
+    return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
+  }
+
+  const styles = useMemo(() => {
+    return mainStyles(theme, appTheme, keyboardScreenY)
+  }, [theme, appTheme, keyboardScreenY])
+
 
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', keyboardShow);
@@ -104,34 +73,6 @@ export default function Main() {
     }
   }
 
-  if (!appTheme) {
-    return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
-  }
-
-  const styles = {
-    view: {
-      flex: 1,
-      backgroundColor: theme[appTheme].main.mainBackgroundColor,
-    },
-    keyboardView: {
-      flex: 1,
-      paddingBottom: Platform.OS == 'ios' ? keyboardScreenY : 0
-    },
-    app: {
-      flex: 1,
-      flexDirection: 'column',
-      height: '100%',
-      backgroundColor: theme[appTheme].main.mainBackgroundColor,
-      alignItems: 'center',
-    },
-    wrap:{
-      flex: 1,
-      flexDirection: 'row',
-        padding: 20,
-        paddingTop: 0,
-    }
-    }
-
   function onSwipeEvent(event) {
     const absoluteX = event.nativeEvent.absoluteX
     const swipeX = event.nativeEvent.translationX
@@ -160,6 +101,7 @@ export default function Main() {
       setAbsoluteX(absoluteX)
     }
   }
+
   return (
         <ThemeProvider theme={theme[appTheme]}>
       <View style={styles.view}>
@@ -192,5 +134,29 @@ export default function Main() {
   );
 }
 
-
+function mainStyles(theme, appTheme, keyboardScreenY) {
+  return {
+    view: {
+      flex: 1,
+      backgroundColor: theme[appTheme].main.mainBackgroundColor,
+    },
+    keyboardView: {
+      flex: 1,
+      paddingBottom: Platform.OS == 'ios' ? keyboardScreenY : 0
+    },
+    app: {
+      flex: 1,
+      flexDirection: 'column',
+      height: '100%',
+      backgroundColor: theme[appTheme].main.mainBackgroundColor,
+      alignItems: 'center',
+    },
+    wrap: {
+      flex: 1,
+      flexDirection: 'row',
+      padding: 20,
+      paddingTop: 0,
+    }
+  }
+}
 

@@ -67,6 +67,5 @@ export default function SaveBtn() {
                 iconStyle={styles.icon}
             />
         </Pressable>
-        
     )
 }

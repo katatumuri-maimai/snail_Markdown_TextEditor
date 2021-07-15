@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Share } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ContextObject } from '../../../modules/context';
+import *as IEF from '../../../modules/importExportFile';
 import MenuBtn from '../_components/MenuBtn';
 import MenuTitle from '../_components/MenuTitle';
-import *as IEF from '../../../modules/importExportFile';
 import { SelectFileModal } from '../../_components/Modal';
 
 

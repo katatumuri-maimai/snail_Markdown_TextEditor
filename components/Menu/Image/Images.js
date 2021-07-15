@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef} from 'react';
+import React, { useContext, useEffect, useState, useRef, useMemo} from 'react';
 import { View, Text, Pressable, Image, ActivityIndicator, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme, Tooltip} from 'react-native-elements';
@@ -6,15 +6,13 @@ import { ContextObject } from '../../../modules/context';
 import MenuTitle from '../_components/MenuTitle';
 import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../../modules/imagePickUp';
 import * as Clipboard from 'expo-clipboard';
-import { Keyboard } from 'react-native';
 import DeleteImageBtn from '../_components/DeleteImageBtn';
 
-export default function Images(params) {
+export default function Images() {
     const { theme } = useTheme();
     const {
         boxSadowStyle,
         Image_List,
-        setImage_List,
         isDelete,
         setIsDelete
     } = useContext(ContextObject)
@@ -29,55 +27,12 @@ export default function Images(params) {
         }
     }, [isDelete])
 
-    const styles = {
-        view: {
-            position: 'relative',
-            zIndex: 10,
-            width: '100%',
-            height: '100%'
-        },
-        plusIconContainer: {
-            position: 'absolute',
-            top: -10,
-            left: 0,
-            zIndex: 100,
-        },
-        plusIcon: {
-            fontSize: 40
-        },
-        wrap:{
-            flexDirection: 'row',
-            flexWrap:'wrap'
-        },
-        center:{
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-        image: {
-            width: 120, 
-            height: 120 ,
-            margin:5
-        },
-        indicator: {
-            width: 120,
-            height: 120,
-            margin: 5
-        },
-        tooltip:{
-            width: 'auto',
-            height: 'auto',
-            backgroundColor: theme.main.secondBackgroundColor,
-        },
-        tooltipText: {
-            margin:3,
-            color: theme.nav.iconColor
-        }
-    }
-
+    const styles = useMemo(() => {
+        return imagesStyles(theme)
+    }, [theme])
 
     function onPressPlusIcon() {
-        console.log("a");
-        { isTypeSelectMenuOpen ? setTypeSelectMenuOpen(false) : setTypeSelectMenuOpen(true) }
+        setTypeSelectMenuOpen(!isTypeSelectMenuOpen)
     }
 
     function willEndImageLoad() {
@@ -99,11 +54,12 @@ export default function Images(params) {
                 />
             </Pressable>
             {isTypeSelectMenuOpen ?
-             <TypeSelectMenu
-                onPress={() => { setTypeSelectMenuOpen(false) }} 
-                willEndImageLoad={willEndImageLoad}
-                didEndImageLoad={()=>{tooltipRef.current.toggleTooltip()}}
-                /> : null}
+                <TypeSelectMenu
+                    onPress={() => { setTypeSelectMenuOpen(false) }} 
+                    willEndImageLoad={willEndImageLoad}
+                    didEndImageLoad={()=>{tooltipRef.current.toggleTooltip()}}
+                /> 
+                : null}
             <MenuTitle>イメージ</MenuTitle>
             <ScrollView>
                 <View style={styles.wrap}>
@@ -136,9 +92,7 @@ export default function Images(params) {
                                             style={styles.image}
                                             source={{ uri: uri}}
                                         />
-                                        <DeleteImageBtn
-                                            imageUri={uri }
-                                        />
+                                        <DeleteImageBtn imageUri={uri}/>
                                     </Tooltip>
                                     }
                                 </Pressable>
@@ -147,10 +101,55 @@ export default function Images(params) {
                 }
                 </View>
             </ScrollView>
-
-
         </View>
     )
+}
+
+function imagesStyles(theme) {
+    return {
+        view: {
+            position: 'relative',
+            zIndex: 10,
+            width: '100%',
+            height: '100%'
+        },
+        plusIconContainer: {
+            position: 'absolute',
+            top: -10,
+            left: 0,
+            zIndex: 100,
+        },
+        plusIcon: {
+            fontSize: 40
+        },
+        wrap: {
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+        },
+        center: {
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        image: {
+            width: 120,
+            height: 120,
+            margin: 5
+        },
+        indicator: {
+            width: 120,
+            height: 120,
+            margin: 5
+        },
+        tooltip: {
+            width: 'auto',
+            height: 'auto',
+            backgroundColor: theme.main.secondBackgroundColor,
+        },
+        tooltipText: {
+            margin: 3,
+            color: theme.nav.iconColor
+        }
+    }
 }
 
 function TypeSelectMenu(props) {
@@ -159,8 +158,6 @@ function TypeSelectMenu(props) {
         boxSadowStyle,
         Image_List,
         setImage_List,
-        setSetDataNameModalOpen,
-        setWhichDataNameModalOpen,
     } = useContext(ContextObject)
 
     const styles = {
@@ -204,14 +201,6 @@ function TypeSelectMenu(props) {
         !image?null:props.didEndImageLoad()
     }
 
-    function onPressCamera() {
-        props.onPress()
-        importImageFromCamera()
-    }
-    function onPressFile() {
-        props.onPress()
-    }
-
     return (
         <View style={[styles.view, boxSadowStyle]}>
             <TypeSelectMenuBtn
@@ -245,7 +234,29 @@ function TypeSelectMenuBtn(props) {
 
     const position = props.position
 
-    const styles = {
+    const styles = useMemo(() => {
+        return typeSelectMenuBtnStyles(theme, isOnPress, position)
+    }, [theme, isOnPress, position])
+
+    return (
+        <Pressable
+            style={[styles.view, boxSadowStyle.btn]}
+            onPress={props.onPress}
+            onPressIn={() => { isOnPress ? setOnPress(false) : setOnPress(true) }}
+        >
+            <Icon
+                name={props.iconName}
+                iconStyle={styles.icon}
+            />
+            <Text style={styles.text}>{props.text}</Text>
+
+        </Pressable>
+    )
+
+}
+
+function typeSelectMenuBtnStyles(theme, isOnPress, position) {
+    return {
         view: {
             backgroundColor: isOnPress ? theme.typeSelectMenu.onPress.BackgroundColor : theme.typeSelectMenu.BackgroundColor,
             height: '32%',
@@ -255,7 +266,7 @@ function TypeSelectMenuBtn(props) {
             borderTopEndRadius: position == 'top' ? 20 : 0,
             borderTopRightRadius: position == 'top' ? 20 : 0,
             borderTopStartRadius: position == 'top' ? 20 : 0,
-            borderBottomLeftRadius: position == 'top' ? 0 : position == 'bottom' ?20:0,
+            borderBottomLeftRadius: position == 'top' ? 0 : position == 'bottom' ? 20 : 0,
             borderBottomEndRadius: position == 'top' ? 0 : position == 'bottom' ? 20 : 0,
             borderBottomRightRadius: position == 'top' ? 0 : position == 'bottom' ? 20 : 0,
             borderBottomStartRadius: position == 'top' ? 0 : position == 'bottom' ? 20 : 0,
@@ -275,19 +286,4 @@ function TypeSelectMenuBtn(props) {
             fontSize: 20,
         }
     }
-    return (
-        <Pressable
-            style={[styles.view, boxSadowStyle.btn]}
-            onPress={props.onPress}
-            onPressIn={() => { isOnPress ? setOnPress(false) : setOnPress(true) }}
-        >
-            <Icon
-                name={props.iconName}
-                iconStyle={styles.icon}
-            />
-            <Text style={styles.text}>{props.text}</Text>
-
-        </Pressable>
-    )
-
 }

@@ -1,40 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { Text, Pressable } from 'react-native';
-import { Icon, useTheme } from 'react-native-elements';
+import React, { useContext, useState, useMemo} from 'react';
+import { Pressable } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
 import { deletImage } from '../../../modules/imagePickUp';
 
 
 export default function DeleteImageBtn(props) {
-    const { theme } = useTheme();
     const {
-        boxSadowStyle,
         setImage_List,
         setIsDelete
     } = useContext(ContextObject)
 
     const [isOnPressDotIcon, setOnPressDotIcon] = useState(false)
 
-    const styles = {
-        dotIcon: {
-            color: '#737373',
-            fontSize: 20,
-        },
-        dotIconContainer: {
-            position: 'absolute',
-            right: 5,
-            bottom:5,
-            backgroundColor: '#FFFFFF',
-            width: 30,
-            height:30,
-            padding:5,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 50,
-            opacity:isOnPressDotIcon?0.7:0.3,
-            
-        }
-    }
+    const styles = useMemo(() => {
+        return deleteImageBtnStyles(isOnPressDotIcon)
+    }, [isOnPressDotIcon])
 
     function onPressDotIcon() {
         { isOnPressDotIcon ? setOnPressDotIcon(false) : setOnPressDotIcon(true) }
@@ -63,4 +44,27 @@ export default function DeleteImageBtn(props) {
             />
         </Pressable>
     )
+}
+
+function deleteImageBtnStyles(isOnPressDotIcon) {
+    return {
+        dotIcon: {
+            color: '#737373',
+            fontSize: 20,
+        },
+        dotIconContainer: {
+            position: 'absolute',
+            right: 5,
+            bottom: 5,
+            backgroundColor: '#FFFFFF',
+            width: 30,
+            height: 30,
+            padding: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+            opacity: isOnPressDotIcon ? 0.7 : 0.3,
+
+        }
+    }
 }

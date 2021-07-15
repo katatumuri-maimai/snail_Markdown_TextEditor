@@ -68,7 +68,6 @@ export function ContextProvider(props) {
         readImages().then(e=>{
             setImage_List(e)
         })
-
         readSetting().then(e => {
             setAppTheme(e.theme)
             setSelectedPreviewtheme(e.preview)

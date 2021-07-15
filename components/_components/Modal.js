@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
@@ -22,65 +22,9 @@ export function SetDataNameModal(props) {
         setSelectProjectModalOpen,
     } = useContext(ContextObject)
 
-
-
-    const styles = {
-        centeredView: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: 'rgba(255, 255, 255,0.5)',
-            paddingBottom: props.keyboardPadding
-        },
-        modal: {
-            flexDirection: isLandscape ? 'row' : 'column',
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: theme.main.mainBackgroundColor,
-            textAlign: 'center',
-            width: '80%',
-            padding:20,
-            borderRadius: 20
-        },
-        textInput: {
-            width: isLandscape?'80%':'100%',
-            height: 50,
-            backgroundColor: theme.textView.backgroundColor,
-            color: theme.textView.textColor,
-            margin: 20,
-            paddingHorizontal: 20,
-            borderRadius: 20,
-            fontSize: 20,
-        },
-        btn: {
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: theme.main.secondBackgroundColor,
-            borderRadius: 20,
-            paddingHorizontal:20,
-        },
-        btnText: {
-            color: theme.nav.iconColor,
-            fontSize: 20,
-        },
-        memoView: {
-            justifyContent: 'center',
-            backgroundColor: theme.main.secondBackgroundColor,
-            padding: 20,
-            marginTop: -50,
-            marginBottom: 10,
-            borderRadius: 20,
-            maxWidth: '80%',
-        },
-        memoText: {
-            textAlign: 'center',
-            color: theme.nav.iconColor,
-            fontSize: 20,
-            marginVertical:10
-        }
-    }
-
+    const styles = useMemo(() => {
+        return setDataNameModalStyles(theme, props, isLandscape)
+    }, [theme, props, isLandscape])
 
     function onChangeText(text) {
         if (whichSetDataNameModalOpen == 'addProject'){
@@ -89,7 +33,6 @@ export function SetDataNameModal(props) {
             setNewFileName(text)
         }
     }
-
 
     function openModal() {
         setSetDataNameModalOpen(true)
@@ -113,8 +56,6 @@ export function SetDataNameModal(props) {
             setSelectProjectModalOpen(true)
         }}
     }
-
-
 
     return (
         <Modal
@@ -151,11 +92,69 @@ export function SetDataNameModal(props) {
     )
 }
 
+function setDataNameModalStyles(theme, props,isLandscape) {
+    return {
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: 'rgba(255, 255, 255,0.5)',
+            paddingBottom: props.keyboardPadding
+        },
+        modal: {
+            flexDirection: isLandscape ? 'row' : 'column',
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.main.mainBackgroundColor,
+            textAlign: 'center',
+            width: '80%',
+            padding: 20,
+            borderRadius: 20
+        },
+        textInput: {
+            width: isLandscape ? '80%' : '100%',
+            height: 50,
+            backgroundColor: theme.textView.backgroundColor,
+            color: theme.textView.textColor,
+            margin: 20,
+            paddingHorizontal: 20,
+            borderRadius: 20,
+            fontSize: 20,
+        },
+        btn: {
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: theme.main.secondBackgroundColor,
+            borderRadius: 20,
+            paddingHorizontal: 20,
+        },
+        btnText: {
+            color: theme.nav.iconColor,
+            fontSize: 20,
+        },
+        memoView: {
+            justifyContent: 'center',
+            backgroundColor: theme.main.secondBackgroundColor,
+            padding: 20,
+            marginTop: -50,
+            marginBottom: 10,
+            borderRadius: 20,
+            maxWidth: '80%',
+        },
+        memoText: {
+            textAlign: 'center',
+            color: theme.nav.iconColor,
+            fontSize: 20,
+            marginVertical: 10
+        }
+    }
+}
+
 export function SelectProjectModal(props) {
     const { theme } = useTheme();
     const {
         isWindowWidthSmall,
-        isLandscape,
         boxSadowStyle,
         setSetDataNameModalOpen,
         setSelectProjectModalOpen,
@@ -167,64 +166,9 @@ export function SelectProjectModal(props) {
         Project_List,
     } = useContext(ContextObject)
 
-    const styles = {
-        centeredView: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: 'rgba(255, 255, 255,0.5)',
-            paddingBottom: props.keyboardPadding
-        },
-        modal: {
-            flexDirection: 'column',
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: theme.main.mainBackgroundColor,
-            textAlign: 'center',
-            width: '80%',
-            height: '80%',
-            padding: 20,
-            borderRadius: 20
-        },
-        scroll: {
-            width: '100%',
-        },
-        Wrap:{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            flexWrap:'wrap',
-            width: '100%',
-        },
-        text: {
-            color: theme.topBar.titleTextColor,
-            fontSize: 20,
-            marginBottom: 20,
-        },
-        btn: {
-            width: isWindowWidthSmall?'95%':'30%',
-            height: isWindowWidthSmall?50:100,
-            flexDirection: isWindowWidthSmall ? 'row' :'column',
-            justifyContent: isWindowWidthSmall?'flex-start':'center',
-            alignItems: 'center',
-            backgroundColor: theme.main.secondBackgroundColor,
-            borderRadius: 20,
-            paddingHorizontal: 20,
-            margin:10
-        },
-        icon:{
-            color: theme.nav.iconColor,
-            fontSize: isWindowWidthSmall?30:50,
-        },
-        btnText: {
-            color: theme.nav.iconColor,
-            fontSize: 16,
-            marginLeft: isWindowWidthSmall?10:0,
-            width: '80%',
-            textAlign: isWindowWidthSmall?'left':'center'
-        }
-    }
-
+    const styles = useMemo(() => {
+        return selectProjectModalStyles(theme, props, isWindowWidthSmall)
+    }, [theme, props, isWindowWidthSmall])
 
     function openModal() {
         setSetDataNameModalOpen(true)
@@ -299,6 +243,66 @@ export function SelectProjectModal(props) {
     )
 }
 
+function selectProjectModalStyles(theme, props, isWindowWidthSmall) {
+    return {
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: 'rgba(255, 255, 255,0.5)',
+            paddingBottom: props.keyboardPadding
+        },
+        modal: {
+            flexDirection: 'column',
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.main.mainBackgroundColor,
+            textAlign: 'center',
+            width: '80%',
+            height: '80%',
+            padding: 20,
+            borderRadius: 20
+        },
+        scroll: {
+            width: '100%',
+        },
+        Wrap: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            width: '100%',
+        },
+        text: {
+            color: theme.topBar.titleTextColor,
+            fontSize: 20,
+            marginBottom: 20,
+        },
+        btn: {
+            width: isWindowWidthSmall ? '95%' : '30%',
+            height: isWindowWidthSmall ? 50 : 100,
+            flexDirection: isWindowWidthSmall ? 'row' : 'column',
+            justifyContent: isWindowWidthSmall ? 'flex-start' : 'center',
+            alignItems: 'center',
+            backgroundColor: theme.main.secondBackgroundColor,
+            borderRadius: 20,
+            paddingHorizontal: 20,
+            margin: 10
+        },
+        icon: {
+            color: theme.nav.iconColor,
+            fontSize: isWindowWidthSmall ? 30 : 50,
+        },
+        btnText: {
+            color: theme.nav.iconColor,
+            fontSize: 16,
+            marginLeft: isWindowWidthSmall ? 10 : 0,
+            width: '80%',
+            textAlign: isWindowWidthSmall ? 'left' : 'center'
+        }
+    }
+}
+
 
 export function SelectFileModal(props) {
     const { theme } = useTheme();
@@ -309,7 +313,50 @@ export function SelectFileModal(props) {
         Project_List,
     } = useContext(ContextObject)
 
-    const styles = {
+    const styles = useMemo(()=>{
+        return selectFileModalStyles(theme, props, isWindowWidthSmall, isLandscape)
+    }, [theme, props, isWindowWidthSmall, isLandscape])
+    
+    
+
+    return (
+        <Modal
+            transparent={true}
+            presentationStyle='overFullScreen'
+            onRequestClose={props.closeModal}
+            animationType='fade'
+            supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
+        >
+            <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={props.closeModal}>
+                <Pressable style={styles.modal} onPress={props.openModal}>
+                    <Text style={styles.text}>エクスポートするファイルを選んでください</Text>
+                    <ScrollView style={styles.scrollView}>
+                        <View style={styles.Wrap}>
+                        {Project_List.map(e => {
+                            let projectName;
+                            for (let key in e) {
+                                projectName = key
+                            }
+                            return (
+                                <Projects
+                                    key={projectName}
+                                    projectName={projectName}
+                                    styles={styles}
+                                    projectObj={e}
+                                    serectedMenu={props.serectedMenu}
+                                />
+                            )
+                        })}
+                        </View>
+                    </ScrollView>
+                </Pressable>
+            </Pressable>
+        </Modal>
+    )
+}
+
+function selectFileModalStyles(theme, props, isWindowWidthSmall, isLandscape) {
+    return {
         centeredView: {
             flex: 1,
             justifyContent: "center",
@@ -365,18 +412,18 @@ export function SelectFileModal(props) {
         },
         downIcon: {
             position: 'absolute',
-            right:10
+            right: 10
         },
         filesWrap: {
-            flexDirection: isWindowWidthSmall ?'column':'row',
+            flexDirection: isWindowWidthSmall ? 'column' : 'row',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
-            flexWrap:'wrap',
+            flexWrap: 'wrap',
             marginHorizontal: 30,
         },
         filesBtn: {
             flexDirection: 'row',
-            width: isWindowWidthSmall?'100%':(isLandscape?'30%':'45%'),
+            width: isWindowWidthSmall ? '100%' : (isLandscape ? '30%' : '45%'),
             minHeight: 50,
             justifyContent: 'flex-start',
             alignItems: 'center',
@@ -386,7 +433,7 @@ export function SelectFileModal(props) {
             margin: 10,
             borderColor: theme.topBar.titleTextColor,
             borderStyle: 'solid',
-            borderWidth:3
+            borderWidth: 3
         },
         filesBtnIcon: {
             color: theme.topBar.titleTextColor,
@@ -395,45 +442,10 @@ export function SelectFileModal(props) {
         filesBtnText: {
             color: theme.topBar.titleTextColor,
             fontSize: 16,
-            width:'80%',
+            width: '80%',
             marginLeft: 10,
         }
     }
-
-    return (
-        <Modal
-            transparent={true}
-            presentationStyle='overFullScreen'
-            onRequestClose={props.closeModal}
-            animationType='fade'
-            supportedOrientations={['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right']}
-        >
-            <Pressable style={[styles.centeredView, boxSadowStyle]} onPress={props.closeModal}>
-                <Pressable style={styles.modal} onPress={props.openModal}>
-                    <Text style={styles.text}>エクスポートするファイルを選んでください</Text>
-                    <ScrollView style={styles.scrollView}>
-                        <View style={styles.Wrap}>
-                        {Project_List.map(e => {
-                            let projectName;
-                            for (let key in e) {
-                                projectName = key
-                            }
-                            return (
-                                <Projects
-                                    key={projectName}
-                                    projectName={projectName}
-                                    styles={styles}
-                                    projectObj={e}
-                                    serectedMenu={props.serectedMenu}
-                                />
-                            )
-                        })}
-                        </View>
-                    </ScrollView>
-                </Pressable>
-            </Pressable>
-        </Modal>
-    )
 }
 
 function Projects(props) {
