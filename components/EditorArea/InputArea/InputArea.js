@@ -64,11 +64,11 @@ function inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall) {
            marginTop: isWindowWidthSmall ? 5 : 0
        },
         container: {
-            flex: 1,
             padding: 20,
-            paddingBottom: 30
+            paddingBottom: 30,
+            minHeight:'100%'
         },
-        text: {
+       text: {
             color: theme.textView.textColor,
             height: '100%',
         }

@@ -9,7 +9,15 @@ export default function DeleteDataBtn(props) {
     const { theme } = useTheme();
     const {
         Project_List,
-        setIsDelete
+        setIsDelete,
+        title,
+        setTitle,
+        text,
+        setText,
+        projectName,
+        setProjectName,
+        fileName,
+        setFileName,
     } = useContext(ContextObject)
 
     const [isOnPressDotIcon, setOnPressDotIcon] = useState(false)
@@ -20,17 +28,29 @@ export default function DeleteDataBtn(props) {
 
     async function onLongPressDotIcon() {
         if (isOnPressDotIcon) {
-        const projectName = props.projectName
-        const fileName = props.fileName
-        const result= await removeData(projectName, fileName)
+        const projectname = props.projectName
+        const filename = props.fileName
+        const result = await removeData(projectname, filename)
 
         for(let i in Project_List){
             for (let key in Project_List[i]) {
-                if (key == projectName) {
-                    !fileName ? Project_List.splice(i, 1) : Project_List.splice(i, 1, result)
-            }}}
-
+                if (key == projectname) {
+                    !filename ? Project_List.splice(i, 1) : Project_List.splice(i, 1, result)
+        }}}
         setIsDelete(true)
+
+        if (!filename && projectName == projectname) {
+            setProjectName('')
+            setFileName('')
+            setText('')
+            setTitle('')
+        }
+
+        if (!!filename && fileName == filename){
+            setFileName('')
+            setText('')
+            setTitle('')
+        }
     }}
 
     return (
