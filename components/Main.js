@@ -103,7 +103,7 @@ export default function Main() {
   }
 
   return (
-        <ThemeProvider theme={theme[appTheme]}>
+    <ThemeProvider theme={theme()[appTheme]}>
       <View style={styles.view}>
           <StatusBar hidden={true}/>
         <SafeAreaView style={styles.keyboardView}>
@@ -138,7 +138,7 @@ function mainStyles(theme, appTheme, keyboardScreenY) {
   return {
     view: {
       flex: 1,
-      backgroundColor: theme[appTheme].main.mainBackgroundColor,
+      backgroundColor: theme()[appTheme].main.mainBackgroundColor,
     },
     keyboardView: {
       flex: 1,
@@ -148,7 +148,7 @@ function mainStyles(theme, appTheme, keyboardScreenY) {
       flex: 1,
       flexDirection: 'column',
       height: '100%',
-      backgroundColor: theme[appTheme].main.mainBackgroundColor,
+      backgroundColor: theme()[appTheme].main.mainBackgroundColor,
       alignItems: 'center',
     },
     wrap: {

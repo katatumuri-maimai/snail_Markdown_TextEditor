@@ -1,10 +1,11 @@
-import React, { useContext ,useMemo} from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useCallback, useContext, useMemo, useRef, useEffect, useReducer } from 'react';
+import { View } from 'react-native';
+import { ScrollView} from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
 import Markdown from 'react-native-markdown-display';
 import { ContextObject } from '../../../modules/context';
 
-export default function Preview() {
+export default function Preview(props){
     const { theme } = useTheme();
     const {
         isWindowWidthSmall,
@@ -16,27 +17,47 @@ export default function Preview() {
         return previewStyles(theme, selectedPreviewtheme, isWindowWidthSmall)
     }, [theme, selectedPreviewtheme, isWindowWidthSmall])
 
+    function toArrayText(){
+        const ArrayText = text.split(/(!\[.*\]\(.*\))/)
+        return ArrayText
+    }
+
+    let i=0
+
     return (
-        <ScrollView style={styles.container}>
-            <Markdown style={styles.text}>{text}</Markdown>
+        <ScrollView 
+            style={styles.scrollView}
+            scrollEventThrottle={0}
+            bounces={false}
+            >
+            <View 
+                style={styles.container} 
+            >
+                {toArrayText().map(e=>{
+                    i=i+1
+                    return <Markdown key={i}>{e}</Markdown>
+                })}
+            </View>
         </ScrollView>
     )
 }
 
 function previewStyles(theme, selectedPreviewtheme, isWindowWidthSmall) {
     return {
-        container: {
+        scrollView: {
             flex: 1,
             backgroundColor: selectedPreviewtheme == 'theme' ? theme.textView.backgroundColor : '#FFFFFF',
-            padding: 20,
-            paddingTop: 10,
             borderRadius: 20,
             marginLeft: isWindowWidthSmall ? 0 : 5,
         },
+        container: {
+            flex: 1,
+            padding: 20,
+            paddingBottom: 50,
+        },
         text: {
             body: {
-                color: selectedPreviewtheme == 'theme' ? theme.textView.textColor : '#000000',
-                paddingBottom: 50
+                color: selectedPreviewtheme == 'theme' ? theme.textView.textColor : '#000000'
             }
         }
     }

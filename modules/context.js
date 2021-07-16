@@ -1,5 +1,6 @@
 import * as Device from 'expo-device';
 import React, { createContext, useState, useEffect} from 'react';
+import { Platform } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 import { readProjects } from './controlProjects';
 import { readImages } from './imagePickUp';
@@ -61,7 +62,11 @@ export function ContextProvider(props) {
     const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
     const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
+    const deviceType = Device.DeviceType
+    const OS = Platform.OS
+
     useEffect(() => {
+        if (OS != 'web') {
         readProjects().then(e => {
             setProject_List(e)
         })
@@ -72,15 +77,14 @@ export function ContextProvider(props) {
             setAppTheme(e.theme)
             setSelectedPreviewtheme(e.preview)
         })
+    }
     }, [])
 
     const windowWidth        = useWindowDimensions().width
     const windowHeight       = useWindowDimensions().height
     const isLandscape        = (windowWidth / windowHeight) >= 1
-    const isWindowWidthSmall = windowWidth < 760
-
-    const deviceType = Device.deviceType
-
+    const isWindowWidthSmall = windowWidth < 690
+    
     const menuWidth       = (isMenuOpen ? 350: 200)
     const halfWindowWidth = windowWidth / 2
     const previeArea      = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
@@ -88,6 +92,7 @@ export function ContextProvider(props) {
     const ContextValue    = {
         boxSadowStyle,
         deviceType,
+        OS,
         isLandscape,
         isWindowWidthSmall,
         windowWidth,

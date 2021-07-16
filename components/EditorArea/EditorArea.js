@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useContext, useMemo} from 'react';
 import { View } from 'react-native';
 import { ContextObject } from '../../modules/context';
 import InputArea from './InputArea/InputArea';
 import Preview from './Preview/Preview';
 
-
-
-export default function EditorArea(props) {
+export default function EditorArea() {
     const {
         isWindowWidthSmall,
         isPreviewOpen,
     } = useContext(ContextObject)
 
+
     const style = useMemo(() => {
         return editorAreaStyles(isWindowWidthSmall)
     }, [ isWindowWidthSmall])
-
+    
     return (
-            <View style={style}>
-                <InputArea />
-                {isPreviewOpen ? <Preview />:null}
+        <View style={style}>
+            <InputArea
+                />
+            {isPreviewOpen ? <Preview />:null}
             </View>
     )
 }

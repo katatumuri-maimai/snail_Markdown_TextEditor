@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useMemo} from 'react';
-import { TextInput, View} from 'react-native';
-import { useTheme } from 'react-native-elements';
+import React, { useContext, useEffect, useMemo, useRef, useState} from 'react';
+import { TextInput, View,Pressable} from 'react-native';
+import { useTheme} from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 import { ContextObject } from '../../../modules/context';
 import { saveFile } from '../../../modules/controlProjects';
 
-export default function InputArea() {
+
+export default function InputArea(props) {
     const { theme } = useTheme();
     const {
         isWindowWidthSmall,
@@ -20,15 +22,21 @@ export default function InputArea() {
     }, [theme, isPreviewOpen, isWindowWidthSmall])
     
 
-    
-
     function onChange(text) {
         setText(text)
-        saveFile(projectName, fileName, text)
+        if (!!fileName) {
+            saveFile(projectName, fileName, text)
+        }
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+            style={styles.scrollView}
+            scrollEventThrottle={1}
+         >
+            <View
+                style={styles.container}
+            >
             <TextInput
                 style={styles.text}
                 multiline={true}
@@ -39,24 +47,30 @@ export default function InputArea() {
                 value={text}
                 editable={!fileName ? false: true}
                 placeholderTextColor={styles.text.color}
+                scrollEnabled={false}
             />
-        </View>
+            </View>
+        </ScrollView>
     )
 }
 
 function inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall) {
    return {
+       scrollView: {
+           flex: 1,
+           backgroundColor: theme.textView.backgroundColor,
+           borderRadius: 20,
+           marginRight: isPreviewOpen && !isWindowWidthSmall ? 5 : 0,
+           marginTop: isWindowWidthSmall ? 5 : 0
+       },
         container: {
             flex: 1,
-            backgroundColor: theme.textView.backgroundColor,
             padding: 20,
-            borderRadius: 20,
-            marginRight: isPreviewOpen && !isWindowWidthSmall ? 5 : 0,
-            marginTop: isWindowWidthSmall ? 5 : 0
+            paddingBottom: 30
         },
         text: {
             color: theme.textView.textColor,
-            height: '100%'
+            height: '100%',
         }
     }
 }
