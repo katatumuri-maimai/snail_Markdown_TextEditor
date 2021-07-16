@@ -2,8 +2,8 @@ import React, { useContext, useMemo} from 'react';
 import { TextInput, View,} from 'react-native';
 import { useTheme} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ContextObject } from '../../../modules/context';
-import { saveFile } from '../../../modules/controlProjects';
+import { ContextObject } from '../../modules/context';
+import { saveFile } from '../../modules/controlProjects';
 
 
 export default function InputArea() {

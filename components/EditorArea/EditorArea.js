@@ -2,8 +2,8 @@ import React from 'react';
 import { useContext, useMemo} from 'react';
 import { View } from 'react-native';
 import { ContextObject } from '../../modules/context';
-import InputArea from './InputArea/InputArea';
-import Preview from './Preview/Preview';
+import InputArea from './InputArea';
+import Preview from './Preview';
 
 export default function EditorArea() {
     const {

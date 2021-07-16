@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import Export from './Export/Export';
-import Folder from './Folder/Folder';
-import Images from './Image/Images';
-import Settings from './Settings/Settings';
+import Export from './Export';
+import Folder from './Folder';
+import Images from './Images';
+import Settings from './Settings';
 
 
 export default function Menu() {
