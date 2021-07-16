@@ -35,7 +35,7 @@ export default function Preview(props){
             >
                 {toArrayText().map(e=>{
                     i=i+1
-                    return <Markdown key={i}>{e}</Markdown>
+                    return <Markdown style={styles.text} key={i}>{e}</Markdown>
                 })}
             </View>
         </ScrollView>
