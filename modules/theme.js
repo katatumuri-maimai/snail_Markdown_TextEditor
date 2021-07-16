@@ -339,7 +339,7 @@ function theme() {
                 BoderColor: '#F5F5F5',
                 pickerTextColor: '#F5F5F5',
                 onPress: {
-                    BackgroundColor: '#00000000',
+                    BackgroundColor: '#F5F5F5',
                     TextColor: '#CBCBCB',
                     iconColor: '#CBCBCB',
                     BoderColor: '#00000000',
