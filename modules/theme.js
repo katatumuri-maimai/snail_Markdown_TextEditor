@@ -6,7 +6,10 @@ export const themeList=[
     'Dark'
 ]
 
-export default theme = {
+export default theme
+
+function theme (){
+    return{
     // Night
     Night: {
         main: {
@@ -411,4 +414,4 @@ export default theme = {
             }
         }
     },
-}
+}}

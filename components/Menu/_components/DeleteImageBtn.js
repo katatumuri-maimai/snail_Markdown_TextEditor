@@ -1,41 +1,40 @@
 import React, { useContext, useState, useMemo} from 'react';
 import { Pressable } from 'react-native';
-import { Icon, useTheme } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { ContextObject } from '../../../modules/context';
-import { removeData } from '../../../modules/controlProjects';
+import { deletImage } from '../../../modules/imagePickUp';
 
 
-export default function DeleteDataBtn(props) {
-    const { theme } = useTheme();
+export default function DeleteImageBtn(props) {
     const {
-        Project_List,
+        setImage_List,
         setIsDelete
     } = useContext(ContextObject)
 
     const [isOnPressDotIcon, setOnPressDotIcon] = useState(false)
-    
+
     const styles = useMemo(() => {
-        return deleteDataBtnStyles(theme, props)
-    }, [theme, props])
+        return deleteImageBtnStyles(isOnPressDotIcon)
+    }, [isOnPressDotIcon])
+
+    function onPressDotIcon() {
+        { isOnPressDotIcon ? setOnPressDotIcon(false) : setOnPressDotIcon(true) }
+    }
 
     async function onLongPressDotIcon() {
         if (isOnPressDotIcon) {
-        const projectName = props.projectName
-        const fileName = props.fileName
-        const result= await removeData(projectName, fileName)
+            const imageUri = props.imageUri
+            const new_Image_List= await deletImage(imageUri)
 
-        for(let i in Project_List){
-            for (let key in Project_List[i]) {
-                if (key == projectName) {
-                    !fileName ? Project_List.splice(i, 1) : Project_List.splice(i, 1, result)
-            }}}
+            console.log(new_Image_List);
+            setImage_List(new_Image_List)
 
         setIsDelete(true)
-    }}
+        }}
 
     return (
         <Pressable
-            onPress={() => { setOnPressDotIcon(!isOnPressDotIcon)}}
+            onPress={onPressDotIcon}
             onLongPress={onLongPressDotIcon}
             style={styles.dotIconContainer}
         >
@@ -47,19 +46,25 @@ export default function DeleteDataBtn(props) {
     )
 }
 
-function deleteDataBtnStyles(theme, props) {
+function deleteImageBtnStyles(isOnPressDotIcon) {
     return {
         dotIcon: {
-            color: (props.isBtnOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),
+            color: '#737373',
             fontSize: 20,
         },
         dotIconContainer: {
             position: 'absolute',
-            right: 0,
+            right: 5,
+            bottom: 5,
+            backgroundColor: '#FFFFFF',
             width: 30,
             height: 30,
+            padding: 5,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            borderRadius: 50,
+            opacity: isOnPressDotIcon ? 0.7 : 0.3,
+
         }
     }
 }

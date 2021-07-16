@@ -11,9 +11,12 @@ export default function Title(props) {
     const style={
         color: theme.topBar.titleTextColor,
         zIndex: -1,
+        width: '70%',
+        maxHeight: 54,
+        textAlign: 'center'
     }
 
     return (
-        <Text style={style}>{props.title}</Text>
+        <Text style={style} numberOfLines={2}>{props.title}</Text>
     )
 }

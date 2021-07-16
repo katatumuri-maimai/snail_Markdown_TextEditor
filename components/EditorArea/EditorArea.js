@@ -1,44 +1,36 @@
-import React from 'react';
-import { useContext } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useContext, useMemo} from 'react';
 import { View } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
 import { ContextObject } from '../../modules/context';
 import InputArea from './InputArea/InputArea';
 import Preview from './Preview/Preview';
 
-
-
-export default function EditorArea(props) {
+export default function EditorArea() {
     const {
-        deviceType,
-        isLandscape,
         isWindowWidthSmall,
-        windowWidth,
-        windowHeight,
-        appTheme,
-        setAppTheme,
-        title,
-        setTitle,
-        text,
-        setText,
         isPreviewOpen,
-        setIsPreviewOpen,
-        absoluteX,
-        setAbsoluteX
     } = useContext(ContextObject)
 
-    const style = {
+
+    const style = useMemo(() => {
+        return editorAreaStyles(isWindowWidthSmall)
+    }, [ isWindowWidthSmall])
+    
+    return (
+        <View style={style}>
+            <InputArea
+                />
+            {isPreviewOpen ? <Preview />:null}
+            </View>
+    )
+}
+
+function editorAreaStyles(isWindowWidthSmall) {
+    return {
         flex: 1,
-        flexDirection: isWindowWidthSmall ? 'column-reverse': 'row',
+        flexDirection: isWindowWidthSmall ? 'column-reverse' : 'row',
         position: 'relative',
         width: '100%',
         height: '100%'
     }
-
-    return (
-            <View style={style}>
-                <InputArea />
-                {isPreviewOpen ? <Preview />:<View/>}
-            </View>
-    )
 }

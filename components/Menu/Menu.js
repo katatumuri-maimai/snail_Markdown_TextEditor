@@ -1,17 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { View, Text} from 'react-native';
+import React, { useContext } from 'react';
+import { View } from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { ContextObject } from '../../modules/context';
-import { importFile } from '../../modules/importExportFile';
 import Export from './Export/Export';
 import Folder from './Folder/Folder';
+import Images from './Image/Images';
 import Settings from './Settings/Settings';
 
 
 export default function Menu() {
     const { theme } = useTheme();
-    const {
-    } = useContext(ContextObject)
 
     const styles = {
         menu:{
@@ -36,8 +34,7 @@ export default function Menu() {
     )
 }
 
-function WhichMenu(params) {
-    const { theme } = useTheme();
+function WhichMenu() {
     const {
         whichMenuOpen,
     } = useContext(ContextObject)
@@ -45,11 +42,14 @@ function WhichMenu(params) {
 
     if (whichMenuOpen == 'settings'){
         return <Settings />
-    } else if (whichMenuOpen == 'folder'){
+    } else if (whichMenuOpen == 'folder' || whichMenuOpen == 'file-download'){
         return <Folder />
+    } else if (whichMenuOpen == 'image'){
+        return <Images />
     } else if (whichMenuOpen == 'file-upload'){
         return <Export />
     }
 
     return <Settings />
 }
+

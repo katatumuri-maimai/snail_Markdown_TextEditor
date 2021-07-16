@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { PanGestureHandler} from 'react-native-gesture-handler';
 import { ContextObject } from '../../../../modules/context';
-import { importFile } from '../../../../modules/importExportFile';
+import { importImage } from '../../../../modules/imagePickUp';
+import { importFile} from '../../../../modules/importExportFile';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -12,12 +13,6 @@ export default function Nav(props) {
   const {
     isMenuOpen,
     setIsMenuOpen,
-    whichMenuOpen,
-    newText,
-    setNewText,
-    newFileName,
-    setNewFileName,
-    setSetDataNameModalOpen,
   } = useContext(ContextObject)
 
   function onNavOpen() {
@@ -79,12 +74,13 @@ function NavClosed(props) {
     }
   }
     return (
+      <Pressable onPress={props.onPress}>
           <Icon
           name='arrow-forward-ios'
           containerStyle={style.iconContainer}
           iconStyle={style.icon}
-          onPress={props.onPress}
           />
+      </Pressable>
     )
 }
 
@@ -94,11 +90,8 @@ function NavOpened(props) {
     canOpenSettingIconList,
     setWhichMenuOpen,
     setIsMenuOpen,
-    newFileName,
     setNewFileName,
-    newText,
     setNewText,
-    setSetDataNameModalOpen,
     isSelectProjectModalOpen,
     setSelectProjectModalOpen
   } = useContext(ContextObject)
@@ -130,16 +123,10 @@ function NavOpened(props) {
       setIsMenuOpen(true);
     }
 
-    if (icon == 'image'){
-      setIsMenuOpen(false)
-    }
-
     if (icon == 'file-download') {
-      setIsMenuOpen(false)
       const result= await onPressImport()
       if(result){
       setSelectProjectModalOpen(true)
-      console.log(isSelectProjectModalOpen);
       }
     }
   }
@@ -155,19 +142,17 @@ function NavOpened(props) {
     return true
   }
 
-
-
     return (
       <View style={style.contener}>
         {settingIconList.map(e=>{
           return (
+            <Pressable key={e} onPress={() => { onPress(e) }}>
             <Icon
-              key={e}
               name={e}
               containerStyle={style.iconContainer}
               iconStyle={style.icon}
-              onPress={()=>{onPress(e)}}
             />
+            </Pressable>
           )
         })}
       </View>

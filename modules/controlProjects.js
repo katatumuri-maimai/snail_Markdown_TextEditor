@@ -16,7 +16,9 @@ export async function saveProject(projectName) {
             console.error(err);
         })
 
-    const new_ProjectName = Projects.includes(projectName) ? (projectName + "(" + Projects.length + ")" ): projectName
+    const new_ProjectName = createNewName(Projects, projectName)
+
+    // const new_ProjectName = Projects.includes(projectName) ? (projectName + "(" + Projects.length + ")" ): projectName
     const projectUri = directoryUri + encodeURIComponent(new_ProjectName)
 
     await FileSystem.makeDirectoryAsync(projectUri, { intermediates: true })
@@ -41,10 +43,7 @@ export async function createNewFile(projectName, fileName,content) {
             console.error(err);
         })
 
-    let new_FileName = Files.includes(fileName) ? (fileName + "(" + Files.length + ")") : fileName
-
-    console.log(new_FileName);
-    new_FileName = removeMarks(new_FileName)
+    const new_FileName = createNewName(Files, removeMarks(fileName))
     const fileUri = projectUri + '/'+ encodeURIComponent(new_FileName)+'.md'
 
     await FS.writeAsStringAsync(fileUri, content, { encoding: FileSystem.EncodingType.UTF8 })
@@ -170,62 +169,10 @@ export async function removeData(projectName,fileName) {
     return (!fileName ? projectName:{ [projectName]: deleteData})
 }
 
-export async function removeAll(params) {
+export async function removeAllProjects() {
     FileSystem.deleteAsync(directoryUri)
 }
 
-export async function templateProjects(os) {
-    const settingFileName = 'snailSetting.json'
-    const fileUri = directoryUri + settingFileName
-    let settingData = JSON.stringify(snailSetting)
-    let FS
-
-    await FileSystem.makeDirectoryAsync(directoryUri, { intermediates: true })
-        .then(e => {
-            console.log("saveProjectsmakeDirectoryAsync" + e);
-        }).catch(err => {
-            console.error(err);
-        })
-
-    const isFileExits = await FileSystem.getInfoAsync(fileUri)
-        .then(e => {
-            console.log("saveProjectsgetInfoAsync >>" + e.exists);
-            return e
-        }).catch(err => {
-            console.error(err);
-        })
-
-
-    console.log(os);
-    if (os == 'iOS') {
-        FS = FileSystem
-    } else if (os == 'Android') {
-        FS = StorageAccessFramework
-    } else {
-        console.log("eeee");
-    }
-
-    if (isFileExits.exists===false) {
-    await FS.writeAsStringAsync(fileUri, settingData, { encoding: FileSystem.EncodingType.UTF8 })
-            .then(e => {
-                console.log("saveProjectswriteAsStringAsync >>" + e);
-                return e
-            }).catch(err => {
-                console.log(fileUri);
-                console.error("saveProjectswriteAsStringAsync >>" + err);
-            })
-    } else {
-        settingData = await FS.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
-            .then(e => {
-                console.log("e>>"+e);
-                return e
-            }).catch(err => {
-                console.error("saveProjectsreadAsStringAsync >>" + err);
-            })
-    }
-    console.log("saveProjectssettingData>>"+settingData);
-    return JSON.parse(settingData)
-}
 
 function removeMarks(name) {
     const marks = [/\\/g, /\//g, /\:/g, /\*/g, /\?/g, /\</g, /\>/g, /\|/g, /^ */g, /^　*/g];
@@ -235,4 +182,22 @@ function removeMarks(name) {
         name_removeMarks = name_removeMarks.replace(marks[i], '')
     }
     return (name_removeMarks);
+}
+
+function createNewName(list,name) {
+
+    for (const n in list) {
+        const new_n=list[n].replace('.md', '')
+        list.splice(n, 1, new_n)
+    }
+
+    let new_name = name;
+    let i = 1;
+
+    while (list.includes(new_name)) {
+        new_name = `${name}(${i})`
+        i = i + 1
+    }
+
+    return new_name
 }

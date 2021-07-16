@@ -5,23 +5,26 @@ import { Share } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import marked from 'marked';
 import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 
 
-const directoryUri = FileSystem.documentDirectory + 'SimpleMarkdown/projects/'
 const cacheDirectoryUri = FileSystem.cacheDirectory + 'SimpleMarkdown/temp/'
+const documentPickerCacheUri = FileSystem.cacheDirectory + 'DocumentPicker/'
+const imagePickerUri = FileSystem.documentDirectory + 'SimpleMarkdown/ImagePicker/'
 let FS = Device.osName == 'Android' ? StorageAccessFramework : FileSystem
 
 export async function importFile() {
-    const data = await DocumentPicker.getDocumentAsync()
+    const data = await DocumentPicker.getDocumentAsync({ type: 'text/*', copyToCacheDirectory: true})
     const state = data.type
 
     if (state == "success") {
         const filename = data.name
-        const fileUri = data.uri
+        const dataUri = data.uri
+        const fileUri = documentPickerCacheUri+dataUri.match(".+/(.+?)([\?#;].*)?$")[1]
 
         const filecontent = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.UTF8 })
             .then(e => {
-                console.log("readAsStringAsync >>" + e);
+                // console.log("readAsStringAsync >>" + e);
                 return e
             }).catch(err => {
                 console.error("readAsStringAsync >>" + err);
@@ -35,8 +38,10 @@ export async function importFile() {
     }
 }
 
+
 export async function exportMdFile(filename, content) {
-    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.md'
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri = cacheDirectoryUri + encodeURIComponent(filename_removeMarks) + '.md'
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
         .then(e => {
@@ -55,7 +60,7 @@ export async function exportMdFile(filename, content) {
 
 
     const shareUrl = await FileSystem.getContentUriAsync(fileUri)
-    Share.share({ url: shareUrl })
+    Share.share({ message: content, url: shareUrl, title: `${filename_removeMarks}.md`})
         .then(e => {
             // console.log(Share.sharedAction);
         }).catch(err => {
@@ -66,7 +71,8 @@ export async function exportMdFile(filename, content) {
 
 
 export async function exportHtmlFile(filename,content) {
-    const fileUri = cacheDirectoryUri + encodeURIComponent(removeMarks(filename.replace('.md', ''))) + '.html'
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri = cacheDirectoryUri + encodeURIComponent(filename_removeMarks) + '.html'
     const html=marked(content)
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
@@ -86,7 +92,7 @@ export async function exportHtmlFile(filename,content) {
 
 
     const shareUrl = await FileSystem.getContentUriAsync(fileUri)
-    Share.share({ url: shareUrl })
+    Share.share({ message: html, url: shareUrl, title: `${filename_removeMarks}.html` })
         .then(e => {
             // console.log(Share.sharedAction);
         }).catch(err => {
@@ -96,32 +102,112 @@ export async function exportHtmlFile(filename,content) {
 }
 
 
+const allowImageHandlers = [
+    'data:image/png;base64',
+    'data:image/gif;base64',
+    'data:image/jpeg;base64',
+    'https://',
+    'http://',
+]
+
+
+const needAddHeaderImageHandlers = [
+    /^data\//,
+    /^var\//,
+]
+
+const localDefaltImageHandler = 'file:///'
 
 export async function exportPdfFile(filename, content) {
-    const html = marked(content)
-    console.log(html);
+    const filename_removeMarks = removeMarks(filename.replace('.md', ''))
+    const fileUri  = cacheDirectoryUri+filename_removeMarks+'.pdf'
+    let   html     = marked(content)
+
+    html=await convertImage(html)
+
+    const pdf = await Print.printToFileAsync({ html: html })
+    const shareUrl = await FileSystem.getContentUriAsync(pdf.uri)
 
     await FileSystem.makeDirectoryAsync(cacheDirectoryUri, { intermediates: true })
         .then(e => {
         }).catch(err => {
             console.error(err);
         })
-
-    const pdf = await Print.printToFileAsync({ html: html})
-    const shareUrl = await FileSystem.getContentUriAsync(pdf.uri)
-
-    Share.share({ url: shareUrl })
-        .then(e => {
-        }).catch(err => {
-            console.error(err);
-        })
+    await FS.copyAsync({ from: shareUrl, to: fileUri})
+    Sharing.shareAsync(fileUri)
 }
+
 
 export async function printHtmlFile(filename, content) {
-    const html = marked(content)
-    await Print.printAsync({ html: html })
+    let html = marked(content)
+    html = await convertImage(html)
+    await Print.printAsync({ html: html }).catch(err=>{console.error(err);})
 }
 
+ async function convertImage(html) {
+    // imgタグの取得
+    const imageTag = /(<img src=)["|'](.*?)["|']+/gi
+    const imageTagList = html.match(imageTag)
+
+    // imgタグがあるとき
+    if (imageTagList.length != 0) {
+        let imageSrcList = []
+        // imgタグを削除してsrcを取り出す
+        imageTagList.forEach(imageTag => {
+            const imageSrc = imageTag.replace(/<img src=["|'](.*?)["|']+/i, "$1")
+            imageSrcList.push(imageSrc)
+        })
+
+        // base64に置換が必要なsrcリスト
+        let needReaplace_imageSrcList = [...imageSrcList]
+
+        // base64に置換不要なsrcを取り除く
+        allowImageHandlers.forEach(imageHandler => {
+            needReaplace_imageSrcList =
+                needReaplace_imageSrcList
+                    .filter(imageSrc => { return filterByImageHandler(imageSrc, imageHandler) })
+        })
+
+
+        // base64に置換が必要なsrcリストをbase64に変換
+
+        for (const imageSrc of needReaplace_imageSrcList) {
+            let before_imageSrc = imageSrc
+            let imageUri = imagePickerUri + imageSrc
+
+            needAddHeaderImageHandlers.forEach(imageHandler => {
+                const matchData = imageSrc.match(imageHandler)
+                if (!!matchData) {
+                    imageUri = localDefaltImageHandler + { ...matchData }.input
+                }
+            })
+
+            const matchData = imageSrc.match(localDefaltImageHandler)
+            if (!!matchData) {
+                imageUri = { ...matchData }.input
+            }
+
+            const ext = imageUri.match(/.*\.(.*$)/)[1].toLowerCase()
+            const fileType = ext == 'jpeg' ? 'jpg' : ext
+
+            const after_imageSrc =
+                `data:image/${fileType};base64,` +
+                await FileSystem.readAsStringAsync(imageUri, { encoding: FileSystem.EncodingType.Base64 })
+
+            html = html.replace(before_imageSrc, after_imageSrc)
+
+        }
+
+        const imgStyle = `<img style="max-width:20%;max-height;50%;"`
+
+        html = html.replace(/<img /g, imgStyle)
+    }
+     return `<style>@page{margin: 50px;}</style>${html}`
+}
+
+function filterByImageHandler(imageSrc, imageHandler) {
+    return !imageSrc.match(imageHandler)
+}
 
 function removeMarks(name) {
     const marks = [/\\/g, /\//g, /\:/g, /\*/g, /\?/g, /\</g, /\>/g, /\|/g, /^ */g, /^　*/g];
