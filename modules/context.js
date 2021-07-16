@@ -40,7 +40,7 @@ export const ContextObject = createContext()
 
 export function ContextProvider(props) {
     const [appTheme, setAppTheme] = useState("Night")
-    const [title, setTitle] = useState("Title")
+    const [title, setTitle] = useState("")
     const [text, setText] = useState("")
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
     const [absoluteX, setAbsoluteX] = useState(useWindowDimensions().width)
