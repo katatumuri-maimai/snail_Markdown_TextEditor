@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useMemo, useRef, useState} from 'react';
-import { TextInput, View,Pressable} from 'react-native';
+import React, { useContext, useMemo} from 'react';
+import { TextInput, View,} from 'react-native';
 import { useTheme} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ContextObject } from '../../../modules/context';
 import { saveFile } from '../../../modules/controlProjects';
 
 
-export default function InputArea(props) {
+export default function InputArea() {
     const { theme } = useTheme();
     const {
         isWindowWidthSmall,

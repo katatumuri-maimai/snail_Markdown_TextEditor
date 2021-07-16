@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef, useEffect, useReducer } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { View } from 'react-native';
 import { ScrollView} from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
