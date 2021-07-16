@@ -70,7 +70,7 @@ export default function DeleteDataBtn(props) {
 function deleteDataBtnStyles(theme, props) {
     return {
         dotIcon: {
-            color: (props.isBtnOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor),
+            color: !props.fileName ? (props.isBtnOnPress ? theme.menuBtn.onPress.iconColor : theme.menuBtn.iconColor) : (props.isBtnOnPress ? theme.menuBtnChild.onPress.iconColor : theme.menuBtnChild.iconColor),
             fontSize: 20,
         },
         dotIconContainer: {
