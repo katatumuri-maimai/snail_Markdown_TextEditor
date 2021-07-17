@@ -3,9 +3,9 @@ import { useState, useEffect,useContext} from 'react';
 import { StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
 import { PanGestureHandler} from 'react-native-gesture-handler';
-import { ContextObject } from '../../modules/context';
-import { importImage } from '../../modules/imagePickUp';
-import { importFile} from '../../modules/importExportFile';
+import { ContextObject } from '../../common/context';
+import { importImage } from '../../common/imagePickUp';
+import { importFile} from '../../common/importExportFile';
 
 export default function Nav(props) {
   const [isNavOpen, setIsNavOpen] = useState(false)

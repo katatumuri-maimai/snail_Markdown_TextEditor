@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ScrollView} from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
 import Markdown from 'react-native-markdown-display';
-import { ContextObject } from '../../modules/context';
+import { ContextObject } from '../../common/context';
 
 export default function Preview(props){
     const { theme } = useTheme();

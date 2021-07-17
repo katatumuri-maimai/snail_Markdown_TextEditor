@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext, useMemo} from 'react';
 import { View } from 'react-native';
-import { ContextObject } from '../../modules/context';
+import { ContextObject } from '../../common/context';
 import InputArea from './InputArea';
 import Preview from './Preview';
 

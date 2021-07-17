@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState, useMemo} from 'react';
 import { View, Text, Pressable} from 'react-native';
 import { Icon, useTheme} from 'react-native-elements';
-import { ContextObject } from '../../modules/context';
-import {readFileData} from '../../modules/controlProjects';
+import { ContextObject } from '../../common/context';
+import {readFileData} from '../../common/controlProjects';
 import MenuBtn from './_components/MenuBtn';
 import MenuBtnChild from './_components/MenuBtnChild';
 import MenuTitle from './_components/MenuTitle';

@@ -3,12 +3,12 @@ import { Text, View, SafeAreaView, Platform, Keyboard} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import theme from '../modules/theme';
+import theme from '../common/theme';
 import TopBar from './TopBar/TopBar';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
 import { SetDataNameModal, SelectProjectModal } from './_components/Modal';
-import { ContextObject } from '../modules/context';
+import { ContextObject } from '../common/context';
 
 
 export default function Main() {

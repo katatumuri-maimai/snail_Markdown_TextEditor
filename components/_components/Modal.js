@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Modal, TextInput, View, Pressable,Text} from 'react-native';
 import { useTheme, Icon} from 'react-native-elements';
-import { ContextObject } from '../../modules/context';
-import { createNewFile, readFileData, saveProject } from '../../modules/controlProjects';
-import *as IEF from '../../modules/importExportFile';
+import { ContextObject } from '../../common/context';
+import { createNewFile, readFileData, saveProject } from '../../common/controlProjects';
+import *as IEF from '../../common/importExportFile';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export function SetDataNameModal(props) {

@@ -3,10 +3,10 @@ import { View, Text, Pressable, Image, ActivityIndicator, Platform} from 'react-
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon, useTheme, Tooltip } from 'react-native-elements';
 import * as Clipboard from 'expo-clipboard';
-import { ContextObject } from '../../modules/context';
+import { ContextObject } from '../../common/context';
 import MenuTitle from './_components/MenuTitle';
 import DeleteImageBtn from './_components/DeleteImageBtn';
-import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../modules/imagePickUp';
+import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../common/imagePickUp';
 
 export default function Images() {
     const { theme } = useTheme();

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useMemo} from 'react';
 import { Pressable } from 'react-native';
 import { Icon, useTheme } from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
-import { removeData } from '../../../modules/controlProjects';
+import { ContextObject } from '../../../common/context';
+import { removeData } from '../../../common/controlProjects';
 
 
 export default function DeleteDataBtn(props) {
