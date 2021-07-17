@@ -59,25 +59,25 @@ export function ContextProvider(props) {
     const [Image_List, setImage_List] = useState([])
     const [isDelete, setIsDelete] = useState(false)
     const [whichMenuChidOpen, setWhichMenuChidOpen] = useState('')
-    const [selectedPreviewtheme, setSelectedPreviewtheme]=useState('theme')
+    const [selectedPreviewtheme, setSelectedPreviewtheme] = useState('theme')
     const [keyboardScreenY, setKeyboardScreenYd] = useState(0)
 
     const deviceType = Device.DeviceType
-    const OS = Platform.OS
+    const OS         = Platform.OS
 
     useEffect(() => {
         if (OS != 'web') {
-        readProjects().then(e => {
-            setProject_List(e)
-        })
-        readImages().then(e=>{
-            setImage_List(e)
-        })
-        readSetting().then(e => {
-            setAppTheme(e.theme)
-            setSelectedPreviewtheme(e.preview)
-        })
-    }
+            readProjects().then(e => {
+                setProject_List(e)
+            })
+            readImages().then(e=>{
+                setImage_List(e)
+            })
+            readSetting().then(e => {
+                setAppTheme(e.theme)
+                setSelectedPreviewtheme(e.preview)
+            })
+        }
     }, [])
 
     const windowWidth        = useWindowDimensions().width
@@ -85,11 +85,11 @@ export function ContextProvider(props) {
     const isLandscape        = (windowWidth / windowHeight) >= 1
     const isWindowWidthSmall = windowWidth < 690
     
-    const menuWidth       = (isMenuOpen ? 350: 200)
+    const menuWidth       = isMenuOpen ? 350: 200
     const halfWindowWidth = windowWidth / 2
     const previeArea      = (isPreviewOpen ? (isMenuOpen ? (halfWindowWidth - menuWidth / 2) : halfWindowWidth) : windowWidth-200)
 
-    const ContextValue    = {
+    const ContextValue = {
         boxSadowStyle,
         deviceType,
         OS,
@@ -149,7 +149,7 @@ export function ContextProvider(props) {
     
     return (
         <ContextObject.Provider value={ContextValue}>
-                {props.children}
+            {props.children}
         </ContextObject.Provider>)
 }
 
