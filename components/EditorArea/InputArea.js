@@ -20,7 +20,6 @@ export default function InputArea() {
     const styles = useMemo(()=>{
         return inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall)
     }, [theme, isPreviewOpen, isWindowWidthSmall])
-    
 
     function onChange(text) {
         setText(text)
@@ -61,12 +60,12 @@ function inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall) {
            backgroundColor: theme.textView.backgroundColor,
            borderRadius: 20,
            marginRight: isPreviewOpen && !isWindowWidthSmall ? 5 : 0,
-           marginTop: isWindowWidthSmall ? 5 : 0
+           marginTop: isWindowWidthSmall ? 5 : 0,
        },
         container: {
             padding: 20,
             paddingBottom: 30,
-            minHeight:'100%'
+            minHeight: '100%',
         },
        text: {
             color: theme.textView.textColor,

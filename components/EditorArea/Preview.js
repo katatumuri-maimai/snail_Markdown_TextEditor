@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { View } from 'react-native';
 import { ScrollView} from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
@@ -17,12 +17,24 @@ export default function Preview(props){
         return previewStyles(theme, selectedPreviewtheme, isWindowWidthSmall)
     }, [theme, selectedPreviewtheme, isWindowWidthSmall])
 
+    const Mycomponent = useCallback(({ArrayText})=>{
+        return (
+        <View
+            style={styles.container}
+        >
+            {ArrayText.map((e, index) => {
+                return <Markdown style={styles.text} key={index}>{e}</Markdown>
+            })}
+        </View>
+        )
+    }, [])
+
+
     function toArrayText(){
         const ArrayText = text.split(/(!\[.*\]\(.*\))/)
         return ArrayText
     }
 
-    let i=0
 
     return (
         <ScrollView 
@@ -30,14 +42,14 @@ export default function Preview(props){
             scrollEventThrottle={0}
             bounces={false}
             >
-            <View 
+            <Mycomponent ArrayText={toArrayText()}/>
+            {/* <View 
                 style={styles.container} 
             >
-                {toArrayText().map(e=>{
-                    i=i+1
-                    return <Markdown style={styles.text} key={i}>{e}</Markdown>
+                {toArrayText().map((e,index)=>{
+                    return <Markdown style={styles.text} key={index}>{e}</Markdown>
                 })}
-            </View>
+            </View> */}
         </ScrollView>
     )
 }

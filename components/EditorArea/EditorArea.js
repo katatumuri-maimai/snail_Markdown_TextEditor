@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useContext, useMemo} from 'react';
 import { View } from 'react-native';
 import { ContextObject } from '../../common/context';
@@ -11,11 +11,10 @@ export default function EditorArea() {
         isPreviewOpen,
     } = useContext(ContextObject)
 
-
     const style = useMemo(() => {
         return editorAreaStyles(isWindowWidthSmall)
     }, [ isWindowWidthSmall])
-    
+
     return (
         <View style={style}>
             <InputArea
@@ -31,6 +30,6 @@ function editorAreaStyles(isWindowWidthSmall) {
         flexDirection: isWindowWidthSmall ? 'column-reverse' : 'row',
         position: 'relative',
         width: '100%',
-        height: '100%'
+        height: '100%',
     }
 }
