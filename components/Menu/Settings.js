@@ -15,8 +15,8 @@ import { setPreviewThemeSetting, setThemeSetting } from '../../common/readSettin
 export default function Settings() {
     const { theme } = useTheme();
     const {
-        appTheme,
-        setAppTheme,
+        selectedThemeColor,
+        setSelectedThemeColor,
         selectedPreviewtheme,
         setSelectedPreviewtheme
     } = useContext(ContextObject)
@@ -33,7 +33,7 @@ export default function Settings() {
     }
 
     async function onValueChange(itemValue, itemIndex) {
-        setAppTheme(itemValue)
+        setSelectedThemeColor(itemValue)
         await setThemeSetting(itemValue)
         
     }
@@ -55,7 +55,7 @@ export default function Settings() {
                 {isThemeMenuBtnOpen ?
                     <View　style= { styles.wrap }>
                     <Picker
-                        selectedValue={appTheme}
+                        selectedValue={selectedThemeColor}
                         onValueChange={onValueChange}
                         style={styles.picker}
                         itemStyle={styles.pickerItem}

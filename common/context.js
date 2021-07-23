@@ -39,7 +39,7 @@ const canOpenSettingIconList = [
 export const ContextObject = createContext()
 
 export function ContextProvider(props) {
-    const [appTheme, setAppTheme] = useState("Night")
+    const [selectedThemeColor, setSelectedThemeColor] = useState("Night")
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -74,7 +74,7 @@ export function ContextProvider(props) {
                 setImage_List(e)
             })
             readSetting().then(e => {
-                setAppTheme(e.theme)
+                setSelectedThemeColor(e.theme)
                 setSelectedPreviewtheme(e.preview)
             })
         }
@@ -97,8 +97,8 @@ export function ContextProvider(props) {
         isWindowWidthSmall,
         windowWidth,
         windowHeight,
-        appTheme,
-        setAppTheme,
+        selectedThemeColor,
+        setSelectedThemeColor,
         title,
         setTitle,
         text,
