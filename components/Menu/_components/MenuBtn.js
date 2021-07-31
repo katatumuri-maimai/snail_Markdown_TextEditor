@@ -1,7 +1,7 @@
 import React, { useContext, useState, useMemo} from 'react';
 import { Text, Pressable} from 'react-native';
 import { Icon, useTheme } from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
+import { ContextObject } from '../../../common/context';
 import DeleteDataBtn from './DeleteDataBtn';
 
 

@@ -3,18 +3,18 @@ import { Text, View, SafeAreaView, Platform, Keyboard} from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import theme from '../modules/theme';
+import theme from '../common/theme';
 import TopBar from './TopBar/TopBar';
 import EditorArea from './EditorArea/EditorArea';
 import Menu from './Menu/Menu';
 import { SetDataNameModal, SelectProjectModal } from './_components/Modal';
-import { ContextObject } from '../modules/context';
+import { ContextObject } from '../common/context';
 
 
 export default function Main() {
   const {
     windowWidth,
-    appTheme,
+    selectedThemeColor,
     title,
     isMenuOpen,
     setIsMenuOpen,
@@ -29,13 +29,13 @@ export default function Main() {
   } = useContext(ContextObject)
 
 
-  if (!appTheme) {
+  if (!selectedThemeColor) {
     return (<SafeAreaView ><Text>loading...🐌</Text></SafeAreaView>)
   }
 
   const styles = useMemo(() => {
-    return mainStyles(theme, appTheme, keyboardScreenY)
-  }, [theme, appTheme, keyboardScreenY])
+    return mainStyles(theme, selectedThemeColor, keyboardScreenY)
+  }, [theme, selectedThemeColor, keyboardScreenY])
 
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function Main() {
   }
 
   return (
-    <ThemeProvider theme={theme()[appTheme]}>
+    <ThemeProvider theme={theme()[selectedThemeColor]}>
       <View style={styles.view}>
           <StatusBar hidden={true}/>
         <SafeAreaView style={styles.keyboardView}>
@@ -134,11 +134,11 @@ export default function Main() {
   );
 }
 
-function mainStyles(theme, appTheme, keyboardScreenY) {
+function mainStyles(theme, selectedThemeColor, keyboardScreenY) {
   return {
     view: {
       flex: 1,
-      backgroundColor: theme()[appTheme].main.mainBackgroundColor,
+      backgroundColor: theme()[selectedThemeColor].main.mainBackgroundColor,
     },
     keyboardView: {
       flex: 1,
@@ -148,7 +148,7 @@ function mainStyles(theme, appTheme, keyboardScreenY) {
       flex: 1,
       flexDirection: 'column',
       height: '100%',
-      backgroundColor: theme()[appTheme].main.mainBackgroundColor,
+      backgroundColor: theme()[selectedThemeColor].main.mainBackgroundColor,
       alignItems: 'center',
     },
     wrap: {

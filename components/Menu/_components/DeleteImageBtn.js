@@ -1,8 +1,8 @@
 import React, { useContext, useState, useMemo} from 'react';
 import { Pressable } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
-import { deletImage } from '../../../modules/imagePickUp';
+import { ContextObject } from '../../../common/context';
+import { deletImage } from '../../../common/imagePickUp';
 
 
 export default function DeleteImageBtn(props) {

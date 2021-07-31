@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useMemo, useRef, useState} from 'react';
-import { TextInput, View,Pressable} from 'react-native';
+import React, { useContext, useMemo} from 'react';
+import { TextInput, View,} from 'react-native';
 import { useTheme} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ContextObject } from '../../../modules/context';
-import { saveFile } from '../../../modules/controlProjects';
+import { ContextObject } from '../../common/context';
+import { saveFile } from '../../common/controlProjects';
 
 
-export default function InputArea(props) {
+export default function InputArea() {
     const { theme } = useTheme();
     const {
         isWindowWidthSmall,
@@ -20,7 +20,6 @@ export default function InputArea(props) {
     const styles = useMemo(()=>{
         return inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall)
     }, [theme, isPreviewOpen, isWindowWidthSmall])
-    
 
     function onChange(text) {
         setText(text)
@@ -61,14 +60,14 @@ function inputAreaStyles(theme, isPreviewOpen, isWindowWidthSmall) {
            backgroundColor: theme.textView.backgroundColor,
            borderRadius: 20,
            marginRight: isPreviewOpen && !isWindowWidthSmall ? 5 : 0,
-           marginTop: isWindowWidthSmall ? 5 : 0
+           marginTop: isWindowWidthSmall ? 5 : 0,
        },
         container: {
-            flex: 1,
             padding: 20,
-            paddingBottom: 30
+            paddingBottom: 30,
+            minHeight: '100%',
         },
-        text: {
+       text: {
             color: theme.textView.textColor,
             height: '100%',
         }

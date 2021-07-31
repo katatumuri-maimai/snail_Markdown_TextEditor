@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView} from 'react-native';
-import Nav from './_components/Nav/Nav';
+import Nav from './Nav';
 import SaveBtn from './_components/SaveBtn';
 import Title from './_components/Title';
 

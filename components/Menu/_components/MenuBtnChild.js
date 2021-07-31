@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useMemo} from 'react';
 import { Pressable, Text} from 'react-native';
 import { useTheme } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
+import { ContextObject } from '../../../common/context';
 import DeleteDataBtn from './DeleteDataBtn';
 
 export default function MenuBtnChild(props) {

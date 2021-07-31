@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState, useRef, useMemo} from 'react';
 import { View, Text, Pressable, Image, ActivityIndicator, Platform} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Icon, useTheme, Tooltip} from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
-import MenuTitle from '../_components/MenuTitle';
-import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../../modules/imagePickUp';
+import { Icon, useTheme, Tooltip } from 'react-native-elements';
 import * as Clipboard from 'expo-clipboard';
-import DeleteImageBtn from '../_components/DeleteImageBtn';
+import { ContextObject } from '../../common/context';
+import MenuTitle from './_components/MenuTitle';
+import DeleteImageBtn from './_components/DeleteImageBtn';
+import { importImageFromMediaLibrary, importImageFromCamera, importImageFromFolder} from '../../common/imagePickUp';
 
 export default function Images() {
     const { theme } = useTheme();

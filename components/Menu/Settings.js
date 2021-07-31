@@ -2,21 +2,21 @@ import React, { useContext, useState, useMemo} from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-elements';
-import { ContextObject } from '../../../modules/context';
-import MenuBtn from '../_components/MenuBtn';
-import MenuTitle from '../_components/MenuTitle';
+import { ContextObject } from '../../common/context';
+import MenuBtn from './_components/MenuBtn';
+import MenuTitle from './_components/MenuTitle';
 import { Picker } from '@react-native-picker/picker';
-import { themeList } from '../../../modules/theme';
+import { themeList } from '../../common/theme';
 import { Platform } from 'react-native';
-import { setPreviewThemeSetting, setThemeSetting } from '../../../modules/readSetting';
+import { setPreviewThemeSetting, setThemeSetting } from '../../common/readSetting';
 
 
 
 export default function Settings() {
     const { theme } = useTheme();
     const {
-        appTheme,
-        setAppTheme,
+        selectedThemeColor,
+        setSelectedThemeColor,
         selectedPreviewtheme,
         setSelectedPreviewtheme
     } = useContext(ContextObject)
@@ -33,7 +33,7 @@ export default function Settings() {
     }
 
     async function onValueChange(itemValue, itemIndex) {
-        setAppTheme(itemValue)
+        setSelectedThemeColor(itemValue)
         await setThemeSetting(itemValue)
         
     }
@@ -55,7 +55,7 @@ export default function Settings() {
                 {isThemeMenuBtnOpen ?
                     <View　style= { styles.wrap }>
                     <Picker
-                        selectedValue={appTheme}
+                        selectedValue={selectedThemeColor}
                         onValueChange={onValueChange}
                         style={styles.picker}
                         itemStyle={styles.pickerItem}
