@@ -16,10 +16,14 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.katatumuri.snailmarkdowntexteditor",
+      "buildNumber": "1.0.0",
       "supportsTablet": true,
       "usesIcloudStorage":true
     },
     "android": {
+      "package": "com.katatumuri.snailmarkdowntexteditor",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
