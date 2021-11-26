@@ -19,7 +19,11 @@
       "bundleIdentifier": "com.katatumuri.snailmarkdowntexteditor",
       "buildNumber": "1.0.0",
       "supportsTablet": true,
-      "usesIcloudStorage":true
+      "usesIcloudStorage":true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "写真を使用するためにカメラを使用します",
+        "NSPhotoLibraryUsageDescription": "アカウント画像を使用するためにフォトライブラリを使用します"
+      }
     },
     "android": {
       "package": "com.katatumuri.snailmarkdowntexteditor",
